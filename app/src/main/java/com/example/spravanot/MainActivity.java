@@ -1,5 +1,8 @@
 package com.example.spravanot;
 
+import static android.app.UiModeManager.MODE_NIGHT_NO;
+import static android.app.UiModeManager.MODE_NIGHT_YES;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -38,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_sheets, R.id.navigation_setlists)
                 .build();
@@ -47,16 +49,17 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-
+        setSettings();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
         // settings - turning off display, language, darkmode
         setSettings();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
         String language = sp.getString("language","");
         setLanguage(language);
 
-
+        // dark mode
+        boolean dark_mode = sp.getBoolean("dark_mode", false);
+        setMode(dark_mode);
     }
 
     void displaySetting(boolean display_on_pref){
@@ -103,5 +108,11 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setApplicationLocales(appLocale);
         // Toast.makeText(this, "language: " + language, Toast.LENGTH_SHORT).show();
     }
+
+    void setMode(boolean dark_mode){
+        if(dark_mode) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
 
 }

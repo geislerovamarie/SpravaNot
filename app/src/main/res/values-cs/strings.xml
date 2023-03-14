@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Sprava Not</string>
+    <string name="app_name">Správa Not</string>
     <string name="title_home">Domů</string>
     <string name="title_sheets">Noty</string>
     <string name="title_setlists">Seznamy</string>
