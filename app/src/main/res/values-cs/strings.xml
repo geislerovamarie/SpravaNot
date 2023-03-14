@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Sprava Not</string>
+    <string name="app_name">Správa Not</string>
     <string name="title_home">Domů</string>
     <string name="title_sheets">Noty</string>
     <string name="title_setlists">Seznamy</string>
+    <string name="language">Jazyk</string>
+    <string name="dark_mode">Tmavý režim</string>
+    <string name="display_sleep">Udržovat displej zapnutý</string>
+    <string name="title_settings">Nastavení</string>
+    <string name="start_settings">Spustit nastavení</string>
+    <string name="display_explanation">Displej se nebude vypínat</string>
 </resources>
