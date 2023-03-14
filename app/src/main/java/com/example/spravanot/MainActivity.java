@@ -55,12 +55,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
         // settings - turning off display, language, darkmode
         setSettings();
     }
 
-
+// MENU ---------------------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -76,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+// SETTINGS -----------------------------------------------------------------------------------
 
     void setSettings(){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
