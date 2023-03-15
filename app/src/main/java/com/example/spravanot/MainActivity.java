@@ -1,8 +1,5 @@
 package com.example.spravanot;
 
-import static android.app.UiModeManager.MODE_NIGHT_NO;
-import static android.app.UiModeManager.MODE_NIGHT_YES;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
