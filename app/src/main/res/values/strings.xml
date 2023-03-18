@@ -12,4 +12,5 @@
     <string name="start_settings">Start settings</string>
     <string name="display_explanation">The display won\'t turn off</string>
     <string name="text_home_favorite">Favorite</string>
+    <string name="describe_add_floating_button">Button for adding</string>
 </resources>

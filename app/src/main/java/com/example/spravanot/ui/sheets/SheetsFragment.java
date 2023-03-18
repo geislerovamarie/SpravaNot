@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.spravanot.databinding.FragmentSheetsBinding;
 
+
+// The relevant text view was deleted, so... now, this is completely useless
 public class SheetsFragment extends Fragment {
 
     private FragmentSheetsBinding binding;
@@ -24,8 +26,6 @@ public class SheetsFragment extends Fragment {
         binding = FragmentSheetsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSheets;
-        sheetsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
