@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Sheetmusic {
 
     private int id;
-    private String name, author, genre, key, instument, notes;
+    private String name, author, genre, key, instument, notes;  // "key" is "tone" in database
     private String mp3; // address or .mp3 or something else?
     private ArrayList<String> files; // files with sheet music (pdf/jpg)
     private ArrayList<String> tags;
