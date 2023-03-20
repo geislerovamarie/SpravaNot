@@ -7,19 +7,21 @@ public class Setlist {
     private int id;
     private String name, notes;
     private ArrayList<String> tags;
-    private ArrayList<Sheetmusic> setlists;
+    private ArrayList<Sheetmusic> sheetmusic;
 
     public Setlist(int id) {
         this.id = id;
         tags = new ArrayList<>();
-        setlists = new ArrayList<>();
+        sheetmusic = new ArrayList<>();
     }
 
     // Getters and setters ------------------------------------------------------------
 
-    public String getName() {
-        return name;
-    }
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
+
+    public String getName() { return name; }
 
     public void setName(String name) {
         this.name = name;
@@ -41,11 +43,11 @@ public class Setlist {
         this.tags = tags;
     }
 
-    public ArrayList<Sheetmusic> getSetlists() {
-        return setlists;
+    public ArrayList<Sheetmusic> getSheetmusic() {
+        return sheetmusic;
     }
 
-    public void setSetlists(ArrayList<Sheetmusic> setlists) {
-        this.setlists = setlists;
+    public void setSheetmusic(ArrayList<Sheetmusic> sheetmusic) {
+        this.sheetmusic = sheetmusic;
     }
 }
