@@ -51,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // create table statements
     private static final String CREATE_TABLE_SHEETMUSIC = "CREATE TABLE " + TABLE_SHEETMUSIC + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME + " TEXT NOT NULL, " + COL_AUTHOR + " TEXT, " + COL_GENRE + " TEXT, " + COL_TONE + " TEXT, " + COL_INSTRUMENT + " TEXT, " + COL_MP3 + " TEXT, " + COL_NOTES + " TEXT);";
-    private static final String CREATE_TABLE_FILE = "CREATE TABLE " + TABLE_FILE + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_ADDRESS + " TEXT NOT NULL);";
+    private static final String CREATE_TABLE_FILE = "CREATE TABLE " + TABLE_FILE + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_ADDRESS + " TEXT NOT NULL UNIQUE);";
     private static final String CREATE_TABLE_SETLIST = "CREATE TABLE " + TABLE_SETLIST + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME + " TEXT NOT NULL, " + COL_NOTES + " TEXT);";
     private static final String CREATE_TABLE_TAG = "CREATE TABLE " + TABLE_TAG + " (" + COL_NAME + " TEXT PRIMARY KEY);";
     private static final String CREATE_TABLE_SHEETMUSIC_FILE = "CREATE TABLE " + TABLE_SHEETMUSIC_FILE + " (" + COL_ID_SHEETMUSIC + " INTEGER NOT NULL, " + COL_ID_FILE + " INTEGER NOT NULL, PRIMARY KEY (" + COL_ID_SHEETMUSIC + ", " + COL_ID_FILE + "), CONSTRAINT sheetmusic_file_fk_id_sheetmusic FOREIGN KEY (" + COL_ID_SHEETMUSIC + ") REFERENCES " + TABLE_SHEETMUSIC + " (" + COL_ID + ") ON DELETE CASCADE ON UPDATE CASCADE, CONSTRAINT sheetmusic_file_fk_id_file FOREIGN KEY (" + COL_ID_FILE + ") REFERENCES " + TABLE_FILE + " (" + COL_ID + ") ON DELETE CASCADE ON UPDATE CASCADE);";
@@ -103,6 +103,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cvSh.put(COL_MP3, s.getMp3());
         cvSh.put(COL_NOTES, s.getNotes());
         long idSheetmusic = db.insert(TABLE_SHEETMUSIC, null, cvSh);
+        if(idSheetmusic == -1) return;
+
         s.setId((int) idSheetmusic);
 
         // files + sheetmusic_files table
@@ -112,6 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addTagsToSheetmusic(s);
     }
 
+    @SuppressLint("Range")
     void addFilesToSheetmusic(Sheetmusic s){
         SQLiteDatabase db = this.getWritableDatabase();
         for (int i = 0; i < s.getFiles().size(); i++) {
@@ -119,10 +122,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cvF.put(COL_ADDRESS, s.getFiles().get(i));
             long idFile = db.insert(TABLE_FILE, null, cvF);
 
-            ContentValues cvSh_F = new ContentValues();
-            cvSh_F.put(COL_ID_SHEETMUSIC,s.getId());
-            cvSh_F.put(COL_ID_FILE,idFile);
-            db.insert(TABLE_SHEETMUSIC_FILE, null, cvSh_F);
+            if(idFile == -1){   // error happend, but it is possible that this address already exists
+                String qID = "SELECT " + COL_ID + " FROM " + TABLE_FILE + " WHERE " + COL_ADDRESS + " = " + s.getFiles().get(i) + ";";
+                Cursor cID = db.rawQuery(qID, null);
+                idFile = cID.getInt(cID.getColumnIndex(COL_ID));
+            }
+
+            if(idFile != -1){   // if file exists in table, connect file to sheetmusic
+                ContentValues cvSh_F = new ContentValues();
+                cvSh_F.put(COL_ID_SHEETMUSIC,s.getId());
+                cvSh_F.put(COL_ID_FILE, idFile);
+                db.insert(TABLE_SHEETMUSIC_FILE, null, cvSh_F);
+            }
         }
     }
 
@@ -149,10 +160,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cvS.put(COL_NAME, s.getName());
         cvS.put(COL_NOTES, s.getNotes());
         long idSetlist = db.insert(TABLE_SETLIST, null, cvS);
+
+        if(idSetlist == -1) return;
         s.setId((int) idSetlist);
 
         // tags + setlist_tag table
-        //addTagsToSetlist(s);
+        addTagsToSetlist(s);
+
+        // should adding of sheetmusic to setlist be separate action?
+        addToSetlist(s.getId(), s.getSheetmusic());
     }
 
     void addTagsToSetlist(Setlist s){
@@ -193,12 +209,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cvSh.put(COL_INSTRUMENT, s.getInstument());
         cvSh.put(COL_MP3, s.getMp3());
         cvSh.put(COL_NOTES, s.getNotes());
-        long shResult = db.update(TABLE_SHEETMUSIC, cvSh, "id = ?", new String[]{String.valueOf(s.getId())});
+        long shResult = db.update(TABLE_SHEETMUSIC, cvSh, COL_ID + " = ?", new String[]{String.valueOf(s.getId())});
 
-        // Files can be only added or deleted?
-        // Tags can be only added or deleted?
+        // Files
+        updateFilesinSheetmusic(s);
+
+        // Tags
+        updateTagsinSheetmusic(s);
     }
 
+    void updateFilesinSheetmusic(Sheetmusic s){
+        SQLiteDatabase db = this.getWritableDatabase();
+        deleteAllFilesFromSheetmusic(s.getId());
+        addFilesToSheetmusic(s);
+    }
+
+    void updateTagsinSheetmusic(Sheetmusic s){
+        SQLiteDatabase db = this.getWritableDatabase();
+        deleteAllTagsFromSheetmusic(s.getId());
+        addTagsToSheetmusic(s);
+    }
 
     void updateSetlist(Setlist s){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -207,9 +237,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues cvS = new ContentValues();
         cvS.put(COL_NAME, s.getName());
         cvS.put(COL_NOTES, s.getNotes());
-        long seResult = db.update(TABLE_SETLIST, cvS, "id = ?", new String[]{String.valueOf(s.getId())});
+        long seResult = db.update(TABLE_SETLIST, cvS, COL_ID + " = ?", new String[]{String.valueOf(s.getId())});
 
-        // Tags can be only added or deleted
+        // Tags
+        updateTagsinSetlist(s);
+
+        // Sheetmusic
+        updateSheetmusicinSetlist(s);
+    }
+
+    void updateTagsinSetlist(Setlist s){
+        SQLiteDatabase db = this.getWritableDatabase();
+        deleteAllTagsFromSetlist(s.getId());
+        addTagsToSetlist(s);
+    }
+
+    void updateSheetmusicinSetlist(Setlist s){
+        SQLiteDatabase db = this.getWritableDatabase();
+        deleteAllSheetmusicFromSetlist(s.getId());
+        addToSetlist(s.getId(), s.getSheetmusic());
     }
 
     // Showing ------------------------------------------------------------------
@@ -329,36 +375,56 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             setlist.add(s);
         }
         return setlist;
-
-        // select------------------------------------------------------------
-
-
     }
 
     // Deleting -----------------------------------------------------------------
-    void deleteOneSheetmusic(){
-
+    void deleteOneSheetmusic(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SHEETMUSIC, COL_ID + " = ?", new String[] {String.valueOf(id)});
     }
 
-    void deleteOneSetlist(){
-
+    void deleteOneSetlist(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SETLIST, COL_ID + " = ?", new String[] {String.valueOf(id)});
     }
 
-    void deleteOneSheetmusicFromSetlist(){
-        // only sever connection
+    void deleteOneSheetmusicFromSetlist(int id_sh, int id_se){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SHEETMUSIC_SETLIST, COL_ID_SHEETMUSIC + " = ? AND " + COL_ID_SETLIST + " = ?", new String[] {String.valueOf(id_sh), String.valueOf(id_se)});
     }
 
-    void deleteFileFromSheetmusic(){
-        // only sever connection
+    void deleteAllSheetmusicFromSetlist(int id_se){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SHEETMUSIC_SETLIST, COL_ID_SETLIST + " = ?", new String[] {String.valueOf(id_se)});
     }
 
-    void deleteTagFromSheetmusic(){
-        // only sever connection
+    void deleteFileFromSheetmusic(int id_f, int id_sh){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SHEETMUSIC_FILE, COL_ID_SHEETMUSIC + " = ? AND " + COL_ID_FILE + " = ?", new String[] {String.valueOf(id_sh), String.valueOf(id_f)});
     }
 
-    void deleteTagFromSetlist(){
-        // only sever connection
-
+    void deleteAllFilesFromSheetmusic(int id_sh){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SHEETMUSIC_FILE, COL_ID_SHEETMUSIC + " = ?", new String[] {String.valueOf(id_sh)});
     }
 
+    void deleteTagFromSheetmusic(String name_tag, int id_sh){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SHEETMUSIC_TAG, COL_ID_SHEETMUSIC + " = ? AND " + COL_NAME_TAG + " = ?", new String[] {String.valueOf(id_sh), name_tag});
+    }
+
+    void deleteAllTagsFromSheetmusic(int id_sh){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SHEETMUSIC_TAG, COL_ID_SHEETMUSIC + " = ?", new String[] {String.valueOf(id_sh)});
+    }
+
+    void deleteTagFromSetlist(int id_se, String name_tag){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SETLIST_TAG, COL_ID_SETLIST + " = ? AND " + COL_NAME_TAG + " = ?", new String[] {String.valueOf(id_se), name_tag});
+    }
+
+    void deleteAllTagsFromSetlist(int id_s){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SETLIST_TAG, COL_ID_SETLIST + " = ?", new String[] {String.valueOf(id_s)});
+    }
 }
