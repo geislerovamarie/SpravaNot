@@ -12,4 +12,17 @@
     <string name="display_explanation">Displej se nebude vypínat</string>
     <string name="text_home_favorite">Oblíbené</string>
     <string name="describe_add_floating_button">Tlačítko k přidávání</string>
+    <string name="text_name">Název</string>
+    <string name="text_file">Soubor</string>
+    <string name="text_files">Soubory</string>
+    <string name="text_author">Autor</string>
+    <string name="text_genre">Žánr</string>
+    <string name="text_key">Tónina</string>
+    <string name="text_instrument">Instrument</string>
+    <string name="text_mp3">MP3</string>
+    <string name="text_notes">Poznámky</string>
+    <string name="text_address">Adresa</string>
+    <string name="text_tags">Tagy</string>
+    <string name="text_edit">Upravit</string>
+    <string name="text_unknown">neznámý</string>
 </resources>

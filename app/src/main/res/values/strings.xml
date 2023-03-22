@@ -13,4 +13,17 @@
     <string name="display_explanation">The display won\'t turn off</string>
     <string name="text_home_favorite">Favorite</string>
     <string name="describe_add_floating_button">Button for adding</string>
+    <string name="text_name">Name</string>
+    <string name="text_file">File</string>
+    <string name="text_files">Files</string>
+    <string name="text_author">Author</string>
+    <string name="text_genre">Genre</string>
+    <string name="text_key">Key</string>
+    <string name="text_instrument">Instrument</string>
+    <string name="text_mp3">MP3</string>
+    <string name="text_notes">Notes</string>
+    <string name="text_address">Address</string>
+    <string name="text_tags">Tags</string>
+    <string name="text_edit">Edit</string>
+    <string name="text_unknown">unknown</string>
 </resources>

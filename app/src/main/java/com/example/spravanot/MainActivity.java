@@ -111,6 +111,4 @@ public class MainActivity extends AppCompatActivity {
         if(dark_mode) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
-
-
 }

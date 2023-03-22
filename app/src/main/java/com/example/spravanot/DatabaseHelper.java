@@ -17,37 +17,34 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-     private Context context;
+    private Context context;
     private static final String DATABASE_NAME = "Noty.db";
     private static final int DATABASE_VERSION = 1;
 
     // table names
-    private static final String TABLE_SHEETMUSIC = "sheetmusic";
-    private static final String TABLE_FILE = "file";
-    private static final String TABLE_SETLIST = "setlist";
-    private static final String TABLE_TAG = "tag";
-    private static final String TABLE_SHEETMUSIC_FILE = "sheetmusic_file";
-    private static final String TABLE_SHEETMUSIC_SETLIST = "sheetmusic_setlist";
-    private static final String TABLE_SHEETMUSIC_TAG = "sheetmusic_tag";
-    private static final String TABLE_SETLIST_TAG = "setlist_tag";
+    public static final String TABLE_SHEETMUSIC = "sheetmusic";
+    public static final String TABLE_FILE = "file";
+    public static final String TABLE_SETLIST = "setlist";
+    public static final String TABLE_TAG = "tag";
+    public static final String TABLE_SHEETMUSIC_FILE = "sheetmusic_file";
+    public static final String TABLE_SHEETMUSIC_SETLIST = "sheetmusic_setlist";
+    public static final String TABLE_SHEETMUSIC_TAG = "sheetmusic_tag";
+    public static final String TABLE_SETLIST_TAG = "setlist_tag";
 
     // Column names
-    private static final String COL_ID = "id";
-    private static final String COL_NAME = "name";
-    private static final String COL_AUTHOR = "author";
-    private static final String COL_GENRE = "genre";
-    private static final String COL_TONE = "tone";
-    private static final String COL_INSTRUMENT = "instrument";
-    private static final String COL_MP3 = "mp3";
-    private static final String COL_NOTES = "notes";
-    private static final String COL_ADDRESS = "address";
-    private static final String COL_ID_SHEETMUSIC = "id_sheetmusic";
-    private static final String COL_ID_SETLIST = "id_setlist";
-    private static final String COL_ID_FILE = "id_file";
-    private static final String COL_NAME_TAG = "name_tag";
-
-    // Constraints TODO??
-
+    public static final String COL_ID = "id";
+    public static final String COL_NAME = "name";
+    public static final String COL_AUTHOR = "author";
+    public static final String COL_GENRE = "genre";
+    public static final String COL_TONE = "tone";
+    public static final String COL_INSTRUMENT = "instrument";
+    public static final String COL_MP3 = "mp3";
+    public static final String COL_NOTES = "notes";
+    public static final String COL_ADDRESS = "address";
+    public static final String COL_ID_SHEETMUSIC = "id_sheetmusic";
+    public static final String COL_ID_SETLIST = "id_setlist";
+    public static final String COL_ID_FILE = "id_file";
+    public static final String COL_NAME_TAG = "name_tag";
 
     // create table statements
     private static final String CREATE_TABLE_SHEETMUSIC = "CREATE TABLE " + TABLE_SHEETMUSIC + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME + " TEXT NOT NULL, " + COL_AUTHOR + " TEXT, " + COL_GENRE + " TEXT, " + COL_TONE + " TEXT, " + COL_INSTRUMENT + " TEXT, " + COL_MP3 + " TEXT, " + COL_NOTES + " TEXT);";
@@ -74,6 +71,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_SHEETMUSIC_SETLIST);
         db.execSQL(CREATE_TABLE_SHEETMUSIC_TAG);
         db.execSQL(CREATE_TABLE_SETLIST_TAG);
+
+        // HERE IT IS TOO SOON !! add emtpy "Favorite" setlist, but later
+       // Setlist favorite = new Setlist(-1);
+       // favorite.setName(context.getString(R.string.text_home_favorite));
+       // addSetlist(favorite);
     }
 
     @Override
@@ -90,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Adding ------------------------------------------------------------------
-    void addSheetmusic(Sheetmusic s){
+    public void addSheetmusic(Sheetmusic s){
         SQLiteDatabase db = this.getWritableDatabase();
 
         // sheetmusic table
@@ -152,7 +154,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    void addSetlist(Setlist s){
+    public void addSetlist(Setlist s){
         SQLiteDatabase db = this.getWritableDatabase();
 
         // setlist table
@@ -186,7 +188,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    void addToSetlist(int idSetlist, ArrayList<Sheetmusic> sheetmusic){
+    public void addToSetlist(int idSetlist, ArrayList<Sheetmusic> sheetmusic){
         SQLiteDatabase db = this.getWritableDatabase();
         for (int i = 0; i < sheetmusic.size(); i++) {
             ContentValues cvS = new ContentValues();
@@ -197,7 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Update -------------------------------------------------------------------
-    void updateSheetmusic(Sheetmusic s){
+    public void updateSheetmusic(Sheetmusic s){
         SQLiteDatabase db = this.getWritableDatabase();
 
         // sheetmusic table
@@ -230,7 +232,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addTagsToSheetmusic(s);
     }
 
-    void updateSetlist(Setlist s){
+    public void updateSetlist(Setlist s){
         SQLiteDatabase db = this.getWritableDatabase();
 
         // setlist table
@@ -264,13 +266,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Sheetmusic> sheetmusic = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-
         String qSheetmusic = "SELECT * FROM " + TABLE_SHEETMUSIC;
         Cursor cSh = db.rawQuery(qSheetmusic, null);
 
         while(cSh.moveToNext()) {
-            // since i am reading the columns, i am not expecting values < 0, i hope that's correct
-            // if it is -1, maybe it's null?
             int id = cSh.getInt(cSh.getColumnIndex(COL_ID));
             Sheetmusic s = selectOneSheetmusic(id);
             sheetmusic.add(s);
@@ -283,7 +282,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Sheetmusic s = new Sheetmusic(id);
 
         SQLiteDatabase db = this.getReadableDatabase();
-
         String qSheetmusic = "SELECT * FROM " + TABLE_SHEETMUSIC + " WHERE " + COL_ID + " = " + id + ";";
         Cursor cSh = db.rawQuery(qSheetmusic, null);
 
@@ -377,53 +375,64 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return setlist;
     }
 
+    // Cursor get data---------------------------------------------------------
+    public Cursor readData(String table_name) {
+        String query = "SELECT * FROM " + table_name;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if (db != null) cursor = db.rawQuery(query, null);
+        return cursor;
+    }
+
+
     // Deleting -----------------------------------------------------------------
-    void deleteOneSheetmusic(int id){
+    public void deleteOneSheetmusic(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SHEETMUSIC, COL_ID + " = ?", new String[] {String.valueOf(id)});
     }
 
-    void deleteOneSetlist(int id){
+    public void deleteOneSetlist(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SETLIST, COL_ID + " = ?", new String[] {String.valueOf(id)});
     }
 
-    void deleteOneSheetmusicFromSetlist(int id_sh, int id_se){
+    public void deleteOneSheetmusicFromSetlist(int id_sh, int id_se){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SHEETMUSIC_SETLIST, COL_ID_SHEETMUSIC + " = ? AND " + COL_ID_SETLIST + " = ?", new String[] {String.valueOf(id_sh), String.valueOf(id_se)});
     }
 
-    void deleteAllSheetmusicFromSetlist(int id_se){
+    public void deleteAllSheetmusicFromSetlist(int id_se){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SHEETMUSIC_SETLIST, COL_ID_SETLIST + " = ?", new String[] {String.valueOf(id_se)});
     }
 
-    void deleteFileFromSheetmusic(int id_f, int id_sh){
+    public void deleteFileFromSheetmusic(int id_f, int id_sh){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SHEETMUSIC_FILE, COL_ID_SHEETMUSIC + " = ? AND " + COL_ID_FILE + " = ?", new String[] {String.valueOf(id_sh), String.valueOf(id_f)});
     }
 
-    void deleteAllFilesFromSheetmusic(int id_sh){
+    public void deleteAllFilesFromSheetmusic(int id_sh){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SHEETMUSIC_FILE, COL_ID_SHEETMUSIC + " = ?", new String[] {String.valueOf(id_sh)});
     }
 
-    void deleteTagFromSheetmusic(String name_tag, int id_sh){
+    public void deleteTagFromSheetmusic(String name_tag, int id_sh){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SHEETMUSIC_TAG, COL_ID_SHEETMUSIC + " = ? AND " + COL_NAME_TAG + " = ?", new String[] {String.valueOf(id_sh), name_tag});
     }
 
-    void deleteAllTagsFromSheetmusic(int id_sh){
+    public void deleteAllTagsFromSheetmusic(int id_sh){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SHEETMUSIC_TAG, COL_ID_SHEETMUSIC + " = ?", new String[] {String.valueOf(id_sh)});
     }
 
-    void deleteTagFromSetlist(int id_se, String name_tag){
+    public void deleteTagFromSetlist(int id_se, String name_tag){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SETLIST_TAG, COL_ID_SETLIST + " = ? AND " + COL_NAME_TAG + " = ?", new String[] {String.valueOf(id_se), name_tag});
     }
 
-    void deleteAllTagsFromSetlist(int id_s){
+    public void deleteAllTagsFromSetlist(int id_s){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SETLIST_TAG, COL_ID_SETLIST + " = ?", new String[] {String.valueOf(id_s)});
     }

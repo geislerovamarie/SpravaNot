@@ -13,10 +13,8 @@ public class Sheetmusic {
 
     public Sheetmusic(int id) {
         this.id = id;
-
-        // should be initialized and set during "showing" and setting the whole array
-        //files = new ArrayList<>();
-        //tags = new ArrayList<>();
+        files = new ArrayList<>();
+        tags = new ArrayList<>();
     }
 
 

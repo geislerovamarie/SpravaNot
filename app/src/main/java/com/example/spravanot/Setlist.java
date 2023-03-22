@@ -11,9 +11,8 @@ public class Setlist {
 
     public Setlist(int id) {
         this.id = id;
-
-        //tags = new ArrayList<>();
-        //sheetmusic = new ArrayList<>();
+        tags = new ArrayList<>();
+        sheetmusic = new ArrayList<>();
     }
 
     // Getters and setters ------------------------------------------------------------
