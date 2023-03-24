@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Objects;
 
 // tone == key in music
 
@@ -73,9 +74,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_SETLIST_TAG);
 
         // HERE IT IS TOO SOON !! add emtpy "Favorite" setlist, but later
-       // Setlist favorite = new Setlist(-1);
-       // favorite.setName(context.getString(R.string.text_home_favorite));
-       // addSetlist(favorite);
+        //Setlist favorite = new Setlist(-1);
+        //favorite.setName(context.getString(R.string.text_home_favorite));
+        //addSetlist(favorite);
     }
 
     @Override
@@ -125,8 +126,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             long idFile = db.insert(TABLE_FILE, null, cvF);
 
             if(idFile == -1){   // error happend, but it is possible that this address already exists
-                String qID = "SELECT " + COL_ID + " FROM " + TABLE_FILE + " WHERE " + COL_ADDRESS + " = " + s.getFiles().get(i) + ";";
-                Cursor cID = db.rawQuery(qID, null);
+                String qID = "SELECT " + COL_ID + " FROM " + TABLE_FILE + " WHERE " + COL_ADDRESS + " = ?;";
+                String [] strings = new String[] {s.getFiles().get(i)};
+                Cursor cID = db.rawQuery(qID, strings);
                 idFile = cID.getInt(cID.getColumnIndex(COL_ID));
             }
 
@@ -156,6 +158,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void addSetlist(Setlist s){
         SQLiteDatabase db = this.getWritableDatabase();
+
+        // protect favorite
+        if(doesFavoriteExist() && s.getName() == "Favorite") return;
 
         // setlist table
         ContentValues cvS = new ContentValues();
@@ -234,6 +239,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void updateSetlist(Setlist s){
         SQLiteDatabase db = this.getWritableDatabase();
+
+        // protect favorite
+        if(doesFavoriteExist()){
+            int id = getIdOfFavorite();
+            if(id == s.getId() && !s.getName().equals("Favorite")){
+                Toast.makeText(context, R.string.error_rename_favorite, Toast.LENGTH_SHORT).show();
+                return;  // end if the users is trying to rename "Favorite"
+            }
+        }
 
         // setlist table
         ContentValues cvS = new ContentValues();
@@ -374,7 +388,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return setlist;
     }
-
+/*
     // Cursor get data---------------------------------------------------------
     public Cursor readData(String table_name) {
         String query = "SELECT * FROM " + table_name;
@@ -384,7 +398,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (db != null) cursor = db.rawQuery(query, null);
         return cursor;
     }
-
+*/
 
     // Deleting -----------------------------------------------------------------
     public void deleteOneSheetmusic(int id){
@@ -393,6 +407,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void deleteOneSetlist(int id){
+        if(id == getIdOfFavorite()) return; // can't delete favorite setlist
+
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SETLIST, COL_ID + " = ?", new String[] {String.valueOf(id)});
     }
@@ -436,4 +452,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SETLIST_TAG, COL_ID_SETLIST + " = ?", new String[] {String.valueOf(id_s)});
     }
+
+// Other -----------------------------------------------------------------------------------------
+
+    public boolean doesFavoriteExist(){
+        String fave = "Favorite";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String qF = "SELECT * FROM " + TABLE_SETLIST + " WHERE " + COL_NAME + " = ?;";
+        String [] strings = new String[] {fave};
+        Cursor c = db.rawQuery(qF, strings);
+
+        if(c.getCount() <= 0){
+            c.close();
+            return false;
+        }
+        c.close();
+        return true;
+    }
+
+    @SuppressLint("Range")
+    public int getIdOfFavorite(){
+        int id = -1;
+        String fave = "Favorite";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String qF = "SELECT * FROM " + TABLE_SETLIST + " WHERE " + COL_NAME + " = ?;";
+        String [] strings = new String[] {fave};
+        Cursor c = db.rawQuery(qF, strings);
+
+        if(c.moveToNext()) {
+            id = c.getInt(c.getColumnIndex(COL_ID));
+            return id;
+        }
+        return id;
+    }
+
+
+
 }

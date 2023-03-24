@@ -25,4 +25,7 @@
     <string name="text_tags">Tagy</string>
     <string name="text_edit">Upravit</string>
     <string name="text_unknown">neznámý</string>
+    <string name="title_add_setlist">Přidat seznam</string>
+    <string name="title_add_sheetmusic">Přidat noty</string>
+    <string name="error_rename_favorite">Seznam Favorite (Oblíbené) nemůže být přejmenován</string>
 </resources>

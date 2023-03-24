@@ -13,6 +13,29 @@
         android:theme="@style/Theme.SpravaNot"
         tools:targetApi="31">
         <activity
+            android:name=".ShowSheetmusic"
+            android:exported="false" />
+        <activity
+            android:name=".AddSheetsToSetlist"
+            android:exported="false"
+            android:parentActivityName=".SetlistDetail"/>
+        <activity
+            android:name=".SetlistDetail"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".EditSheetmusic"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".AddSetlist"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".AddSheetmusic"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".SplashScreenActivity"
             android:exported="true">
             <intent-filter>
@@ -27,9 +50,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

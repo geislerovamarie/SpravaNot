@@ -26,4 +26,7 @@
     <string name="text_tags">Tags</string>
     <string name="text_edit">Edit</string>
     <string name="text_unknown">unknown</string>
+    <string name="title_add_setlist">Add setlist</string>
+    <string name="title_add_sheetmusic">Add sheetmusic</string>
+    <string name="error_rename_favorite">Setlist Favorite can\'t be renamed</string>
 </resources>

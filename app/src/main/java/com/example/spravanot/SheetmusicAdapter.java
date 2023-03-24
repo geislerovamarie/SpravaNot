@@ -3,6 +3,7 @@ package com.example.spravanot;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +25,12 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     Activity activity;
     //Animation translate_anim;
 
-    private ArrayList sheetmusic_name, sheetmusic_author;
+    private ArrayList<Sheetmusic> sheetmusic;
 
-    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusic_name, ArrayList sheetmusic_author) {
+    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusic) {
         this.activity = activity;
         this.context = context;
-        this.sheetmusic_name = sheetmusic_name;
-        this.sheetmusic_author = sheetmusic_author;
+        this.sheetmusic = sheetmusic;
     }
 
     @NonNull
@@ -43,39 +43,63 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderSheetmusic holder, int position) {
-        String sh_name = String.valueOf(sheetmusic_name.get(position));
-        String sh_author = String.valueOf(sheetmusic_author.get(position)) == "null" ? context.getResources().getString(R.string.text_unknown) : String.valueOf(sheetmusic_author.get(position));
+        String sh_name = String.valueOf(sheetmusic.get(position).getName());
+        String sh_author = String.valueOf(sheetmusic.get(position).getAuthor()) == "null" ? context.getResources().getString(R.string.text_unknown) : String.valueOf(sheetmusic.get(position).getAuthor());
 
+        // Set text
         holder.sheetmusic_name_text.setText(sh_name);
         holder.sheetmusic_author_text.setText(sh_author);
-        
+
+        // Edit button
         holder.sheetmusic_edit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Edit button pressed", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, EditSheetmusic.class);
+                intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
+                activity.startActivityForResult(intent, 1);
             }
         });
 
+        // Add to favorites button
         holder.sheetmusic_favorite_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "FAVORITE", Toast.LENGTH_SHORT).show();
+                // maybe like this?
+                DatabaseHelper db = new DatabaseHelper(context);
+
+                // create setlist "Favorite" if it doesnt exist
+                if(!db.doesFavoriteExist()){
+                    Setlist f = new Setlist(-1);
+                    f.setName("Favorite");
+                    f.setNotes("Favorite / Oblíbené");
+                    db.getWritableDatabase();
+                    db.addSetlist(f);
+                }
+
+                // add to favorite
+                ArrayList<Sheetmusic> newFaveSheets = new ArrayList<>();
+                newFaveSheets.add(sheetmusic.get(holder.getAdapterPosition()));
+                db.addToSetlist(0, newFaveSheets);
             }
         });
 
-   /*     TODO
+        // Click and show sheetmusic
         holder.sheetmusicLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, TODO open sheets activity)
+                Intent intent = new Intent(context, ShowSheetmusic.class);
+                intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
+                activity.startActivityForResult(intent, 1);
+
             }
         });
-*/
+
     }
 
     @Override
     public int getItemCount() {
-        return sheetmusic_name.size();
+        return sheetmusic.size();
     }
 
     // --------------------------------------------------------------------------------------------

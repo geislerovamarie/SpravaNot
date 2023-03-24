@@ -83,17 +83,11 @@ public class SheetsFragment extends Fragment {
         sheetmusics = database.selectAllSheetmusic();
 
         // prepare data for adapter
-        ArrayList<String> names = new ArrayList<>();
-        ArrayList<String> authors = new ArrayList<>();
 
-        // HERE I SHOULD BE ABLE TO SORT
-        for (int i = 0; i < sheetmusics.size(); i++) {
-            String name = sheetmusics.get(i).getName();
-            String author = sheetmusics.get(i).getAuthor();
-            names.add(name);
-            authors.add(author);
-        }
-        sheetmusicAdapter = new SheetmusicAdapter(getActivity(), getContext(), names, authors);
+        // HERE I SHOULD BE ABLE TO
+        // sort and filter
+
+        sheetmusicAdapter = new SheetmusicAdapter(getActivity(), getContext(), sheetmusics);
         return sheetmusicAdapter;
     }
 

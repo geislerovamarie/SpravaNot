@@ -1,9 +1,10 @@
 package com.example.spravanot;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Sheetmusic {
+public class Sheetmusic implements Serializable {
 
     private int id;
     private String name, author, genre, key, instument, notes;  // "key" is "tone" in database
