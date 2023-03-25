@@ -5,14 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
@@ -26,11 +30,13 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     //Animation translate_anim;
 
     private ArrayList<Sheetmusic> sheetmusic;
+    private PassInfoFromSheetAdapter info;
 
-    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusic) {
+    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusic, PassInfoFromSheetAdapter info) {
         this.activity = activity;
         this.context = context;
         this.sheetmusic = sheetmusic;
+        this.info = info;
     }
 
     @NonNull
@@ -50,13 +56,11 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         holder.sheetmusic_name_text.setText(sh_name);
         holder.sheetmusic_author_text.setText(sh_author);
 
-        // Edit button
+        // Edit button - show menu with options "edit" and "delete"
         holder.sheetmusic_edit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, EditSheetmusic.class);
-                intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
-                activity.startActivityForResult(intent, 1);
+                openMenu(view, holder);
             }
         });
 
@@ -64,23 +68,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         holder.sheetmusic_favorite_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "FAVORITE", Toast.LENGTH_SHORT).show();
-                // maybe like this?
-                DatabaseHelper db = new DatabaseHelper(context);
-
-                // create setlist "Favorite" if it doesnt exist
-                if(!db.doesFavoriteExist()){
-                    Setlist f = new Setlist(-1);
-                    f.setName("Favorite");
-                    f.setNotes("Favorite / Oblíbené");
-                    db.getWritableDatabase();
-                    db.addSetlist(f);
-                }
-
-                // add to favorite
-                ArrayList<Sheetmusic> newFaveSheets = new ArrayList<>();
-                newFaveSheets.add(sheetmusic.get(holder.getAdapterPosition()));
-                db.addToSetlist(0, newFaveSheets);
+                info.toggleFavorite(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId());
             }
         });
 
@@ -91,10 +79,8 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
                 Intent intent = new Intent(context, ShowSheetmusic.class);
                 intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
                 activity.startActivityForResult(intent, 1);
-
             }
         });
-
     }
 
     @Override
@@ -103,6 +89,54 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     }
 
     // --------------------------------------------------------------------------------------------
+
+    // menu ----------------------------
+    public void openMenu(View view, ViewHolderSheetmusic holder){
+        PopupMenu popupMenu = new PopupMenu(context, view);
+        // set up the listener
+        PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.sheetmusic_edit_option:
+                        Intent intent = new Intent(context, EditSheetmusic.class);
+                        intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
+                        activity.startActivityForResult(intent, 1);
+                        return true;
+                    case R.id.sheetmusic_delete_option:
+                        // ask wheter really delete
+                        AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
+                        dBuilder.setMessage(R.string.dialog_delete_item);
+                        dBuilder.setTitle(R.string.dialog_title_delete_item);
+
+                        // delete item
+                        dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
+                            info.deleteSheetmusic(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId());
+                        });
+
+                        // cancel
+                        dBuilder.setNegativeButton(R.string.no, (dialogInterface, i) -> {
+                            dialogInterface.cancel();
+                        });
+
+                        // show the dialog
+                        AlertDialog dialog = dBuilder.create();
+                        dialog.show();
+
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        };
+        // prepare and show the menu
+        popupMenu.setOnMenuItemClickListener(listener);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.sheetmusic_edit_menu, popupMenu.getMenu());
+        popupMenu.show();
+    }
+
+    // viewholder --------------------------------
 
     public class ViewHolderSheetmusic extends RecyclerView.ViewHolder {
 

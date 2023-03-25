@@ -19,7 +19,7 @@ import java.util.Objects;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
-    private static final String DATABASE_NAME = "Noty.db";
+    private static final String DATABASE_NAME = "Sheetmusic.db";
     private static final int DATABASE_VERSION = 1;
 
     // table names
@@ -463,11 +463,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String [] strings = new String[] {fave};
         Cursor c = db.rawQuery(qF, strings);
 
-        if(c.getCount() <= 0){
-            c.close();
-            return false;
-        }
-        c.close();
+        if(c.getCount() <= 0) return false;
         return true;
     }
 
@@ -488,6 +484,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    public boolean isInSetlist(int sheetId, int setlistId){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String q = "SELECT * FROM " + TABLE_SHEETMUSIC_SETLIST + " WHERE " + COL_ID_SHEETMUSIC + " = " + sheetId + " AND " + COL_ID_SETLIST + " = " + setlistId + ";";
+        Cursor c = db.rawQuery(q, null);
+
+        if(c.getCount() <= 0) return false;
+        return true;
+    }
 
 
 }

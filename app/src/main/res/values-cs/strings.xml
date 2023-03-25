@@ -28,4 +28,9 @@
     <string name="title_add_setlist">Přidat seznam</string>
     <string name="title_add_sheetmusic">Přidat noty</string>
     <string name="error_rename_favorite">Seznam Favorite (Oblíbené) nemůže být přejmenován</string>
+    <string name="text_delete">Smazat</string>
+    <string name="dialog_delete_item">Určitě chcete smazat tuto položku?</string>
+    <string name="dialog_title_delete_item">Smazat položku</string>
+    <string name="yes">Ano</string>
+    <string name="no">Ne</string>
 </resources>

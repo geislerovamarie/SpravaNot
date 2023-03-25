@@ -29,4 +29,9 @@
     <string name="title_add_setlist">Add setlist</string>
     <string name="title_add_sheetmusic">Add sheetmusic</string>
     <string name="error_rename_favorite">Setlist Favorite can\'t be renamed</string>
+    <string name="text_delete">Delete</string>
+    <string name="dialog_delete_item">Are you sure you want to delete this item?</string>
+    <string name="dialog_title_delete_item">Delete item</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
