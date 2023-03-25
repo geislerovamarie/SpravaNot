@@ -22,19 +22,19 @@
         <activity
             android:name=".SetlistDetail"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            />
         <activity
             android:name=".EditSheetmusic"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            />
         <activity
             android:name=".AddSetlist"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            />
         <activity
             android:name=".AddSheetmusic"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            />
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true">

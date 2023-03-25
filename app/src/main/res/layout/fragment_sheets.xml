@@ -4,56 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.sheets.SheetsFragment">
+    tools:context=".ui.sheets.SheetsFragment"
+    android:layout_marginBottom="56dp">
+
+    <AutoCompleteTextView
+        android:id="@+id/textViewSheetsSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="text..."
+        app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
+        app:layout_constraintEnd_toStartOf="@id/searchViewSheets"
+        app:layout_constraintStart_toStartOf="@id/sheets_left_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
     <SearchView
         android:id="@+id/searchViewSheets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@+id/textViewSheetsSearch"
+
+        app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
+        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintEnd_toStartOf="@id/buttonSheetsFilter"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <AutoCompleteTextView
-        android:id="@+id/textViewSheetsSearch"
-        android:layout_width="85dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
-        android:text="text..."
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonSheetsFilter"
         android:layout_width="wrap_content"
-        android:layout_height="51dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:text="Filter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_input_get"
+        app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
+        app:layout_constraintEnd_toStartOf="@id/buttonSheetsAdd"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7" />
+
+    <ImageButton
+        android:id="@+id/buttonSheetsAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_input_add"
+        android:contentDescription="@string/describe_add_floating_button"
+        app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
+        app:layout_constraintEnd_toEndOf="@id/sheets_right_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSheets"
         android:layout_width="match_parent"
-        android:layout_height="652dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/sheets_top_guideline"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSheetsSearch" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"  />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatButtonSheetsAdd"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/sheets_top_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="70dp"
-        android:clickable="true"
-        android:contentDescription="@string/describe_add_floating_button"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/sheets_bottom_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/sheets_left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.07" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/sheets_right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

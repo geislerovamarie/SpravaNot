@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,15 +27,12 @@ import java.util.ArrayList;
 
 public class SheetsFragment extends Fragment {
 
-    DatabaseHelper db;
-
     SheetmusicAdapter sheetmusicAdapter;
     RecyclerView recView;
+    ImageButton add_sheetmusic_button, filter_button;
 
-    FloatingActionButton add_sheetmusic_button;
-    Button filter_button;
+    DatabaseHelper db;
     ArrayList<Sheetmusic> sheetmusics;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class SheetsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        add_sheetmusic_button = getView().findViewById(R.id.floatButtonSheetsAdd);
+        add_sheetmusic_button = getView().findViewById(R.id.buttonSheetsAdd);
         add_sheetmusic_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
