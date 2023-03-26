@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 import java.util.ArrayList;
 
-public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.ViewHolderPdfs> {
+public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.ViewHolderFiles> {
 
     Context context;
     Activity activity;
@@ -31,21 +31,21 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
 
     @NonNull
     @Override
-    public ViewHolderPdfs onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderFiles onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.pdf_row, parent, false);
-        return new ViewHolderPdfs(view);
+        View view = inflater.inflate(R.layout.files_row, parent, false);
+        return new ViewHolderFiles(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderPdfs holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderFiles holder, int position) {
         //String name = String.valueOf(sheetmusic.get(position).getName());
         String address = String.valueOf(addresses.get(position));
         String name = address.substring(address.lastIndexOf(File.separator) + 1); // for now!!
 
         // Set text
-        holder.pdf_name_text.setText(name);
-        holder.pdf_address_text.setText(address);
+        holder.files_name_text.setText(name);
+        holder.files_address_text.setText(address);
     }
 
     @Override
@@ -53,17 +53,17 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
         return addresses.size();
     }
 
-    public class ViewHolderPdfs extends RecyclerView.ViewHolder {
+    public class ViewHolderFiles extends RecyclerView.ViewHolder {
 
-        TextView pdf_name_text, pdf_address_text;
-        ImageButton pdf_icon;
-        LinearLayout pdfsLayout;
+        TextView files_name_text, files_address_text;
+        ImageButton files_icon;
+        LinearLayout filesLayout;
 
-        public ViewHolderPdfs(@NonNull View itemView) {
+        public ViewHolderFiles(@NonNull View itemView) {
             super(itemView);
-            pdf_name_text = itemView.findViewById(R.id.pdf_row_name);
-            pdf_address_text = itemView.findViewById(R.id.pdf_row_address);
-            pdfsLayout = itemView.findViewById(R.id.pdfsLayout);
+            files_name_text = itemView.findViewById(R.id.files_row_name);
+            files_address_text = itemView.findViewById(R.id.files_row_address);
+            filesLayout = itemView.findViewById(R.id.filesLayout);
         }
     }
 }

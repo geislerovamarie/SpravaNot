@@ -7,7 +7,7 @@
     tools:context=".HandleFiles">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewPdfs"
+        android:id="@+id/recyclerViewFiles"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,42 +16,42 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_pdfs_button"
+        android:id="@+id/add_files_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:contentDescription="@string/describe_add_button"
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toTopOf="@id/save_pdfs_button"
-        app:layout_constraintEnd_toStartOf="@id/handle_pdfs_right_guideline"/>
+        app:layout_constraintBottom_toTopOf="@id/save_files_button"
+        app:layout_constraintEnd_toStartOf="@id/handle_files_right_guideline"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/save_pdfs_button"
+        android:id="@+id/save_files_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/describe_add_button"
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_menu_save"
-        app:layout_constraintBottom_toBottomOf="@id/handle_pdfs_bottom_guideline"
-        app:layout_constraintEnd_toStartOf="@id/handle_pdfs_right_guideline"/>
+        app:layout_constraintBottom_toBottomOf="@id/handle_files_bottom_guideline"
+        app:layout_constraintEnd_toStartOf="@id/handle_files_right_guideline"/>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/handle_pdfs_right_guideline"
+        android:id="@+id/handle_files_right_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.9" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/handle_pdfs_top_guideline"
+        android:id="@+id/handle_files_top_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.05"/>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/handle_pdfs_bottom_guideline"
+        android:id="@+id/handle_files_bottom_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

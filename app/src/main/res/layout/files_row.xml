@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:orientation="vertical"
-    android:id="@+id/pdfsLayout">
+    android:id="@+id/filesLayout">
 
 
     <androidx.cardview.widget.CardView
@@ -20,41 +20,41 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/pdf_row_name"
+                android:id="@+id/files_row_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_name"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/pdf_row_text_guideline"
-                app:layout_constraintBottom_toTopOf="@id/pdf_row_center_guideline" />
+                app:layout_constraintStart_toStartOf="@id/files_row_text_guideline"
+                app:layout_constraintBottom_toTopOf="@id/files_row_center_guideline" />
 
             <TextView
-                android:id="@+id/pdf_row_address"
+                android:id="@+id/files_row_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_address"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@id/pdf_row_text_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/pdf_row_center_guideline" />
+                app:layout_constraintStart_toStartOf="@id/files_row_text_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/files_row_center_guideline" />
 
             <ImageButton
-                android:id="@+id/pdf_row_icon"
+                android:id="@+id/files_row_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/text_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/pdf_row_icon_guideline"
-                app:layout_constraintEnd_toEndOf="@id/pdf_row_text_guideline"
+                app:layout_constraintStart_toEndOf="@id/files_row_icon_guideline"
+                app:layout_constraintEnd_toEndOf="@id/files_row_text_guideline"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
                 app:srcCompat="@android:drawable/ic_menu_preferences" />
 
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/pdf_row_center_guideline"
+                android:id="@+id/files_row_center_guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -62,14 +62,14 @@
 
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/pdf_row_text_guideline"
+                android:id="@+id/files_row_text_guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.25" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/pdf_row_icon_guideline"
+                android:id="@+id/files_row_icon_guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

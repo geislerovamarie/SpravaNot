@@ -29,7 +29,7 @@ public class AddSheetmusic extends AppCompatActivity {
     ArrayList<String> tags;
 
     ArrayList<String> pdfs;
-    ArrayList<String> jpgs;
+    ArrayList<String> jpgs; // and actually also pngs
     String mp3;
 
     @Override
@@ -39,14 +39,16 @@ public class AddSheetmusic extends AppCompatActivity {
 
         activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == 5) {  //pdf
-                // open tasty new files
                 if(result.getData() != null){
                     pdfs = result.getData().getStringArrayListExtra("pdfs");
                     // sheetmusicAdapter.notifyDataSetChanged();    // ?
                 }
 
             } else if (result.getResultCode() == 6) {   //jpg
-
+                if(result.getData() != null){
+                    jpgs = result.getData().getStringArrayListExtra("jpgs");
+                    // sheetmusicAdapter.notifyDataSetChanged();    // ?
+                }
             }
 
             // else tagas or mp3
@@ -65,7 +67,7 @@ public class AddSheetmusic extends AppCompatActivity {
         * 1) load files - by existing ID - from database sheetmusic_file selectfilesforsheetmusic
         * 2) convert ids to addresses via file table in database
         * 3) store in files
-        * 4) separata pdf and jpg by extensions
+        * 4) separata pdf or else (images - pdfs/jpgs) by extensions
         *
         * ...
         * x) put together pdfs and jpgs to files and put it to the db
@@ -91,6 +93,7 @@ public class AddSheetmusic extends AppCompatActivity {
 
                 Intent intent = new Intent(AddSheetmusic.this, HandleFiles.class);
                 intent.putExtra("pdfs", pdfs);
+                intent.putExtra("type", "pdf");
                 activityResultLaunch.launch(intent);
             }
         });
@@ -101,6 +104,11 @@ public class AddSheetmusic extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(AddSheetmusic.this, "edit jpg", Toast.LENGTH_SHORT).show();
                 // startactivityonresult -> store result in files, not in database, it would have to be saved first
+
+                Intent intent = new Intent(AddSheetmusic.this, HandleFiles.class);
+                intent.putExtra("jpgs", jpgs);
+                intent.putExtra("type", "jpg");
+                activityResultLaunch.launch(intent);
             }
         });
 

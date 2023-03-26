@@ -20,18 +20,20 @@ public class HandleFiles extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> activityResultLaunch;
     RecyclerView recView;
-    HandleFilesAdapter pdfsAdapter;
+    HandleFilesAdapter filesAdapter;
     FloatingActionButton addButton;
     FloatingActionButton saveButton;
 
     ArrayList<String> addresses;
     DatabaseHelper db;
 
+    String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = new DatabaseHelper(this);
-        setContentView(R.layout.activity_handle_pdfs);
+        setContentView(R.layout.activity_handle_files);
 
         activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == Activity.RESULT_OK) {
@@ -41,39 +43,56 @@ public class HandleFiles extends AppCompatActivity {
                 String address = uri.getPath();
                 if(!addresses.contains(address))addresses.add(address);
 
-                pdfsAdapter = new HandleFilesAdapter(this, this, addresses);
-                recView.setAdapter(pdfsAdapter);
-                pdfsAdapter.notifyDataSetChanged();
+                filesAdapter = new HandleFilesAdapter(this, this, addresses);
+                recView.setAdapter(filesAdapter);
+                filesAdapter.notifyDataSetChanged();
             }
         });
 
-        addresses = getIntent().getExtras().getStringArrayList("pdfs");
+        type = getIntent().getExtras().getString("type");
+        if(type.equals("pdf")){
+            addresses = getIntent().getExtras().getStringArrayList("pdfs");
+        }else if(type.equals("jpg")){
+            addresses = getIntent().getExtras().getStringArrayList("jpgs");
+        }
 
-        addButton = findViewById(R.id.add_pdfs_button);
+        addButton = findViewById(R.id.add_files_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("application/pdf");
+                if(type.equals("pdf")){
+                    intent.setType("application/pdf");
+                }else if(type.equals("jpg")){
+                    String[] mimeTypes = {"image/jpeg", "image/png"};
+                    intent.setType("image/*");
+                    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+                }
                 activityResultLaunch.launch(intent);
             }
         });
 
-        saveButton = findViewById(R.id.save_pdfs_button);
+        saveButton = findViewById(R.id.save_files_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //
-                Intent intent = new Intent();
-                intent.putExtra("pdfs", addresses);
-                setResult(5, intent);
-                finish();
+                if(type.equals("pdf")){
+                    Intent intent = new Intent();
+                    intent.putExtra("pdfs", addresses);
+                    setResult(5, intent);
+                    finish();
+                }else if(type.equals("jpg")){
+                    Intent intent = new Intent();
+                    intent.putExtra("jpgs", addresses);
+                    setResult(6, intent);
+                    finish();
+                }
             }
         });
 
-        pdfsAdapter = new HandleFilesAdapter(this, this, addresses);
-        recView = findViewById(R.id.recyclerViewPdfs);
+        filesAdapter = new HandleFilesAdapter(this, this, addresses);
+        recView = findViewById(R.id.recyclerViewFiles);
         recView.setLayoutManager(new LinearLayoutManager(this));
-        recView.setAdapter(pdfsAdapter);
+        recView.setAdapter(filesAdapter);
     }
 }
