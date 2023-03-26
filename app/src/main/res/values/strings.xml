@@ -12,7 +12,7 @@
     <string name="start_settings">Start settings</string>
     <string name="display_explanation">The display won\'t turn off</string>
     <string name="text_home_favorite">Favorite</string>
-    <string name="describe_add_floating_button">Button for adding</string>
+    <string name="describe_add_button">Button for adding</string>
     <string name="text_name">Name</string>
     <string name="text_file">File</string>
     <string name="text_files">Files</string>
@@ -36,4 +36,6 @@
     <string name="no">No</string>
     <string name="describe_scroll">Scroll</string>
     <string name="describe_sheet_filter">Filter button</string>
+    <string name="describe_remove_button">Remove button</string>
+    <string name="describe_edit_button">Edit button</string>
 </resources>

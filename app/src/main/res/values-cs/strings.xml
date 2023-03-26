@@ -11,7 +11,7 @@
     <string name="start_settings">Spustit nastavení</string>
     <string name="display_explanation">Displej se nebude vypínat</string>
     <string name="text_home_favorite">Oblíbené</string>
-    <string name="describe_add_floating_button">Tlačítko k přidávání</string>
+    <string name="describe_add_button">Tlačítko k přidávání</string>
     <string name="text_name">Název</string>
     <string name="text_file">Soubor</string>
     <string name="text_files">Soubory</string>
@@ -35,4 +35,6 @@
     <string name="no">Ne</string>
     <string name="describe_scroll">Scrollování</string>
     <string name="describe_sheet_filter">Tlačítko pro filtrování</string>
+    <string name="describe_remove_button">Tlačítko pro odstranění</string>
+    <string name="describe_edit_button">Tlačítko pro upravení</string>
 </resources>

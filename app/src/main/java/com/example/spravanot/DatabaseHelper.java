@@ -122,18 +122,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     void addFilesToSheetmusic(Sheetmusic s){
         SQLiteDatabase db = this.getWritableDatabase();
         for (int i = 0; i < s.getFiles().size(); i++) {
-            ContentValues cvF = new ContentValues();
-            cvF.put(COL_ADDRESS, s.getFiles().get(i));
-            long idFile = db.insert(TABLE_FILE, null, cvF);
 
-            if(idFile == -1){   // error happend, but it is possible that this address already exists
-                String qID = "SELECT " + COL_ID + " FROM " + TABLE_FILE + " WHERE " + COL_ADDRESS + " = ?;";
-                String [] strings = new String[] {s.getFiles().get(i)};
-                Cursor cID = db.rawQuery(qID, strings);
-                idFile = cID.getInt(cID.getColumnIndex(COL_ID));
+            String fileAddress = s.getFiles().get(i);
+            long idFile = getIdOfExistingFile(fileAddress);
+            if(idFile == -1) {
+                // add file
+                ContentValues cvF = new ContentValues();
+                cvF.put(COL_ADDRESS, s.getFiles().get(i));
+                idFile = db.insert(TABLE_FILE, null, cvF);
             }
 
-            if(idFile != -1){   // if file exists in table, connect file to sheetmusic
+            if(idFile != -1){   // if the file exists in file table, connect file to sheetmusic
                 ContentValues cvSh_F = new ContentValues();
                 cvSh_F.put(COL_ID_SHEETMUSIC,s.getId());
                 cvSh_F.put(COL_ID_FILE, idFile);
@@ -148,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues cvT = new ContentValues();
             String nameTag = s.getTags().get(i);
             cvT.put(COL_NAME, nameTag);
-            db.insert(TABLE_TAG, null, cvT);
+            db.insert(TABLE_TAG, null, cvT); // check whether it works - no duplicates and no crash if exists
 
             ContentValues cvSh_T = new ContentValues();
             cvSh_T.put(COL_ID_SHEETMUSIC,s.getId());
@@ -388,6 +387,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             setlist.add(s);
         }
         return setlist;
+    }
+
+    @SuppressLint("Range")
+    public int getIdOfExistingFile(String address){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String q = "SELECT * FROM " + TABLE_FILE + " WHERE " + COL_ADDRESS + " = ?;";
+        String [] strings = new String[] {address};
+        Cursor c = db.rawQuery(q, strings);
+
+        while(c.moveToNext()) return c.getInt(c.getColumnIndex(COL_ID));
+        return -1;
     }
 /*
     // Cursor get data---------------------------------------------------------
