@@ -1,32 +1,40 @@
 package com.example.spravanot.ui.sheets;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.spravanot.AddSheetmusic;
 import com.example.spravanot.DatabaseHelper;
-import com.example.spravanot.PassInfoFromSheetAdapter;
+import com.example.spravanot.PassInfoSheetmusic;
 import com.example.spravanot.R;
 import com.example.spravanot.Setlist;
 import com.example.spravanot.Sheetmusic;
 import com.example.spravanot.SheetmusicAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class SheetsFragment extends Fragment {
 
+    ActivityResultLauncher<Intent> activityResultLaunch;
+    PassInfoSheetmusic info;
     SheetmusicAdapter sheetmusicAdapter;
     RecyclerView recView;
     ImageButton add_sheetmusic_button, filter_button;
@@ -34,49 +42,14 @@ public class SheetsFragment extends Fragment {
     DatabaseHelper db;
     ArrayList<Sheetmusic> sheetmusics;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        //SheetsViewModel sheetsViewModel = new ViewModelProvider(this).get(SheetsViewModel.class);
-        //binding = FragmentSheetsBinding.inflate(inflater, container, false);
-        //root = binding.getRoot();
-        View view = inflater.inflate(R.layout.fragment_sheets, container, false);
-
-        recView = view.findViewById(R.id.recyclerViewSheets);
-        recView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        sheetmusicAdapter = prepareAdapter();
-        recView.setAdapter(sheetmusicAdapter);
-        return view;
-    }
-
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        add_sheetmusic_button = getView().findViewById(R.id.buttonSheetsAdd);
-        add_sheetmusic_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Adding", Toast.LENGTH_SHORT).show();
-                // TODO start add sheets activity
-            }
-        });
-
-        filter_button = getView().findViewById(R.id.buttonSheetsFilter);
-        filter_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Filterrr", Toast.LENGTH_SHORT).show();
-                // todo filter
-            }
-        });
-    }
-
-    SheetmusicAdapter prepareAdapter(){
         db = new DatabaseHelper(getContext());
-        sheetmusics = db.selectAllSheetmusic();
 
         // connection between this fragment and the adapter
-        PassInfoFromSheetAdapter info = new PassInfoFromSheetAdapter() {
+        info = new PassInfoSheetmusic() {
             @Override
             public void deleteSheetmusic(int position, int idSh) {
                 db.deleteOneSheetmusic(idSh);
@@ -93,7 +66,6 @@ public class SheetsFragment extends Fragment {
                     f.setNotes("Favorite / Oblíbené");
                     db.addSetlist(f);
                 }
-
                 // toggle
                 Sheetmusic sh = db.selectOneSheetmusic(idSh);
                 ArrayList<Sheetmusic> newFaveSheets = new ArrayList<>();
@@ -111,11 +83,59 @@ public class SheetsFragment extends Fragment {
                 sheetmusicAdapter.notifyItemChanged(position);
             }
         };
+        // launcher to help when (adding) activity finishes
+        activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == 3) {
+                sheetmusicAdapter = prepareAdapter();
+                recView.setAdapter(sheetmusicAdapter);
+                sheetmusicAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
-        // prepare data for adapter
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_sheets, container, false);
+
+        recView = view.findViewById(R.id.recyclerViewSheets);
+        recView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        sheetmusicAdapter = prepareAdapter();
+        recView.setAdapter(sheetmusicAdapter);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        add_sheetmusic_button = getView().findViewById(R.id.buttonSheetsAdd);
+        add_sheetmusic_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddSheetmusic.class);
+                activityResultLaunch.launch(intent);
+            }
+        });
+
+        filter_button = getView().findViewById(R.id.buttonSheetsFilter);
+        filter_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Filterrr", Toast.LENGTH_SHORT).show();
+                // todo filter
+            }
+        });
+    }
+
+
+
+    SheetmusicAdapter prepareAdapter(){
+        db = new DatabaseHelper(getContext());
+        sheetmusics = db.selectAllSheetmusic();
 
         // HERE I SHOULD BE ABLE TO
         // sort and filter
+        sortSheetsArrayAlphabetically();
 
         sheetmusicAdapter = new SheetmusicAdapter(getActivity(), getContext(), sheetmusics, info);
         return sheetmusicAdapter;
@@ -125,5 +145,13 @@ public class SheetsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
       //  binding = null;
+    }
+
+    public void sortSheetsArrayAlphabetically(){
+        Collections.sort(sheetmusics, new Comparator<Sheetmusic>(){
+            public int compare(Sheetmusic s1, Sheetmusic s2){
+                return s1.getName().compareToIgnoreCase(s2.getName());
+            }
+        });
     }
 }

@@ -34,4 +34,6 @@
     <string name="dialog_title_delete_item">Delete item</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="describe_scroll">Scroll</string>
+    <string name="describe_sheet_filter">Filter button</string>
 </resources>

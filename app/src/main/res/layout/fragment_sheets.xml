@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_input_get"
+        android:contentDescription="@string/describe_sheet_filter"
         app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
         app:layout_constraintEnd_toStartOf="@id/buttonSheetsAdd"
         app:layout_constraintTop_toTopOf="parent"

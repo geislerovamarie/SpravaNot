@@ -33,4 +33,6 @@
     <string name="dialog_title_delete_item">Smazat položku</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
+    <string name="describe_scroll">Scrollování</string>
+    <string name="describe_sheet_filter">Tlačítko pro filtrování</string>
 </resources>

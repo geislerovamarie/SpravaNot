@@ -3,7 +3,6 @@ package com.example.spravanot;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -30,9 +28,9 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     //Animation translate_anim;
 
     private ArrayList<Sheetmusic> sheetmusic;
-    private PassInfoFromSheetAdapter info;
+    private PassInfoSheetmusic info;
 
-    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusic, PassInfoFromSheetAdapter info) {
+    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusic, PassInfoSheetmusic info) {
         this.activity = activity;
         this.context = context;
         this.sheetmusic = sheetmusic;

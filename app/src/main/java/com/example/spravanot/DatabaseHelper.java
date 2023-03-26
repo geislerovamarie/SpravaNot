@@ -93,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Adding ------------------------------------------------------------------
-    public void addSheetmusic(Sheetmusic s){
+    public int addSheetmusic(Sheetmusic s){
         SQLiteDatabase db = this.getWritableDatabase();
 
         // sheetmusic table
@@ -105,8 +105,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cvSh.put(COL_INSTRUMENT, s.getInstument());
         cvSh.put(COL_MP3, s.getMp3());
         cvSh.put(COL_NOTES, s.getNotes());
-        long idSheetmusic = db.insert(TABLE_SHEETMUSIC, null, cvSh);
-        if(idSheetmusic == -1) return;
+        int idSheetmusic = (int) db.insert(TABLE_SHEETMUSIC, null, cvSh);
+        if(idSheetmusic == -1) return -1;
 
         s.setId((int) idSheetmusic);
 
@@ -115,6 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // tags + sheetmusic_tag table
         addTagsToSheetmusic(s);
+        return idSheetmusic;
     }
 
     @SuppressLint("Range")
