@@ -40,8 +40,10 @@ public class AddSheetmusic extends AppCompatActivity {
         activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == 5) {  //pdf
                 // open tasty new files
-                pdfs = result.getData().getStringArrayListExtra("pdfs");
-                // sheetmusicAdapter.notifyDataSetChanged();    // ?
+                if(result.getData() != null){
+                    pdfs = result.getData().getStringArrayListExtra("pdfs");
+                    // sheetmusicAdapter.notifyDataSetChanged();    // ?
+                }
 
             } else if (result.getResultCode() == 6) {   //jpg
 
@@ -59,11 +61,11 @@ public class AddSheetmusic extends AppCompatActivity {
         /*
         * !!
         * For Edit
-        * 0) set known text
-        * 1) load from sheetmusic_file
+        * 0) get data (id, name,...), set known text
+        * 1) load files - by existing ID - from database sheetmusic_file selectfilesforsheetmusic
         * 2) convert ids to addresses via file table in database
         * 3) store in files
-        * 4) separata pdf and jpg
+        * 4) separata pdf and jpg by extensions
         *
         * ...
         * x) put together pdfs and jpgs to files and put it to the db
@@ -87,7 +89,7 @@ public class AddSheetmusic extends AppCompatActivity {
                 Toast.makeText(AddSheetmusic.this, "edit pdf", Toast.LENGTH_SHORT).show();
                 // startactivityonresult or bundle -> store result in files, not in database, it would have to be saved first
 
-                Intent intent = new Intent(AddSheetmusic.this, HandlePdfs.class);
+                Intent intent = new Intent(AddSheetmusic.this, HandleFiles.class);
                 intent.putExtra("pdfs", pdfs);
                 activityResultLaunch.launch(intent);
             }
@@ -133,6 +135,11 @@ public class AddSheetmusic extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // ALSO WILL BE DIFFERENT IN EDIT - for example id will be known
+                // combine jpgs and pdfs into files
+                pdfs.addAll(jpgs);
+                files = pdfs;
+
                 DatabaseHelper db = new DatabaseHelper(AddSheetmusic.this);
 
                 // Store input in sheetmusic object and add to database and pass to sheets fragment

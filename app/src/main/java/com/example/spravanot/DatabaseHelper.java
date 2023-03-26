@@ -376,6 +376,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
+    public ArrayList<String> selectFileAddressesForSheetmusic(int id){
+        ArrayList<String> files = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String q = "SELECT * FROM " + TABLE_SHEETMUSIC_FILE + " WHERE " + COL_ID_SHEETMUSIC + " = " + id + ";";
+        Cursor cShF = db.rawQuery(q, null);
+
+        while(cShF.moveToNext()){
+            int fID = cShF.getInt(cShF.getColumnIndex(COL_ID_FILE));
+            String qF = "SELECT * FROM " + TABLE_FILE + " WHERE " + COL_ID + " = " + id + ";";
+            Cursor cF = db.rawQuery(qF, null);
+
+            while(cF.moveToNext()) files.add(cF.getString(cF.getColumnIndex(COL_ADDRESS)));
+        }
+        return files;
+    }
+
+    @SuppressLint("Range")
     public ArrayList<Setlist> selectAllSetlists(){
         ArrayList<Setlist> setlist = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

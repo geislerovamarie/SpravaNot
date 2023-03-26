@@ -1,10 +1,14 @@
 package com.example.spravanot;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,10 +16,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class HandlePdfs extends AppCompatActivity {
+public class HandleFiles extends AppCompatActivity {
 
+    ActivityResultLauncher<Intent> activityResultLaunch;
     RecyclerView recView;
-    HandlePdfsAdapter pdfsAdapter;
+    HandleFilesAdapter pdfsAdapter;
     FloatingActionButton addButton;
     FloatingActionButton saveButton;
 
@@ -28,13 +33,29 @@ public class HandlePdfs extends AppCompatActivity {
         db = new DatabaseHelper(this);
         setContentView(R.layout.activity_handle_pdfs);
 
+        activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                // todo
+                Intent data = result.getData();
+                Uri uri = data.getData();
+                String address = uri.getPath();
+                if(!addresses.contains(address))addresses.add(address);
+
+                pdfsAdapter = new HandleFilesAdapter(this, this, addresses);
+                recView.setAdapter(pdfsAdapter);
+                pdfsAdapter.notifyDataSetChanged();
+            }
+        });
+
         addresses = getIntent().getExtras().getStringArrayList("pdfs");
 
         addButton = findViewById(R.id.add_pdfs_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // modify addresses
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("application/pdf");
+                activityResultLaunch.launch(intent);
             }
         });
 
@@ -50,8 +71,7 @@ public class HandlePdfs extends AppCompatActivity {
             }
         });
 
-
-        pdfsAdapter = new HandlePdfsAdapter(this, this, addresses);
+        pdfsAdapter = new HandleFilesAdapter(this, this, addresses);
         recView = findViewById(R.id.recyclerViewPdfs);
         recView.setLayoutManager(new LinearLayoutManager(this));
         recView.setAdapter(pdfsAdapter);

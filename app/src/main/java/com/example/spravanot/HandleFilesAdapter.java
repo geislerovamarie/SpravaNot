@@ -12,11 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.chip.Chip;
-
+import java.io.File;
 import java.util.ArrayList;
 
-public class HandlePdfsAdapter extends RecyclerView.Adapter<HandlePdfsAdapter.ViewHolderPdfs> {
+public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.ViewHolderPdfs> {
 
     Context context;
     Activity activity;
@@ -24,7 +23,7 @@ public class HandlePdfsAdapter extends RecyclerView.Adapter<HandlePdfsAdapter.Vi
     private ArrayList<String> addresses;
     //private ArrayList<String> names;
 
-    public HandlePdfsAdapter(Context context, Activity activity, ArrayList<String> addresses) {
+    public HandleFilesAdapter(Context context, Activity activity, ArrayList<String> addresses) {
         this.context = context;
         this.activity = activity;
         this.addresses = addresses;
@@ -42,7 +41,7 @@ public class HandlePdfsAdapter extends RecyclerView.Adapter<HandlePdfsAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolderPdfs holder, int position) {
         //String name = String.valueOf(sheetmusic.get(position).getName());
         String address = String.valueOf(addresses.get(position));
-        String name = address; // for now!!
+        String name = address.substring(address.lastIndexOf(File.separator) + 1); // for now!!
 
         // Set text
         holder.pdf_name_text.setText(name);
@@ -67,6 +66,4 @@ public class HandlePdfsAdapter extends RecyclerView.Adapter<HandlePdfsAdapter.Vi
             pdfsLayout = itemView.findViewById(R.id.pdfsLayout);
         }
     }
-
-
 }
