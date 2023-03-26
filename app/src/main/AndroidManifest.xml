@@ -13,33 +13,33 @@
         android:theme="@style/Theme.SpravaNot"
         tools:targetApi="31">
         <activity
+            android:name=".HandlePdfs"
+            android:exported="false" />
+        <activity
             android:name=".ShowSheetmusic"
             android:exported="false" />
         <activity
             android:name=".AddSheetsToSetlist"
             android:exported="false"
-            android:parentActivityName=".SetlistDetail"/>
+            android:parentActivityName=".SetlistDetail" />
         <activity
             android:name=".SetlistDetail"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".EditSheetmusic"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".AddSetlist"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".AddSheetmusic"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
