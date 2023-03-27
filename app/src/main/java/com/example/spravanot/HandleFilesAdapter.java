@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.barteksc.pdfviewer.PDFView;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -26,17 +28,19 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
     Context context;
     Activity activity;
     private PassInfoSheetmusic info;
+    boolean modify;
 
     private ArrayList<String> addresses;
     //private ArrayList<String> names;
     Sheetmusic sh;
 
-    public HandleFilesAdapter(Context context, Activity activity, ArrayList<String> addresses, PassInfoSheetmusic info, Sheetmusic sh) {
+    public HandleFilesAdapter(Context context, Activity activity, ArrayList<String> addresses, PassInfoSheetmusic info, Sheetmusic sh, boolean modify) {
         this.context = context;
         this.activity = activity;
         this.addresses = addresses;
         this.info = info;
         this.sh = sh;   // pri Add bude null
+        this.modify = modify;
     }
 
     @NonNull
@@ -49,7 +53,11 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderFiles holder, int position) {
-        String address = String.valueOf(addresses.get(position));
+        String path = String.valueOf(addresses.get(position));
+        Uri uri = Uri.parse(path);
+        File file = new File(uri.getPath());
+        String[] split = file.getPath().split(":");
+        String address = split[1];
         String name = address.substring(address.lastIndexOf(File.separator) + 1); // for now!!
 
         // Set text
@@ -63,10 +71,8 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
                 String path = addresses.get(holder.getAdapterPosition());
                 String extension = path.substring(path.lastIndexOf(".") +1);
                 if(extension.equals("pdf")) {
-                    // show pdf
                     openPdf(path);
                 }else{
-                    Intent intent;
                     // show jpg
                 }
             }
@@ -76,6 +82,7 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
         holder.filesLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                if(!modify) return false;
                 AtomicBoolean ret = new AtomicBoolean(false);
                 // ask wheter really delete
                 AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
@@ -84,7 +91,6 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
 
                 // delete item
                 dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
-                    //addresses.remove(holder.getAdapterPosition());
                     info.deleteSheetmusic(holder.getAdapterPosition(),-1);
                     ret.set(true);
                 });
@@ -103,19 +109,10 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
     }
 
     public void openPdf(String path){
-        File pdfFile = new File(path);//File path
-        if (pdfFile.exists()) //Checking for the file is exist or not
-        {
-
-
-            //Uri uri = Uri.fromFile(pdfFile);
-            Intent intent = new Intent(context, OpenPdfFile.class);
-            //intent.setDataAndType(uri, "application/pdf");
-            //intent.setFlags(Intent. FLAG_ACTIVITY_CLEAR_TOP);
-
-            intent.putExtra("path", path);
-            activity.startActivity(intent);
-        }
+        // if sh not null, add mp3
+        Intent intent = new Intent(context, OpenPdfFile.class);
+        intent.putExtra("path", path);
+        activity.startActivity(intent);
     }
 
     @Override

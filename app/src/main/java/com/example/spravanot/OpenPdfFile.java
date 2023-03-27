@@ -1,11 +1,18 @@
 package com.example.spravanot;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class OpenPdfFile extends AppCompatActivity {
 
@@ -21,15 +28,15 @@ public class OpenPdfFile extends AppCompatActivity {
 
     void getSheetmusicAndSetIntentData(){
         if(getIntent().hasExtra("path")){
-
-            // Get
-
             path = getIntent().getStringExtra("path");
-            Toast.makeText(this, path + " is being shown", Toast.LENGTH_SHORT).show();
-            // Set
-            // example:
-            // title_input.setText(title);
+            pdfView = (PDFView) findViewById(R.id.open_pdf_View);
 
+            Uri uri = Uri.parse(path);
+            pdfView.fromUri(uri)
+                    .enableSwipe(true)
+                    .swipeHorizontal(true)
+                    .enableDoubletap(true)
+                    .load();
         }else{
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
         }

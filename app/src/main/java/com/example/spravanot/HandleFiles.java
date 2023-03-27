@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 
 public class HandleFiles extends AppCompatActivity {
@@ -48,7 +50,7 @@ public class HandleFiles extends AppCompatActivity {
 
             @Override
             public void toggleFavorite(int position, int idSh) {
-                // create setlist "Favorite" if it doesn't exist
+                // not needed here
             }
         };
 
@@ -56,10 +58,10 @@ public class HandleFiles extends AppCompatActivity {
             if (result.getResultCode() == Activity.RESULT_OK) {
                 Intent data = result.getData();
                 Uri uri = data.getData();
-                String address = uri.getPath();
-                if(!addresses.contains(address))addresses.add(address);
+                String address = uri.toString();
 
-                filesAdapter = new HandleFilesAdapter(this, this, addresses, info, sheetmusic);
+                if(!addresses.contains(address))addresses.add(address);
+                filesAdapter = new HandleFilesAdapter(this, this, addresses, info, sheetmusic, modify);
                 recView.setAdapter(filesAdapter);
                 filesAdapter.notifyDataSetChanged();
             }
@@ -70,8 +72,6 @@ public class HandleFiles extends AppCompatActivity {
         sheetmusic = (Sheetmusic) getIntent().getExtras().getSerializable("sheetmusic");
 
      //!!!!!!!!!!!!!
-       // Toast.makeText(this, sheetmusic.getName(), Toast.LENGTH_SHORT).show();
-
 
         type = getIntent().getExtras().getString("type");
         if(type.equals("pdf")){
@@ -116,7 +116,7 @@ public class HandleFiles extends AppCompatActivity {
             }
         });
 
-        filesAdapter = new HandleFilesAdapter(this, this, addresses, info, sheetmusic);
+        filesAdapter = new HandleFilesAdapter(this, this, addresses, info, sheetmusic, modify);
         recView = findViewById(R.id.recyclerViewFiles);
         recView.setLayoutManager(new LinearLayoutManager(this));
         recView.setAdapter(filesAdapter);
