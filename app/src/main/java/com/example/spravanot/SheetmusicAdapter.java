@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -74,9 +75,35 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         holder.sheetmusicLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Sheetmusic clicked = sheetmusic.get(holder.getAdapterPosition());
+                int pdfFiles = 0;
+                int jpgFiles = 0;
+                boolean pdfWasChosen;
+
+                // check what types are stored
+                for (int i = 0; i < clicked.getFiles().size(); i++) {
+                    String path = clicked.getFiles().get(i);
+                    String extension = path.substring(path.lastIndexOf(".") +1);
+                    if(extension.equals("pdf")) pdfFiles++;
+                    else jpgFiles++;
+
+                    if(pdfFiles > 0 && jpgFiles > 0) break;
+                }
+                
+                if(pdfFiles == 0 && jpgFiles == 0){
+                    Toast.makeText(context, R.string.no_available_data, Toast.LENGTH_SHORT).show();
+                }else if(pdfFiles > 0 && jpgFiles == 0){
+                    showPdfs();
+                }else if(pdfFiles == 0 && jpgFiles > 0){
+                    showJpgs();
+                }else{
+                    dialogPdfOrJpg();
+                }
+
+
                 Intent intent = new Intent(context, ShowSheetmusic.class);
-                intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
-                activity.startActivityForResult(intent, 1);
+                intent.putExtra("sheetmusic", clicked);
+                //activity.startActivityForResult(intent, 1);
             }
         });
     }
@@ -84,6 +111,32 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     @Override
     public int getItemCount() {
         return sheetmusic.size();
+    }
+    
+    void dialogPdfOrJpg(){
+        // pick whether open gallery or library
+        String[] choices = new String[] {context.getResources().getString(R.string.pdf), context.getResources().getString(R.string.image_jpg_png)};
+        int[] chosen = {-1};
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.dialog_title_show_jpg_or_pdf);
+        builder.setSingleChoiceItems(choices, chosen[0], (dialog, which) -> {
+            chosen[0] = which;
+            if(which == 0) showPdfs();
+            else if (which == 1) showJpgs();
+
+            dialog.dismiss();
+        });
+        builder.setNegativeButton(context.getResources().getString(R.string.cancel), (dialogInterface, i) -> {});
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    void showPdfs(){
+
+    }
+
+    void showJpgs(){
+
     }
 
     // --------------------------------------------------------------------------------------------

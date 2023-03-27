@@ -37,4 +37,9 @@
     <string name="describe_sheet_filter">Tlačítko pro filtrování</string>
     <string name="describe_remove_button">Tlačítko pro odstranění</string>
     <string name="describe_edit_button">Tlačítko pro upravení</string>
+    <string name="no_available_data">Žádná dostupná data</string>
+    <string name="dialog_title_show_jpg_or_pdf">Vyberte</string>
+    <string name="pdf">PDF</string>
+    <string name="image_jpg_png">Obrázek (JPG/PNG)</string>
+    <string name="cancel">Zrušit</string>
 </resources>

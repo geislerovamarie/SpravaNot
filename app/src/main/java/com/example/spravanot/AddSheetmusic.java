@@ -71,6 +71,14 @@ public class AddSheetmusic extends AppCompatActivity {
         *
         * ...
         * x) put together pdfs and jpgs to files and put it to the db
+        *
+        *
+        * -----------------
+        * FOR DATABASE:
+        * - LOAD FROM DB TO "LOCAL OBJECTS"
+        * - EDIT LOCAL OBJECTS
+        * - DELETE EVERYTHING FROM DB (UPDATE!!!!!)
+        * - STORE LOCAL IN DB
         * */
 
         name_text = findViewById(R.id.add_sheetmusic_name_answer);

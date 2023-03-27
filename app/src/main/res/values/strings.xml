@@ -38,4 +38,9 @@
     <string name="describe_sheet_filter">Filter button</string>
     <string name="describe_remove_button">Remove button</string>
     <string name="describe_edit_button">Edit button</string>
+    <string name="no_available_data">No available data</string>
+    <string name="dialog_title_show_jpg_or_pdf">Choose</string>
+    <string name="pdf">PDF</string>
+    <string name="image_jpg_png">Image (JPG/PNG)</string>
+    <string name="cancel">Cancel</string>
 </resources>
