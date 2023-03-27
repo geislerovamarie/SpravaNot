@@ -5,23 +5,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class ShowSheetmusic extends AppCompatActivity {
+import com.github.barteksc.pdfviewer.PDFView;
 
-    Sheetmusic sheetmusic;
+public class OpenPdfFile extends AppCompatActivity {
+
+    String path;
+    PDFView pdfView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_sheetmusic);
+        setContentView(R.layout.activity_open_pdf);
         getSheetmusicAndSetIntentData();
     }
 
     void getSheetmusicAndSetIntentData(){
-        if(getIntent().hasExtra("sheetmusic")){
+        if(getIntent().hasExtra("path")){
 
             // Get
-            sheetmusic = (Sheetmusic) getIntent().getSerializableExtra("sheetmusic");
-            Toast.makeText(this, sheetmusic.getName() + " is being shown", Toast.LENGTH_SHORT).show();
+
+            path = getIntent().getStringExtra("path");
+            Toast.makeText(this, path + " is being shown", Toast.LENGTH_SHORT).show();
             // Set
             // example:
             // title_input.setText(title);

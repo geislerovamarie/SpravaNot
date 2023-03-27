@@ -100,6 +100,7 @@ public class AddSheetmusic extends AppCompatActivity {
                 // startactivityonresult or bundle -> store result in files, not in database, it would have to be saved first
 
                 Intent intent = new Intent(AddSheetmusic.this, HandleFiles.class);
+                intent.putExtra("modify", true);
                 intent.putExtra("pdfs", pdfs);
                 intent.putExtra("type", "pdf");
                 activityResultLaunch.launch(intent);

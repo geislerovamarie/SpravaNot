@@ -93,16 +93,15 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
                 if(pdfFiles == 0 && jpgFiles == 0){
                     Toast.makeText(context, R.string.no_available_data, Toast.LENGTH_SHORT).show();
                 }else if(pdfFiles > 0 && jpgFiles == 0){
-                    showPdfs();
+                    showPdfs(clicked);
                 }else if(pdfFiles == 0 && jpgFiles > 0){
-                    showJpgs();
+                    showJpgs(clicked);
                 }else{
-                    dialogPdfOrJpg();
+                    dialogPdfOrJpg(clicked);
                 }
 
-
-                Intent intent = new Intent(context, ShowSheetmusic.class);
-                intent.putExtra("sheetmusic", clicked);
+                //Intent intent = new Intent(context, OpenPdfFile.class);
+                //intent.putExtra("path", clicked);
                 //activity.startActivityForResult(intent, 1);
             }
         });
@@ -113,7 +112,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         return sheetmusic.size();
     }
     
-    void dialogPdfOrJpg(){
+    void dialogPdfOrJpg(Sheetmusic s){
         // pick whether open gallery or library
         String[] choices = new String[] {context.getResources().getString(R.string.pdf), context.getResources().getString(R.string.image_jpg_png)};
         int[] chosen = {-1};
@@ -121,8 +120,8 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         builder.setTitle(R.string.dialog_title_show_jpg_or_pdf);
         builder.setSingleChoiceItems(choices, chosen[0], (dialog, which) -> {
             chosen[0] = which;
-            if(which == 0) showPdfs();
-            else if (which == 1) showJpgs();
+            if(which == 0) showPdfs(s);
+            else if (which == 1) showJpgs(s);
 
             dialog.dismiss();
         });
@@ -131,12 +130,35 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         alertDialog.show();
     }
 
-    void showPdfs(){
-
+    void showPdfs(Sheetmusic s){
+        ArrayList<String> pdfs = getFilesFromSheetmusicFiles(s, true);
+        Intent intent = new Intent(context, HandleFiles.class);
+        intent.putExtra("modify", false);
+        intent.putExtra("type", "pdf");
+        intent.putExtra("pdfs", pdfs);
+        activity.startActivityForResult(intent, 5);
     }
 
-    void showJpgs(){
+    void showJpgs(Sheetmusic s){
+        ArrayList<String> jpgs = getFilesFromSheetmusicFiles(s, false);
+        Intent intent = new Intent(context, HandleFiles.class);
+        intent.putExtra("modify", false);
+        intent.putExtra("type", "jpg");
+        intent.putExtra("jpgs", jpgs);
+        activity.startActivityForResult(intent, 6);
+    }
 
+    ArrayList<String> getFilesFromSheetmusicFiles(Sheetmusic s, boolean isPDFType){
+        ArrayList<String> result = new ArrayList<>();
+
+        for (int i = 0; i < s.getFiles().size(); i++) {
+            String path = s.getFiles().get(i);
+            String extension = path.substring(path.lastIndexOf(".") +1);
+
+            if(extension.equals("pdf") && isPDFType) result.add(path);
+            else if(!extension.equals("pdf") && !isPDFType) result.add(path);
+        }
+        return result;
     }
 
     // --------------------------------------------------------------------------------------------

@@ -19,7 +19,7 @@
             android:name=".HandleFiles"
             android:exported="false" />
         <activity
-            android:name=".ShowSheetmusic"
+            android:name=".OpenPdfFile"
             android:exported="false" />
         <activity
             android:name=".AddSheetsToSetlist"

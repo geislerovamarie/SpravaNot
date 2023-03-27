@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setSettings();
     }
 
+
 // MENU ---------------------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

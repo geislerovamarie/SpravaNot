@@ -30,6 +30,7 @@ public class HandleFiles extends AppCompatActivity {
     DatabaseHelper db;
 
     String type;
+    boolean modify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class HandleFiles extends AppCompatActivity {
             }
         });
 
+        modify = getIntent().getExtras().getBoolean("modify");
         type = getIntent().getExtras().getString("type");
         if(type.equals("pdf")){
             addresses = getIntent().getExtras().getStringArrayList("pdfs");
@@ -70,7 +72,10 @@ public class HandleFiles extends AppCompatActivity {
             addresses = getIntent().getExtras().getStringArrayList("jpgs");
         }
 
+        int visibility = modify ? View.VISIBLE : View.GONE;
+
         addButton = findViewById(R.id.add_files_button);
+        addButton.setVisibility(visibility);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +92,7 @@ public class HandleFiles extends AppCompatActivity {
         });
 
         saveButton = findViewById(R.id.save_files_button);
+        saveButton.setVisibility(visibility);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

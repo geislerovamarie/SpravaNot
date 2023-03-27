@@ -3,12 +3,15 @@ package com.example.spravanot;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -58,8 +61,8 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
                 String path = addresses.get(holder.getAdapterPosition());
                 String extension = path.substring(path.lastIndexOf(".") +1);
                 if(extension.equals("pdf")) {
-                    //Intent intent;
                     // show pdf
+                    openPdf(path);
                 }else{
                     Intent intent;
                     // show jpg
@@ -95,6 +98,22 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
                 return ret.get();
             }
         });
+    }
+
+    public void openPdf(String path){
+        File pdfFile = new File(path);//File path
+        if (pdfFile.exists()) //Checking for the file is exist or not
+        {
+
+
+            //Uri uri = Uri.fromFile(pdfFile);
+            Intent intent = new Intent(context, OpenPdfFile.class);
+            //intent.setDataAndType(uri, "application/pdf");
+            //intent.setFlags(Intent. FLAG_ACTIVITY_CLEAR_TOP);
+
+            intent.putExtra("path", path);
+            activity.startActivity(intent);
+        }
     }
 
     @Override
