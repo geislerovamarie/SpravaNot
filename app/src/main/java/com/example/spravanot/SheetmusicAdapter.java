@@ -136,6 +136,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         intent.putExtra("modify", false);
         intent.putExtra("type", "pdf");
         intent.putExtra("pdfs", pdfs);
+        intent.putExtra("sheetmusic", s);
         activity.startActivityForResult(intent, 5);
     }
 

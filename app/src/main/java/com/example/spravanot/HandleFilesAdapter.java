@@ -29,12 +29,14 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
 
     private ArrayList<String> addresses;
     //private ArrayList<String> names;
+    Sheetmusic sh;
 
-    public HandleFilesAdapter(Context context, Activity activity, ArrayList<String> addresses, PassInfoSheetmusic info) {
+    public HandleFilesAdapter(Context context, Activity activity, ArrayList<String> addresses, PassInfoSheetmusic info, Sheetmusic sh) {
         this.context = context;
         this.activity = activity;
         this.addresses = addresses;
         this.info = info;
+        this.sh = sh;   // pri Add bude null
     }
 
     @NonNull

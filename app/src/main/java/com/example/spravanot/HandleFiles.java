@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -58,21 +59,26 @@ public class HandleFiles extends AppCompatActivity {
                 String address = uri.getPath();
                 if(!addresses.contains(address))addresses.add(address);
 
-                filesAdapter = new HandleFilesAdapter(this, this, addresses, info);
+                filesAdapter = new HandleFilesAdapter(this, this, addresses, info, sheetmusic);
                 recView.setAdapter(filesAdapter);
                 filesAdapter.notifyDataSetChanged();
             }
         });
 
         modify = getIntent().getExtras().getBoolean("modify");
+        int visibility = modify ? View.VISIBLE : View.GONE;
+        sheetmusic = (Sheetmusic) getIntent().getExtras().getSerializable("sheetmusic");
+
+     //!!!!!!!!!!!!!
+       // Toast.makeText(this, sheetmusic.getName(), Toast.LENGTH_SHORT).show();
+
+
         type = getIntent().getExtras().getString("type");
         if(type.equals("pdf")){
             addresses = getIntent().getExtras().getStringArrayList("pdfs");
         }else if(type.equals("jpg")){
             addresses = getIntent().getExtras().getStringArrayList("jpgs");
         }
-
-        int visibility = modify ? View.VISIBLE : View.GONE;
 
         addButton = findViewById(R.id.add_files_button);
         addButton.setVisibility(visibility);
@@ -110,7 +116,7 @@ public class HandleFiles extends AppCompatActivity {
             }
         });
 
-        filesAdapter = new HandleFilesAdapter(this, this, addresses, info);
+        filesAdapter = new HandleFilesAdapter(this, this, addresses, info, sheetmusic);
         recView = findViewById(R.id.recyclerViewFiles);
         recView.setLayoutManager(new LinearLayoutManager(this));
         recView.setAdapter(filesAdapter);

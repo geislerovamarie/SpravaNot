@@ -103,6 +103,7 @@ public class AddSheetmusic extends AppCompatActivity {
                 intent.putExtra("modify", true);
                 intent.putExtra("pdfs", pdfs);
                 intent.putExtra("type", "pdf");
+                // cant sent sheetmusic, edit will be able to, but here its null
                 activityResultLaunch.launch(intent);
             }
         });
@@ -115,8 +116,10 @@ public class AddSheetmusic extends AppCompatActivity {
                 // startactivityonresult -> store result in files, not in database, it would have to be saved first
 
                 Intent intent = new Intent(AddSheetmusic.this, HandleFiles.class);
+                intent.putExtra("modify", true);
                 intent.putExtra("jpgs", jpgs);
                 intent.putExtra("type", "jpg");
+                // cant sent sheetmusic, edit will be able to, but here its null
                 activityResultLaunch.launch(intent);
             }
         });
