@@ -30,15 +30,18 @@ public class OpenPdfFile extends AppCompatActivity {
         if(getIntent().hasExtra("path")){
             path = getIntent().getStringExtra("path");
             pdfView = (PDFView) findViewById(R.id.open_pdf_View);
-
             Uri uri = Uri.parse(path);
-            pdfView.fromUri(uri)
-                    .enableSwipe(true)
-                    .swipeHorizontal(true)
-                    .enableDoubletap(true)
-                    .load();
+            openPdf(uri);
         }else{
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    void openPdf(Uri uri){
+        pdfView.fromUri(uri)
+                .enableSwipe(true)
+                .swipeHorizontal(true)
+                .enableDoubletap(true)
+                .load();
     }
 }

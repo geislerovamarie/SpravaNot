@@ -53,6 +53,7 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderFiles holder, int position) {
+        // Get nice readable name and address to display
         String path = String.valueOf(addresses.get(position));
         Uri uri = Uri.parse(path);
         File file = new File(uri.getPath());
@@ -78,7 +79,7 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
             }
 
         });
-        // Delete
+        // Delete on hold
         holder.filesLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -130,6 +131,7 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
             super(itemView);
             files_name_text = itemView.findViewById(R.id.files_row_name);
             files_address_text = itemView.findViewById(R.id.files_row_address);
+            files_icon = itemView.findViewById(R.id.files_row_icon);
             filesLayout = itemView.findViewById(R.id.filesLayout);
         }
     }

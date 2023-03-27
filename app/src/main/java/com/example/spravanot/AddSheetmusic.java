@@ -37,21 +37,19 @@ public class AddSheetmusic extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sheetmusic);
 
+        // Launcher - when child activity returns either with pdfs or jpgs
         activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == 5) {  //pdf
+            if (result.getResultCode() == 5) {      //pdf
                 if(result.getData() != null){
                     pdfs = result.getData().getStringArrayListExtra("pdfs");
-                    // sheetmusicAdapter.notifyDataSetChanged();    // ?
                 }
-
             } else if (result.getResultCode() == 6) {   //jpg
                 if(result.getData() != null){
                     jpgs = result.getData().getStringArrayListExtra("jpgs");
-                    // sheetmusicAdapter.notifyDataSetChanged();    // ?
                 }
             }
 
-            // else tagas or mp3
+            // TODO else tags or mp3
         });
 
         // init - for AddSheetmusic files and tags are empty, for EditSheetmusic it have load from db
@@ -96,9 +94,6 @@ public class AddSheetmusic extends AppCompatActivity {
         edit_pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AddSheetmusic.this, "edit pdf", Toast.LENGTH_SHORT).show();
-                // startactivityonresult or bundle -> store result in files, not in database, it would have to be saved first
-
                 Intent intent = new Intent(AddSheetmusic.this, HandleFiles.class);
                 intent.putExtra("modify", true);
                 intent.putExtra("pdfs", pdfs);
@@ -112,9 +107,6 @@ public class AddSheetmusic extends AppCompatActivity {
         edit_jpg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AddSheetmusic.this, "edit jpg", Toast.LENGTH_SHORT).show();
-                // startactivityonresult -> store result in files, not in database, it would have to be saved first
-
                 Intent intent = new Intent(AddSheetmusic.this, HandleFiles.class);
                 intent.putExtra("modify", true);
                 intent.putExtra("jpgs", jpgs);
@@ -164,7 +156,14 @@ public class AddSheetmusic extends AppCompatActivity {
 
                 // Store input in sheetmusic object and add to database and pass to sheets fragment
                 Sheetmusic s = new Sheetmusic(-1);
-                s.setName(setToNullIfEmpty(name_text.getText().toString().trim()));
+                // make sure name is not null
+                String name = name_text.getText().toString().trim();
+                if(name.length() <= 0){
+                    Toast.makeText(AddSheetmusic.this, R.string.dialog_name_cannot_be_null, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                s.setName(setToNullIfEmpty(name));
                 s.setAuthor(setToNullIfEmpty(author_text.getText().toString().trim()));
                 s.setGenre(setToNullIfEmpty(genre_text.getText().toString().trim()));
                 s.setKey(setToNullIfEmpty(key_text.getText().toString().trim()));
@@ -184,6 +183,7 @@ public class AddSheetmusic extends AppCompatActivity {
         });
     }
 
+    // empty string in SQLite database is not null
     String setToNullIfEmpty(String s){
         if(s.length() > 0) return s;
         return null;

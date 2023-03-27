@@ -48,7 +48,7 @@ public class SheetsFragment extends Fragment {
 
         db = new DatabaseHelper(getContext());
 
-        // connection between this fragment and the adapter
+        // PassInfo - connection between this fragment and the adapter
         info = new PassInfoSheetmusic() {
             @Override
             public void deleteSheetmusic(int position, int idSh) {
@@ -83,7 +83,9 @@ public class SheetsFragment extends Fragment {
                 sheetmusicAdapter.notifyItemChanged(position);
             }
         };
-        // launcher to help when (adding) activity finishes
+
+
+        // Launcher to help when an activity finishes
         activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == 3) {
                 sheetmusicAdapter = prepareAdapter();
@@ -133,8 +135,7 @@ public class SheetsFragment extends Fragment {
         db = new DatabaseHelper(getContext());
         sheetmusics = db.selectAllSheetmusic();
 
-        // HERE I SHOULD BE ABLE TO
-        // sort and filter
+        // TODO modify for various sort and filter
         sortSheetsArrayAlphabetically();
 
         sheetmusicAdapter = new SheetmusicAdapter(getActivity(), getContext(), sheetmusics, info);
@@ -144,7 +145,6 @@ public class SheetsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-      //  binding = null;
     }
 
     public void sortSheetsArrayAlphabetically(){

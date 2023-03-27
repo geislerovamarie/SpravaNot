@@ -26,7 +26,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
 
     private Context context;
     Activity activity;
-    //Animation translate_anim;
 
     private ArrayList<Sheetmusic> sheetmusic;
     private PassInfoSheetmusic info;
@@ -78,7 +77,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
                 Sheetmusic clicked = sheetmusic.get(holder.getAdapterPosition());
                 int pdfFiles = 0;
                 int jpgFiles = 0;
-                boolean pdfWasChosen;
 
                 // check what types are stored
                 for (int i = 0; i < clicked.getFiles().size(); i++) {
@@ -99,10 +97,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
                 }else{
                     dialogPdfOrJpg(clicked);
                 }
-
-                //Intent intent = new Intent(context, OpenPdfFile.class);
-                //intent.putExtra("path", clicked);
-                //activity.startActivityForResult(intent, 1);
             }
         });
     }
@@ -113,7 +107,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     }
     
     void dialogPdfOrJpg(Sheetmusic s){
-        // pick whether open gallery or library
         String[] choices = new String[] {context.getResources().getString(R.string.pdf), context.getResources().getString(R.string.image_jpg_png)};
         int[] chosen = {-1};
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -122,7 +115,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
             chosen[0] = which;
             if(which == 0) showPdfs(s);
             else if (which == 1) showJpgs(s);
-
             dialog.dismiss();
         });
         builder.setNegativeButton(context.getResources().getString(R.string.cancel), (dialogInterface, i) -> {});
@@ -162,9 +154,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         return result;
     }
 
-    // --------------------------------------------------------------------------------------------
-
-    // menu ----------------------------
+    // pop up menu ----------------------------
     public void openMenu(View view, ViewHolderSheetmusic holder){
         PopupMenu popupMenu = new PopupMenu(context, view);
         // set up the listener
@@ -178,7 +168,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
                         activity.startActivityForResult(intent, 1);
                         return true;
                     case R.id.sheetmusic_delete_option:
-                        // ask wheter really delete
+                        // delete dialog
                         AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
                         dBuilder.setMessage(R.string.dialog_delete_item);
                         dBuilder.setTitle(R.string.dialog_title_delete_item);
@@ -196,7 +186,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
                         // show the dialog
                         AlertDialog dialog = dBuilder.create();
                         dialog.show();
-
                         return true;
                     default:
                         return false;
@@ -226,10 +215,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
             sheetmusic_edit_button = itemView.findViewById(R.id.sheetmusic_edit_button);
             sheetmusic_favorite_button = itemView.findViewById(R.id.sheetmusic_favorite_chip);
             sheetmusicLayout = itemView.findViewById(R.id.sheetmusicLayout);
-
-            // animation todo?
-            //translate_anim = AnimationUtils.loadAnimation(context, R.anim.translate_anim);
-            //sheetmusicLayout.setAnimation(translate_anim);
         }
     }
 }

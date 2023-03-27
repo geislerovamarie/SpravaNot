@@ -41,6 +41,7 @@ public class HandleFiles extends AppCompatActivity {
         db = new DatabaseHelper(this);
         setContentView(R.layout.activity_handle_files);
 
+        // PassInfo - child activiry adapter tells this activity, which files should be removed
         info = new PassInfoSheetmusic() {
             @Override
             public void deleteSheetmusic(int position, int idSh) {
@@ -49,11 +50,10 @@ public class HandleFiles extends AppCompatActivity {
             }
 
             @Override
-            public void toggleFavorite(int position, int idSh) {
-                // not needed here
-            }
+            public void toggleFavorite(int position, int idSh) {}   // not needed here
         };
 
+        // Launcher for child activities
         activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == Activity.RESULT_OK) {
                 Intent data = result.getData();
@@ -67,12 +67,12 @@ public class HandleFiles extends AppCompatActivity {
             }
         });
 
+        // set arguments from parent activity
         modify = getIntent().getExtras().getBoolean("modify");
         int visibility = modify ? View.VISIBLE : View.GONE;
+
+        // TODO - sheetmusic can be null, well everything can, so
         sheetmusic = (Sheetmusic) getIntent().getExtras().getSerializable("sheetmusic");
-
-     //!!!!!!!!!!!!!
-
         type = getIntent().getExtras().getString("type");
         if(type.equals("pdf")){
             addresses = getIntent().getExtras().getStringArrayList("pdfs");
@@ -85,7 +85,7 @@ public class HandleFiles extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 if(type.equals("pdf")){
                     intent.setType("application/pdf");
                 }else if(type.equals("jpg")){
