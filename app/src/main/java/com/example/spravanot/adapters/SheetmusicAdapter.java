@@ -1,4 +1,4 @@
-package com.example.spravanot;
+package com.example.spravanot.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.spravanot.interfaces.PassInfoSheetmusic;
+import com.example.spravanot.R;
+import com.example.spravanot.models.Sheetmusic;
+import com.example.spravanot.activities.EditSheetmusicActivity;
+import com.example.spravanot.activities.HandleFilesActivity;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
@@ -48,55 +53,42 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolderSheetmusic holder, int position) {
         String sh_name = String.valueOf(sheetmusic.get(position).getName());
-        String sh_author = String.valueOf(sheetmusic.get(position).getAuthor()) == "null" ? context.getResources().getString(R.string.text_unknown) : String.valueOf(sheetmusic.get(position).getAuthor());
+        String sh_author = String.valueOf(sheetmusic.get(position).getAuthor()).equals("null") ? context.getResources().getString(R.string.text_unknown) : String.valueOf(sheetmusic.get(position).getAuthor());
 
         // Set text
         holder.sheetmusic_name_text.setText(sh_name);
         holder.sheetmusic_author_text.setText(sh_author);
 
         // Edit button - show menu with options "edit" and "delete"
-        holder.sheetmusic_edit_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openMenu(view, holder);
-            }
-        });
+        holder.sheetmusic_edit_button.setOnClickListener(view -> openMenu(view, holder));
 
         // Add to favorites button
-        holder.sheetmusic_favorite_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                info.toggleFavorite(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId());
-            }
-        });
+        holder.sheetmusic_favorite_button.setOnClickListener(view -> info.toggleFavorite(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId()));
 
         // Click and show sheetmusic
-        holder.sheetmusicLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Sheetmusic clicked = sheetmusic.get(holder.getAdapterPosition());
-                int pdfFiles = 0;
-                int jpgFiles = 0;
+        holder.sheetmusicLayout.setOnClickListener(view -> {
+            Sheetmusic clicked = sheetmusic.get(holder.getAdapterPosition());
+            int pdfFiles = 0;
+            int jpgFiles = 0;
 
-                // check what types are stored
-                for (int i = 0; i < clicked.getFiles().size(); i++) {
-                    String path = clicked.getFiles().get(i);
-                    String extension = path.substring(path.lastIndexOf(".") +1);
-                    if(extension.equals("pdf")) pdfFiles++;
-                    else jpgFiles++;
+            // check what types are stored
+            for (int i = 0; i < clicked.getFiles().size(); i++) {
+                String path = clicked.getFiles().get(i);
+                String extension = path.substring(path.lastIndexOf(".") +1);
+                if(extension.equals("pdf")) pdfFiles++;
+                else jpgFiles++;
 
-                    if(pdfFiles > 0 && jpgFiles > 0) break;
-                }
-                
-                if(pdfFiles == 0 && jpgFiles == 0){
-                    Toast.makeText(context, R.string.no_available_data, Toast.LENGTH_SHORT).show();
-                }else if(pdfFiles > 0 && jpgFiles == 0){
-                    showPdfs(clicked);
-                }else if(pdfFiles == 0 && jpgFiles > 0){
-                    showJpgs(clicked);
-                }else{
-                    dialogPdfOrJpg(clicked);
-                }
+                if(pdfFiles > 0 && jpgFiles > 0) break;
+            }
+
+            if(pdfFiles == 0 && jpgFiles == 0){
+                Toast.makeText(context, R.string.no_available_data, Toast.LENGTH_SHORT).show();
+            }else if(pdfFiles > 0 && jpgFiles == 0){
+                showPdfs(clicked);
+            }else if(pdfFiles == 0 && jpgFiles > 0){
+                showJpgs(clicked);
+            }else{
+                dialogPdfOrJpg(clicked);
             }
         });
     }
@@ -124,7 +116,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
 
     void showPdfs(Sheetmusic s){
         ArrayList<String> pdfs = getFilesFromSheetmusicFiles(s, true);
-        Intent intent = new Intent(context, HandleFiles.class);
+        Intent intent = new Intent(context, HandleFilesActivity.class);
         intent.putExtra("modify", false);
         intent.putExtra("type", "pdf");
         intent.putExtra("pdfs", pdfs);
@@ -134,7 +126,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
 
     void showJpgs(Sheetmusic s){
         ArrayList<String> jpgs = getFilesFromSheetmusicFiles(s, false);
-        Intent intent = new Intent(context, HandleFiles.class);
+        Intent intent = new Intent(context, HandleFilesActivity.class);
         intent.putExtra("modify", false);
         intent.putExtra("type", "jpg");
         intent.putExtra("jpgs", jpgs);
@@ -158,38 +150,31 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     public void openMenu(View view, ViewHolderSheetmusic holder){
         PopupMenu popupMenu = new PopupMenu(context, view);
         // set up the listener
-        PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.sheetmusic_edit_option:
-                        Intent intent = new Intent(context, EditSheetmusic.class);
-                        intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
-                        activity.startActivityForResult(intent, 1);
-                        return true;
-                    case R.id.sheetmusic_delete_option:
-                        // delete dialog
-                        AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
-                        dBuilder.setMessage(R.string.dialog_delete_item);
-                        dBuilder.setTitle(R.string.dialog_title_delete_item);
+        PopupMenu.OnMenuItemClickListener listener = menuItem -> {
+            switch (menuItem.getItemId()){
+                case R.id.sheetmusic_edit_option:
+                    Intent intent = new Intent(context, EditSheetmusicActivity.class);
+                    intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
+                    activity.startActivityForResult(intent, 1);
+                    return true;
+                case R.id.sheetmusic_delete_option:
+                    // delete dialog
+                    AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
+                    dBuilder.setMessage(R.string.dialog_delete_item);
+                    dBuilder.setTitle(R.string.dialog_title_delete_item);
 
-                        // delete item
-                        dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
-                            info.deleteSheetmusic(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId());
-                        });
+                    // delete item
+                    dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> info.deleteSheetmusic(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId()));
 
-                        // cancel
-                        dBuilder.setNegativeButton(R.string.no, (dialogInterface, i) -> {
-                            dialogInterface.cancel();
-                        });
+                    // cancel
+                    dBuilder.setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.cancel());
 
-                        // show the dialog
-                        AlertDialog dialog = dBuilder.create();
-                        dialog.show();
-                        return true;
-                    default:
-                        return false;
-                }
+                    // show the dialog
+                    AlertDialog dialog = dBuilder.create();
+                    dialog.show();
+                    return true;
+                default:
+                    return false;
             }
         };
         // prepare and show the menu

@@ -1,4 +1,4 @@
-package com.example.spravanot;
+package com.example.spravanot.activities;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -12,11 +12,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.spravanot.utils.DatabaseHelper;
+import com.example.spravanot.R;
+import com.example.spravanot.models.Sheetmusic;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class AddSheetmusic extends AppCompatActivity {
+public class AddSheetmusicActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> activityResultLaunch;
     EditText name_text, author_text, genre_text, key_text, instrument_text, notes_text;
@@ -91,95 +94,77 @@ public class AddSheetmusic extends AppCompatActivity {
         tags_text = findViewById(R.id.add_sheetmusic_tags_answer);
 
         edit_pdf = findViewById(R.id.add_sheetmusic_edit_pdf_button);
-        edit_pdf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AddSheetmusic.this, HandleFiles.class);
-                intent.putExtra("modify", true);
-                intent.putExtra("pdfs", pdfs);
-                intent.putExtra("type", "pdf");
-                // cant sent sheetmusic, edit will be able to, but here its null
-                activityResultLaunch.launch(intent);
-            }
+        edit_pdf.setOnClickListener(view -> {
+            Intent intent = new Intent(AddSheetmusicActivity.this, HandleFilesActivity.class);
+            intent.putExtra("modify", true);
+            intent.putExtra("pdfs", pdfs);
+            intent.putExtra("type", "pdf");
+            // cant sent sheetmusic, edit will be able to, but here its null
+            activityResultLaunch.launch(intent);
         });
 
         edit_jpg = findViewById(R.id.add_sheetmusic_edit_jpg_button);
-        edit_jpg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AddSheetmusic.this, HandleFiles.class);
-                intent.putExtra("modify", true);
-                intent.putExtra("jpgs", jpgs);
-                intent.putExtra("type", "jpg");
-                // cant sent sheetmusic, edit will be able to, but here its null
-                activityResultLaunch.launch(intent);
-            }
+        edit_jpg.setOnClickListener(view -> {
+            Intent intent = new Intent(AddSheetmusicActivity.this, HandleFilesActivity.class);
+            intent.putExtra("modify", true);
+            intent.putExtra("jpgs", jpgs);
+            intent.putExtra("type", "jpg");
+            // cant sent sheetmusic, edit will be able to, but here its null
+            activityResultLaunch.launch(intent);
         });
 
         edit_mp3 = findViewById(R.id.add_sheetmusic_edit_mp3_button);
-        edit_mp3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(AddSheetmusic.this, "edit mp3", Toast.LENGTH_SHORT).show();
-                // startactivityonresult -> store result in mp3
-            }
+        edit_mp3.setOnClickListener(view -> {
+            Toast.makeText(AddSheetmusicActivity.this, "edit mp3", Toast.LENGTH_SHORT).show();
+            // startactivityonresult -> store result in mp3
         });
 
         add_tag = findViewById(R.id.add_sheetmusic_add_tags_button);
-        add_tag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(AddSheetmusic.this, "add tag", Toast.LENGTH_SHORT).show();
-                // startactivityonresult -> store result in tags, not in database, it would have to be saved first
-            }
+        add_tag.setOnClickListener(view -> {
+            Toast.makeText(AddSheetmusicActivity.this, "add tag", Toast.LENGTH_SHORT).show();
+            // startactivityonresult -> store result in tags, not in database, it would have to be saved first
         });
 
         remove_tag = findViewById(R.id.add_sheetmusic_remove_tags_button);
-        remove_tag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(AddSheetmusic.this, "remove tag", Toast.LENGTH_SHORT).show();
-                // startactivityonresult -> store result in tags, not in database, it would have to be saved first
-            }
+        remove_tag.setOnClickListener(view -> {
+            Toast.makeText(AddSheetmusicActivity.this, "remove tag", Toast.LENGTH_SHORT).show();
+            // startactivityonresult -> store result in tags, not in database, it would have to be saved first
         });
 
         save = findViewById(R.id.add_sheetmusic_add_button);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // ALSO WILL BE DIFFERENT IN EDIT - for example id will be known
-                // combine jpgs and pdfs into files
-                pdfs.addAll(jpgs);
-                files = pdfs;
+        save.setOnClickListener(view -> {
+            // ALSO WILL BE DIFFERENT IN EDIT - for example id will be known
+            // combine jpgs and pdfs into files
+            pdfs.addAll(jpgs);
+            files = pdfs;
 
-                DatabaseHelper db = new DatabaseHelper(AddSheetmusic.this);
+            DatabaseHelper db = new DatabaseHelper(AddSheetmusicActivity.this);
 
-                // Store input in sheetmusic object and add to database and pass to sheets fragment
-                Sheetmusic s = new Sheetmusic(-1);
-                // make sure name is not null
-                String name = name_text.getText().toString().trim();
-                if(name.length() <= 0){
-                    Toast.makeText(AddSheetmusic.this, R.string.dialog_name_cannot_be_null, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                s.setName(setToNullIfEmpty(name));
-                s.setAuthor(setToNullIfEmpty(author_text.getText().toString().trim()));
-                s.setGenre(setToNullIfEmpty(genre_text.getText().toString().trim()));
-                s.setKey(setToNullIfEmpty(key_text.getText().toString().trim()));
-                s.setInstument(setToNullIfEmpty(instrument_text.getText().toString().trim()));
-                s.setNotes(setToNullIfEmpty(notes_text.getText().toString().trim()));
-                s.setFiles(files);
-                s.setTags(tags);
-
-                int id = db.addSheetmusic(s);
-                s.setId(id);
-
-                //end
-                Intent intent = new Intent();
-                setResult(3, intent);
-                finish();
+            // Store input in sheetmusic object and add to database and pass to sheets fragment
+            Sheetmusic s = new Sheetmusic(-1);
+            // make sure name is not null
+            String name = name_text.getText().toString().trim();
+            if(name.length() <= 0){
+                Toast.makeText(AddSheetmusicActivity.this, R.string.dialog_name_cannot_be_null, Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            s.setName(setToNullIfEmpty(name));
+            s.setAuthor(setToNullIfEmpty(author_text.getText().toString().trim()));
+            s.setGenre(setToNullIfEmpty(genre_text.getText().toString().trim()));
+            s.setKey(setToNullIfEmpty(key_text.getText().toString().trim()));
+            s.setInstument(setToNullIfEmpty(instrument_text.getText().toString().trim()));
+            s.setNotes(setToNullIfEmpty(notes_text.getText().toString().trim()));
+            s.setFiles(files);
+            s.setTags(tags);
+
+            int id = db.addSheetmusic(s);
+            s.setId(id);
+
+            //end
+            Intent intent = new Intent();
+            setResult(3, intent);
+            finish();
         });
     }
 

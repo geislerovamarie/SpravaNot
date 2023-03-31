@@ -1,11 +1,14 @@
-package com.example.spravanot;
+package com.example.spravanot.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class EditSheetmusic extends AppCompatActivity {
+import com.example.spravanot.R;
+import com.example.spravanot.models.Sheetmusic;
+
+public class EditSheetmusicActivity extends AppCompatActivity {
 
     Sheetmusic sheetmusic;
 

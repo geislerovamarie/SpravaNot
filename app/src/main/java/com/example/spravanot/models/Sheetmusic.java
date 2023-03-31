@@ -1,4 +1,4 @@
-package com.example.spravanot;
+package com.example.spravanot.models;
 
 
 import java.io.Serializable;

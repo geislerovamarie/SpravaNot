@@ -1,4 +1,4 @@
-package com.example.spravanot.ui.sheets;
+package com.example.spravanot.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -18,17 +16,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.spravanot.AddSheetmusic;
-import com.example.spravanot.DatabaseHelper;
-import com.example.spravanot.PassInfoSheetmusic;
 import com.example.spravanot.R;
-import com.example.spravanot.Setlist;
-import com.example.spravanot.Sheetmusic;
-import com.example.spravanot.SheetmusicAdapter;
+import com.example.spravanot.activities.AddSheetmusicActivity;
+import com.example.spravanot.adapters.SheetmusicAdapter;
+import com.example.spravanot.interfaces.PassInfoSheetmusic;
+import com.example.spravanot.models.Setlist;
+import com.example.spravanot.models.Sheetmusic;
+import com.example.spravanot.utils.DatabaseHelper;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 
 public class SheetsFragment extends Fragment {
@@ -111,21 +107,15 @@ public class SheetsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         add_sheetmusic_button = getView().findViewById(R.id.buttonSheetsAdd);
-        add_sheetmusic_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AddSheetmusic.class);
-                activityResultLaunch.launch(intent);
-            }
+        add_sheetmusic_button.setOnClickListener(view12 -> {
+            Intent intent = new Intent(getActivity(), AddSheetmusicActivity.class);
+            activityResultLaunch.launch(intent);
         });
 
         filter_button = getView().findViewById(R.id.buttonSheetsFilter);
-        filter_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Filterrr", Toast.LENGTH_SHORT).show();
-                // todo filter
-            }
+        filter_button.setOnClickListener(view1 -> {
+            Toast.makeText(getContext(), "Filterrr", Toast.LENGTH_SHORT).show();
+            // todo filter
         });
     }
 
@@ -147,10 +137,6 @@ public class SheetsFragment extends Fragment {
     }
 
     public void sortSheetsArrayAlphabetically(){
-        Collections.sort(sheetmusics, new Comparator<Sheetmusic>(){
-            public int compare(Sheetmusic s1, Sheetmusic s2){
-                return s1.getName().compareToIgnoreCase(s2.getName());
-            }
-        });
+        sheetmusics.sort((s1, s2) -> s1.getName().compareToIgnoreCase(s2.getName()));
     }
 }

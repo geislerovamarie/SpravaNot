@@ -1,16 +1,16 @@
-package com.example.spravanot;
+package com.example.spravanot.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.Toast;
 
+import com.example.spravanot.utils.DatabaseHelper;
+import com.example.spravanot.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -24,8 +24,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
 
 import com.example.spravanot.databinding.ActivityMainBinding;
-
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         setSettings();
 
         // set setlist "Favourite"
-
     }
 
     @Override

@@ -1,10 +1,12 @@
-package com.example.spravanot;
+package com.example.spravanot.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class SetlistDetail extends AppCompatActivity {
+import com.example.spravanot.R;
+
+public class SetlistDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

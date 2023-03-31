@@ -1,4 +1,4 @@
-package com.example.spravanot;
+package com.example.spravanot.utils;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -10,7 +10,10 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import java.lang.reflect.Array;
+import com.example.spravanot.R;
+import com.example.spravanot.models.Setlist;
+import com.example.spravanot.models.Sheetmusic;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -72,11 +75,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_SHEETMUSIC_SETLIST);
         db.execSQL(CREATE_TABLE_SHEETMUSIC_TAG);
         db.execSQL(CREATE_TABLE_SETLIST_TAG);
-
-        // HERE IT IS TOO SOON !! add emtpy "Favorite" setlist, but later
-        //Setlist favorite = new Setlist(-1);
-        //favorite.setName(context.getString(R.string.text_home_favorite));
-        //addSetlist(favorite);
     }
 
     @Override
@@ -108,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int idSheetmusic = (int) db.insert(TABLE_SHEETMUSIC, null, cvSh);
         if(idSheetmusic == -1) return -1;
 
-        s.setId((int) idSheetmusic);
+        s.setId(idSheetmusic);
 
         // files + sheetmusic_files table
         addFilesToSheetmusic(s);
@@ -160,7 +158,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         // protect favorite
-        if(doesFavoriteExist() && s.getName() == "Favorite") return;
+        if(doesFavoriteExist() && Objects.equals(s.getName(), "Favorite")) return;
 
         // setlist table
         ContentValues cvS = new ContentValues();
@@ -216,7 +214,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cvSh.put(COL_INSTRUMENT, s.getInstument());
         cvSh.put(COL_MP3, s.getMp3());
         cvSh.put(COL_NOTES, s.getNotes());
-        long shResult = db.update(TABLE_SHEETMUSIC, cvSh, COL_ID + " = ?", new String[]{String.valueOf(s.getId())});
+        db.update(TABLE_SHEETMUSIC, cvSh, COL_ID + " = ?", new String[]{String.valueOf(s.getId())});
 
         // Files
         updateFilesinSheetmusic(s);
@@ -226,13 +224,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     void updateFilesinSheetmusic(Sheetmusic s){
-        SQLiteDatabase db = this.getWritableDatabase();
         deleteAllFilesFromSheetmusic(s.getId());
         addFilesToSheetmusic(s);
     }
 
     void updateTagsinSheetmusic(Sheetmusic s){
-        SQLiteDatabase db = this.getWritableDatabase();
         deleteAllTagsFromSheetmusic(s.getId());
         addTagsToSheetmusic(s);
     }
@@ -253,7 +249,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues cvS = new ContentValues();
         cvS.put(COL_NAME, s.getName());
         cvS.put(COL_NOTES, s.getNotes());
-        long seResult = db.update(TABLE_SETLIST, cvS, COL_ID + " = ?", new String[]{String.valueOf(s.getId())});
+        db.update(TABLE_SETLIST, cvS, COL_ID + " = ?", new String[]{String.valueOf(s.getId())});
 
         // Tags
         updateTagsinSetlist(s);
@@ -263,13 +259,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     void updateTagsinSetlist(Setlist s){
-        SQLiteDatabase db = this.getWritableDatabase();
         deleteAllTagsFromSetlist(s.getId());
         addTagsToSetlist(s);
     }
 
     void updateSheetmusicinSetlist(Setlist s){
-        SQLiteDatabase db = this.getWritableDatabase();
         deleteAllSheetmusicFromSetlist(s.getId());
         addToSetlist(s.getId(), s.getSheetmusic());
     }
@@ -288,6 +282,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Sheetmusic s = selectOneSheetmusic(id);
             sheetmusic.add(s);
         }
+        cSh.close();
         return sheetmusic;
     }
 
@@ -320,8 +315,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String qFiles = "SELECT * FROM " + TABLE_FILE + " WHERE " + COL_ID + " = " + file_id + ";";
                 Cursor cF = db.rawQuery(qFiles, null);
                 if(cF.moveToNext()) files.add(cF.getString(cF.getColumnIndex(COL_ADDRESS)));
+                cF.close();
             }
             s.setFiles(files);
+            cShF.close();
 
             // tags
             String qSheetmusicTags = "SELECT * FROM " + TABLE_SHEETMUSIC_TAG + " WHERE " + COL_ID_SHEETMUSIC + " = " + id + ";";
@@ -333,7 +330,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 tags.add(t);
             }
             s.setTags(tags);
+            cT.close();
         }
+        cSh.close();
         return s;
     }
 
@@ -359,6 +358,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 tags.add(t);
             }
             s.setTags(tags);
+            cT.close();
 
             // sheetmusic
             String qSheetmusicSetlist = "SELECT * FROM " + TABLE_SHEETMUSIC_SETLIST + " WHERE " + COL_ID_SETLIST + " = " + id + ";";
@@ -371,7 +371,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 sheetmusic.add(sh);
             }
             s.setSheetmusic(sheetmusic);
+            cSS.close();
         }
+        cSe.close();
         return s;
     }
 
@@ -385,11 +387,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         while(cShF.moveToNext()){
             int fID = cShF.getInt(cShF.getColumnIndex(COL_ID_FILE));
-            String qF = "SELECT * FROM " + TABLE_FILE + " WHERE " + COL_ID + " = " + id + ";";
+            String qF = "SELECT * FROM " + TABLE_FILE + " WHERE " + COL_ID + " = " + fID + ";";
             Cursor cF = db.rawQuery(qF, null);
 
             while(cF.moveToNext()) files.add(cF.getString(cF.getColumnIndex(COL_ADDRESS)));
+            cF.close();
         }
+        cShF.close();
         return files;
     }
 
@@ -404,6 +408,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Setlist s = selectOneSetlist(id);
             setlist.add(s);
         }
+        cSe.close();
         return setlist;
     }
 
@@ -416,6 +421,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(q, strings);
 
         while(c.moveToNext()) return c.getInt(c.getColumnIndex(COL_ID));
+        c.close();
         return -1;
     }
 /*
@@ -493,8 +499,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String [] strings = new String[] {fave};
         Cursor c = db.rawQuery(qF, strings);
 
-        if(c.getCount() <= 0) return false;
-        return true;
+        return c.getCount() > 0;
     }
 
     @SuppressLint("Range")
@@ -511,6 +516,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             id = c.getInt(c.getColumnIndex(COL_ID));
             return id;
         }
+        c.close();
         return id;
     }
 
@@ -520,9 +526,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String q = "SELECT * FROM " + TABLE_SHEETMUSIC_SETLIST + " WHERE " + COL_ID_SHEETMUSIC + " = " + sheetId + " AND " + COL_ID_SETLIST + " = " + setlistId + ";";
         Cursor c = db.rawQuery(q, null);
 
-        if(c.getCount() <= 0) return false;
-        return true;
+        return c.getCount() > 0;
     }
-
-
 }

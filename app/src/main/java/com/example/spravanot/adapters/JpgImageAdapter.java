@@ -1,23 +1,17 @@
-package com.example.spravanot;
+package com.example.spravanot.adapters;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
 import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.example.spravanot.R;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -41,14 +35,14 @@ public class JpgImageAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view == ((LinearLayout) object);
+        return view == object;
     }
 
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         View itemView = layoutInflater.inflate(R.layout.imageview_open_jpg, container, false);
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.open_jpg_imageview);
+        ImageView imageView = itemView.findViewById(R.id.open_jpg_imageview);
 
         String path = addresses.get(position);
         Uri uri = Uri.parse(path);

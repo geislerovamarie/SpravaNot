@@ -1,10 +1,12 @@
-package com.example.spravanot;
+package com.example.spravanot.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class AddSheetsToSetlist extends AppCompatActivity {
+import com.example.spravanot.R;
+
+public class AddSheetsToSetlistActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

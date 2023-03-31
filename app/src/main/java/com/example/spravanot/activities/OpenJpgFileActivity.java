@@ -1,13 +1,16 @@
-package com.example.spravanot;
+package com.example.spravanot.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 
+import com.example.spravanot.adapters.JpgImageAdapter;
+import com.example.spravanot.R;
+
 import java.util.ArrayList;
 
-public class OpenJpgFile extends AppCompatActivity {
+public class OpenJpgFileActivity extends AppCompatActivity {
 
     ViewPager viewPager;
 

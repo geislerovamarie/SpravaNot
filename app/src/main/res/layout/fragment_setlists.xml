@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.setlists.SetlistsFragment"
+    tools:context=".fragments.SetlistsFragment"
     android:layout_marginBottom="56dp">
 
     <TextView

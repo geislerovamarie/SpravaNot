@@ -1,4 +1,4 @@
-package com.example.spravanot;
+package com.example.spravanot.activities;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -11,15 +11,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
+import com.example.spravanot.utils.DatabaseHelper;
+import com.example.spravanot.adapters.HandleFilesAdapter;
+import com.example.spravanot.interfaces.PassInfoSheetmusic;
+import com.example.spravanot.R;
+import com.example.spravanot.models.Sheetmusic;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 
-public class HandleFiles extends AppCompatActivity {
+public class HandleFilesActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> activityResultLaunch;
     PassInfoSheetmusic info;
@@ -82,37 +84,31 @@ public class HandleFiles extends AppCompatActivity {
 
         addButton = findViewById(R.id.add_files_button);
         addButton.setVisibility(visibility);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                if(type.equals("pdf")){
-                    intent.setType("application/pdf");
-                }else if(type.equals("jpg")){
-                    String[] mimeTypes = {"image/jpeg", "image/png"};
-                    intent.setType("image/*");
-                    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-                }
-                activityResultLaunch.launch(intent);
+        addButton.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            if(type.equals("pdf")){
+                intent.setType("application/pdf");
+            }else if(type.equals("jpg")){
+                String[] mimeTypes = {"image/jpeg", "image/png"};
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
             }
+            activityResultLaunch.launch(intent);
         });
 
         saveButton = findViewById(R.id.save_files_button);
         saveButton.setVisibility(visibility);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(type.equals("pdf")){
-                    Intent intent = new Intent();
-                    intent.putExtra("pdfs", addresses);
-                    setResult(5, intent);
-                    finish();
-                }else if(type.equals("jpg")){
-                    Intent intent = new Intent();
-                    intent.putExtra("jpgs", addresses);
-                    setResult(6, intent);
-                    finish();
-                }
+        saveButton.setOnClickListener(view -> {
+            if(type.equals("pdf")){
+                Intent intent = new Intent();
+                intent.putExtra("pdfs", addresses);
+                setResult(5, intent);
+                finish();
+            }else if(type.equals("jpg")){
+                Intent intent = new Intent();
+                intent.putExtra("jpgs", addresses);
+                setResult(6, intent);
+                finish();
             }
         });
 

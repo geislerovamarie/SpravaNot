@@ -1,20 +1,15 @@
-package com.example.spravanot;
+package com.example.spravanot.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.spravanot.R;
 import com.github.barteksc.pdfviewer.PDFView;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-public class OpenPdfFile extends AppCompatActivity {
+public class OpenPdfFileActivity extends AppCompatActivity {
 
     String path;
     PDFView pdfView;
@@ -29,7 +24,7 @@ public class OpenPdfFile extends AppCompatActivity {
     void getSheetmusicAndSetIntentData(){
         if(getIntent().hasExtra("path")){
             path = getIntent().getStringExtra("path");
-            pdfView = (PDFView) findViewById(R.id.open_pdf_View);
+            pdfView = findViewById(R.id.open_pdf_View);
             Uri uri = Uri.parse(path);
             openPdf(uri);
         }else{
