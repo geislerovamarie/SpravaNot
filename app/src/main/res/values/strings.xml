@@ -44,4 +44,6 @@
     <string name="image_jpg_png">Image (JPG/PNG)</string>
     <string name="cancel">Cancel</string>
     <string name="dialog_name_cannot_be_null">Name can\'t be left empty</string>
+    <string name="describe_image">Image</string>
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

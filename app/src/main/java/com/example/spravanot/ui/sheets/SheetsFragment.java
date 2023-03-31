@@ -130,7 +130,6 @@ public class SheetsFragment extends Fragment {
     }
 
 
-
     SheetmusicAdapter prepareAdapter(){
         db = new DatabaseHelper(getContext());
         sheetmusics = db.selectAllSheetmusic();

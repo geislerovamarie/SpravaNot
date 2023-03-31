@@ -43,4 +43,5 @@
     <string name="image_jpg_png">Obrázek (JPG/PNG)</string>
     <string name="cancel">Zrušit</string>
     <string name="dialog_name_cannot_be_null">Název nesmí být prázdný</string>
+    <string name="describe_image">Obrázek</string>
 </resources>

@@ -40,7 +40,11 @@ public class OpenPdfFile extends AppCompatActivity {
     void openPdf(Uri uri){
         pdfView.fromUri(uri)
                 .enableSwipe(true)
+            //    .pageSnap(true)
+                .pageFling(true)
+                .autoSpacing(true)
                 .swipeHorizontal(true)
+                .enableAnnotationRendering(true)
                 .enableDoubletap(true)
                 .load();
     }

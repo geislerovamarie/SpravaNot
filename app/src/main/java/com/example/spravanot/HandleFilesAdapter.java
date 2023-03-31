@@ -31,7 +31,6 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
     boolean modify;
 
     private ArrayList<String> addresses;
-    //private ArrayList<String> names;
     Sheetmusic sh;
 
     public HandleFilesAdapter(Context context, Activity activity, ArrayList<String> addresses, PassInfoSheetmusic info, Sheetmusic sh, boolean modify) {
@@ -74,7 +73,7 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
                 if(extension.equals("pdf")) {
                     openPdf(path);
                 }else{
-                    // show jpg
+                    openJpg(holder.getAdapterPosition());
                 }
             }
 
@@ -113,6 +112,14 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
         // if sh not null, add mp3
         Intent intent = new Intent(context, OpenPdfFile.class);
         intent.putExtra("path", path);
+        activity.startActivity(intent);
+    }
+
+    public void openJpg(int position){
+        // if sh not null, add mp3
+        Intent intent = new Intent(context, OpenJpgFile.class);
+        intent.putExtra("addresses", addresses);
+        intent.putExtra("position", position);
         activity.startActivity(intent);
     }
 
