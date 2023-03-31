@@ -4,9 +4,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+import android.provider.OpenableColumns;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,11 +20,13 @@ import com.example.spravanot.R;
 import com.example.spravanot.models.Sheetmusic;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class AddSheetmusicActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> activityResultLaunch;
+    ActivityResultLauncher<Intent> activityMp3ResultLaunch;
     EditText name_text, author_text, genre_text, key_text, instrument_text, notes_text;
     TextView jpg_text, pdf_text, mp3_text, tags_text;
     ImageButton edit_pdf, edit_jpg, edit_mp3;
@@ -33,7 +38,7 @@ public class AddSheetmusicActivity extends AppCompatActivity {
 
     ArrayList<String> pdfs;
     ArrayList<String> jpgs; // and actually also pngs
-    String mp3;
+    String mp3_address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +56,22 @@ public class AddSheetmusicActivity extends AppCompatActivity {
                     jpgs = result.getData().getStringArrayListExtra("jpgs");
                 }
             }
+        });
 
-            // TODO else tags or mp3
+        // Launcher for mp3
+        activityMp3ResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {      //pdf
+                Intent data = result.getData();
+                Uri uri = data.getData();
+                String address = uri.toString();
+                mp3_address = address;
+
+
+                Cursor help = getContentResolver().query(uri, null, null, null, null);
+                int nameidx = help.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                help.moveToNext();
+                mp3_text.setText(help.getString(nameidx));
+            }
         });
 
         // init - for AddSheetmusic files and tags are empty, for EditSheetmusic it have load from db
@@ -116,18 +135,15 @@ public class AddSheetmusicActivity extends AppCompatActivity {
         edit_mp3 = findViewById(R.id.add_sheetmusic_edit_mp3_button);
         edit_mp3.setOnClickListener(view -> {
             Toast.makeText(AddSheetmusicActivity.this, "edit mp3", Toast.LENGTH_SHORT).show();
-            // startactivityonresult -> store result in mp3
+
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("audio/mpeg");
+            activityMp3ResultLaunch.launch(intent);
         });
 
-        add_tag = findViewById(R.id.add_sheetmusic_add_tags_button);
+        add_tag = findViewById(R.id.add_sheetmusic_edit_tags_button);
         add_tag.setOnClickListener(view -> {
-            Toast.makeText(AddSheetmusicActivity.this, "add tag", Toast.LENGTH_SHORT).show();
-            // startactivityonresult -> store result in tags, not in database, it would have to be saved first
-        });
-
-        remove_tag = findViewById(R.id.add_sheetmusic_remove_tags_button);
-        remove_tag.setOnClickListener(view -> {
-            Toast.makeText(AddSheetmusicActivity.this, "remove tag", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddSheetmusicActivity.this, "edit tag", Toast.LENGTH_SHORT).show();
             // startactivityonresult -> store result in tags, not in database, it would have to be saved first
         });
 
@@ -153,8 +169,9 @@ public class AddSheetmusicActivity extends AppCompatActivity {
             s.setAuthor(setToNullIfEmpty(author_text.getText().toString().trim()));
             s.setGenre(setToNullIfEmpty(genre_text.getText().toString().trim()));
             s.setKey(setToNullIfEmpty(key_text.getText().toString().trim()));
-            s.setInstument(setToNullIfEmpty(instrument_text.getText().toString().trim()));
+            s.setInstrument(setToNullIfEmpty(instrument_text.getText().toString().trim()));
             s.setNotes(setToNullIfEmpty(notes_text.getText().toString().trim()));
+            s.setMp3(mp3_address);
             s.setFiles(files);
             s.setTags(tags);
 

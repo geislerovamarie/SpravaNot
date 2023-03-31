@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Sheetmusic implements Serializable {
 
     private int id;
-    private String name, author, genre, key, instument, notes;  // "key" is "tone" in database
+    private String name, author, genre, key, instrument, notes;  // "key" is "tone" in database
     private String mp3; // address or .mp3 or something else?
     private ArrayList<String> files; // files with sheet music (pdf/jpg)
     private ArrayList<String> tags;
@@ -60,12 +60,12 @@ public class Sheetmusic implements Serializable {
         this.key = key;
     }
 
-    public String getInstument() {
-        return instument;
+    public String getInstrument() {
+        return instrument;
     }
 
-    public void setInstument(String instument) {
-        this.instument = instument;
+    public void setInstrument(String instrument) {
+        this.instrument = instrument;
     }
 
     public String getNotes() {

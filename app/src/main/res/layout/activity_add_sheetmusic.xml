@@ -34,28 +34,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.11" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/add_sheetmusic_author_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.18" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/add_sheetmusic_files1_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
+        app:layout_constraintGuide_percent="0.26"
+        />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/add_sheetmusic_files2_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
+        app:layout_constraintGuide_percent="0.33" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/add_sheetmusic_genre_guideline"
@@ -69,42 +70,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.45" />
+        app:layout_constraintGuide_percent="0.465" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/add_sheetmusic_instrument_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.53" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/add_sheetmusic_mp3_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.55" />
+        app:layout_constraintGuide_percent="0.6" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/add_sheetmusic_notes_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.65" />
+        app:layout_constraintGuide_percent="0.68" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/add_sheetmusic_tags_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_percent="0.77" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/add_sheetmusic_add_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_percent="0.92" />
 
 
     <TextView
@@ -243,7 +244,7 @@
         android:id="@+id/add_sheetmusic_pdf_files"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/text_files"
+        android:text="@string/pdf"
         app:layout_constraintBottom_toBottomOf="@id/add_sheetmusic_files1_guideline"
         app:layout_constraintEnd_toStartOf="@id/add_sheetmusic_right_guideline"
         app:layout_constraintStart_toStartOf="@id/add_sheetmusic_center_guideline"
@@ -254,7 +255,7 @@
         android:id="@+id/add_sheetmusic_jpg_files"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/text_files"
+        android:text="@string/image_jpg_png"
         app:layout_constraintBottom_toBottomOf="@id/add_sheetmusic_files2_guideline"
         app:layout_constraintEnd_toStartOf="@id/add_sheetmusic_right_guideline"
         app:layout_constraintStart_toStartOf="@id/add_sheetmusic_center_guideline"
@@ -307,7 +308,7 @@
         android:id="@+id/add_sheetmusic_mp3_answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/text_files"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="@id/add_sheetmusic_mp3_guideline"
         app:layout_constraintEnd_toStartOf="@id/add_sheetmusic_right_guideline"
         app:layout_constraintStart_toStartOf="@id/add_sheetmusic_center_guideline"
@@ -380,27 +381,14 @@
         app:layout_constraintHorizontal_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/add_sheetmusic_add_tags_button"
+        android:id="@+id/add_sheetmusic_edit_tags_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/describe_add_button"
-        app:srcCompat="@android:drawable/ic_menu_add"
+        android:contentDescription="@string/describe_edit_button"
+        app:srcCompat="@android:drawable/ic_menu_edit"
         app:layout_constraintBottom_toBottomOf="@id/add_sheetmusic_tags_guideline"
         app:layout_constraintEnd_toStartOf="@id/add_sheetmusic_right_guideline"
         app:layout_constraintHorizontal_bias="0.0" />
-
-    <ImageButton
-        android:id="@+id/add_sheetmusic_remove_tags_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/describe_remove_button"
-        app:srcCompat="@android:drawable/ic_menu_delete"
-        app:layout_constraintBottom_toBottomOf="@id/add_sheetmusic_tags_guideline"
-        app:layout_constraintEnd_toStartOf="@id/add_sheetmusic_add_tags_button"
-        app:layout_constraintHorizontal_bias="0.0" />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

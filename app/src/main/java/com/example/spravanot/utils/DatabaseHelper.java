@@ -100,7 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cvSh.put(COL_AUTHOR, s.getAuthor());
         cvSh.put(COL_GENRE, s.getGenre());
         cvSh.put(COL_TONE, s.getKey());
-        cvSh.put(COL_INSTRUMENT, s.getInstument());
+        cvSh.put(COL_INSTRUMENT, s.getInstrument());
         cvSh.put(COL_MP3, s.getMp3());
         cvSh.put(COL_NOTES, s.getNotes());
         int idSheetmusic = (int) db.insert(TABLE_SHEETMUSIC, null, cvSh);
@@ -211,7 +211,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cvSh.put(COL_AUTHOR, s.getAuthor());
         cvSh.put(COL_GENRE, s.getGenre());
         cvSh.put(COL_TONE, s.getKey());
-        cvSh.put(COL_INSTRUMENT, s.getInstument());
+        cvSh.put(COL_INSTRUMENT, s.getInstrument());
         cvSh.put(COL_MP3, s.getMp3());
         cvSh.put(COL_NOTES, s.getNotes());
         db.update(TABLE_SHEETMUSIC, cvSh, COL_ID + " = ?", new String[]{String.valueOf(s.getId())});
@@ -299,7 +299,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             s.setAuthor(cSh.getString(cSh.getColumnIndex(COL_AUTHOR)));
             s.setGenre(cSh.getString(cSh.getColumnIndex(COL_GENRE)));
             s.setKey(cSh.getString(cSh.getColumnIndex(COL_TONE)));
-            s.setInstument(cSh.getString(cSh.getColumnIndex(COL_INSTRUMENT)));
+            s.setInstrument(cSh.getString(cSh.getColumnIndex(COL_INSTRUMENT)));
             s.setNotes(cSh.getString(cSh.getColumnIndex(COL_NOTES)));
             s.setMp3(cSh.getString(cSh.getColumnIndex(COL_MP3)));
 
