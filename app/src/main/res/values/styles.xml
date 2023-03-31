@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="text_home_last_open">
+        <item name="android:layout_width">238dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_marginStart">48dp</item>
+        <item name="android:layout_marginTop">96dp</item>
+    </style>
+</resources>

@@ -1,4 +1,4 @@
-package com.example.spravanot;
+package com.example.spravanot.activities;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.example.spravanot.R;
 
 import java.util.Locale;
 

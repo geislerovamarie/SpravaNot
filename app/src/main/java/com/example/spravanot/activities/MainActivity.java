@@ -1,7 +1,4 @@
-package com.example.spravanot;
-
-import static android.app.UiModeManager.MODE_NIGHT_NO;
-import static android.app.UiModeManager.MODE_NIGHT_YES;
+package com.example.spravanot.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,8 +8,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.Toast;
 
+import com.example.spravanot.utils.DatabaseHelper;
+import com.example.spravanot.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -27,11 +25,10 @@ import androidx.preference.PreferenceManager;
 
 import com.example.spravanot.databinding.ActivityMainBinding;
 
-import java.util.Locale;
-
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         setSettings();
+
+        // set setlist "Favourite"
     }
 
     @Override
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         // settings - turning off display, language, darkmode
         setSettings();
     }
+
 
 // MENU ---------------------------------------------------------------------------------------
     @Override
@@ -114,6 +114,5 @@ public class MainActivity extends AppCompatActivity {
         if(dark_mode) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
-
 
 }
