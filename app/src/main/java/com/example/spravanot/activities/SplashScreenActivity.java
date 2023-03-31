@@ -16,6 +16,8 @@ import java.util.Objects;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
+    // WILL BE DISCARDED
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
