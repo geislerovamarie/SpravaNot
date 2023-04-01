@@ -78,6 +78,9 @@ public class SheetsFragment extends Fragment {
                 }
                 sheetmusicAdapter.notifyItemChanged(position);
             }
+
+            @Override
+            public void deleteTag(int position, String name) {}
         };
 
 

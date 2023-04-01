@@ -60,7 +60,11 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         holder.sheetmusic_author_text.setText(sh_author);
 
         // Edit button - show menu with options "edit" and "delete"
-        holder.sheetmusic_edit_button.setOnClickListener(view -> openMenu(view, holder));
+        holder.sheetmusic_edit_button.setOnClickListener(view -> {
+            Intent intent = new Intent(context, EditSheetmusicActivity.class);
+            intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
+            activity.startActivityForResult(intent, 1);
+        });
 
         // Add to favorites button
         holder.sheetmusic_favorite_button.setOnClickListener(view -> info.toggleFavorite(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId()));
@@ -89,6 +93,28 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
                 showJpgs(clicked);
             }else{
                 dialogPdfOrJpg(clicked);
+            }
+        });
+
+        // long hold -> delete
+        holder.sheetmusicLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                // delete dialog
+                AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
+                dBuilder.setMessage(R.string.dialog_delete_item);
+                dBuilder.setTitle(R.string.dialog_title_delete_item);
+
+                // delete item
+                dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> info.deleteSheetmusic(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId()));
+
+                // cancel
+                dBuilder.setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.cancel());
+
+                // show the dialog
+                AlertDialog dialog = dBuilder.create();
+                dialog.show();
+                return true;
             }
         });
     }
@@ -144,44 +170,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
             else if(!extension.equals("pdf") && !isPDFType) result.add(path);
         }
         return result;
-    }
-
-    // pop up menu ----------------------------
-    public void openMenu(View view, ViewHolderSheetmusic holder){
-        PopupMenu popupMenu = new PopupMenu(context, view);
-        // set up the listener
-        PopupMenu.OnMenuItemClickListener listener = menuItem -> {
-            switch (menuItem.getItemId()){
-                case R.id.sheetmusic_edit_option:
-                    Intent intent = new Intent(context, EditSheetmusicActivity.class);
-                    intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
-                    activity.startActivityForResult(intent, 1);
-                    return true;
-                case R.id.sheetmusic_delete_option:
-                    // delete dialog
-                    AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
-                    dBuilder.setMessage(R.string.dialog_delete_item);
-                    dBuilder.setTitle(R.string.dialog_title_delete_item);
-
-                    // delete item
-                    dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> info.deleteSheetmusic(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId()));
-
-                    // cancel
-                    dBuilder.setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.cancel());
-
-                    // show the dialog
-                    AlertDialog dialog = dBuilder.create();
-                    dialog.show();
-                    return true;
-                default:
-                    return false;
-            }
-        };
-        // prepare and show the menu
-        popupMenu.setOnMenuItemClickListener(listener);
-        MenuInflater inflater = popupMenu.getMenuInflater();
-        inflater.inflate(R.menu.sheetmusic_edit_menu, popupMenu.getMenu());
-        popupMenu.show();
     }
 
     // viewholder --------------------------------

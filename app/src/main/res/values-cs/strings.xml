@@ -44,4 +44,7 @@
     <string name="cancel">Zrušit</string>
     <string name="dialog_name_cannot_be_null">Název nesmí být prázdný</string>
     <string name="describe_image">Obrázek</string>
+    <string name="describe_add_tag">Přidejte tag</string>
+    <string name="dialog_title_new_tag">Nový tag</string>
+    <string name="add">Přidat</string>
 </resources>

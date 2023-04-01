@@ -53,6 +53,8 @@ public class HandleFilesActivity extends AppCompatActivity {
 
             @Override
             public void toggleFavorite(int position, int idSh) {}   // not needed here
+            @Override
+            public void deleteTag(int position, String name) {} // not needed here
         };
 
         // Launcher for child activities

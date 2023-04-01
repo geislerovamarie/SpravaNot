@@ -20,7 +20,6 @@ import com.example.spravanot.R;
 import com.example.spravanot.models.Sheetmusic;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class AddSheetmusicActivity extends AppCompatActivity {
@@ -30,7 +29,7 @@ public class AddSheetmusicActivity extends AppCompatActivity {
     EditText name_text, author_text, genre_text, key_text, instrument_text, notes_text;
     TextView jpg_text, pdf_text, mp3_text, tags_text;
     ImageButton edit_pdf, edit_jpg, edit_mp3;
-    ImageButton add_tag, remove_tag;
+    ImageButton edit_tag;
     FloatingActionButton save;
 
     ArrayList<String> files;
@@ -54,6 +53,15 @@ public class AddSheetmusicActivity extends AppCompatActivity {
             } else if (result.getResultCode() == 6) {   //jpg
                 if(result.getData() != null){
                     jpgs = result.getData().getStringArrayListExtra("jpgs");
+                }
+            } else if (result.getResultCode() == 8) {   //tags
+                if(result.getData() != null){
+                    tags = result.getData().getStringArrayListExtra("tags");
+                    String stringOfTags = "";
+                    for (int i = 0; i < tags.size(); i++) {
+                        stringOfTags.concat(tags.get(i) + ", ");
+                    }
+                    tags_text.setText(stringOfTags);
                 }
             }
         });
@@ -141,10 +149,13 @@ public class AddSheetmusicActivity extends AppCompatActivity {
             activityMp3ResultLaunch.launch(intent);
         });
 
-        add_tag = findViewById(R.id.add_sheetmusic_edit_tags_button);
-        add_tag.setOnClickListener(view -> {
+        edit_tag = findViewById(R.id.add_sheetmusic_edit_tags_button);
+        edit_tag.setOnClickListener(view -> {
             Toast.makeText(AddSheetmusicActivity.this, "edit tag", Toast.LENGTH_SHORT).show();
             // startactivityonresult -> store result in tags, not in database, it would have to be saved first
+            Intent intent = new Intent(AddSheetmusicActivity.this, EditTagsActivity.class);
+            intent.putExtra("tags", tags);
+            activityResultLaunch.launch(intent);
         });
 
         save = findViewById(R.id.add_sheetmusic_add_button);
