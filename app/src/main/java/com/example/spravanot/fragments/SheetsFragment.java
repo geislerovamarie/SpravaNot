@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spravanot.R;
 import com.example.spravanot.activities.AddSheetmusicActivity;
+import com.example.spravanot.activities.EditSheetmusicActivity;
 import com.example.spravanot.adapters.SheetmusicAdapter;
 import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.models.Setlist;
@@ -43,55 +44,8 @@ public class SheetsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         db = new DatabaseHelper(getContext());
-
-        // PassInfo - connection between this fragment and the adapter
-        info = new PassInfoSheetmusic() {
-            @Override
-            public void deleteSheetmusic(int position, int idSh) {
-                db.deleteOneSheetmusic(idSh);
-                sheetmusics.remove(position);
-                sheetmusicAdapter.notifyItemRemoved(position);
-            }
-
-            @Override
-            public void toggleFavorite(int position, int idSh) {
-                // create setlist "Favorite" if it doesn't exist
-                if(!db.doesFavoriteExist()){
-                    Setlist f = new Setlist(-1);
-                    f.setName("Favorite");
-                    f.setNotes("Favorite / Oblíbené");
-                    db.addSetlist(f);
-                }
-                // toggle
-                Sheetmusic sh = db.selectOneSheetmusic(idSh);
-                ArrayList<Sheetmusic> newFaveSheets = new ArrayList<>();
-
-                int idFav = db.getIdOfFavorite();
-                if(db.isInSetlist(sh.getId(), idFav)){
-                    db.deleteOneSheetmusicFromSetlist(sh.getId(), idFav);
-                    // change color
-                }
-                else {
-                    newFaveSheets.add(sh);
-                    db.addToSetlist(idFav, newFaveSheets);
-                    // change color
-                }
-                sheetmusicAdapter.notifyItemChanged(position);
-            }
-
-            @Override
-            public void deleteTag(int position, String name) {}
-        };
-
-
-        // Launcher to help when an activity finishes
-        activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == 3) {
-                sheetmusicAdapter = prepareAdapter();
-                recView.setAdapter(sheetmusicAdapter);
-                sheetmusicAdapter.notifyDataSetChanged();
-            }
-        });
+        setUpInfo();
+        setUpLauncher();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -141,5 +95,68 @@ public class SheetsFragment extends Fragment {
 
     public void sortSheetsArrayAlphabetically(){
         sheetmusics.sort((s1, s2) -> s1.getName().compareToIgnoreCase(s2.getName()));
+    }
+
+    void setUpLauncher() {
+        // Launcher to help when an activity finishes
+        activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == 3) {
+                sheetmusicAdapter = prepareAdapter();
+                recView.setAdapter(sheetmusicAdapter);
+                sheetmusicAdapter.notifyDataSetChanged();
+            } else if (result.getResultCode() == 2) {
+                sheetmusicAdapter = prepareAdapter();
+                recView.setAdapter(sheetmusicAdapter);
+                sheetmusicAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    void setUpInfo(){
+        // PassInfo - connection between this fragment and the adapter
+        info = new PassInfoSheetmusic() {
+            @Override
+            public void deleteSheetmusic(int position, int idSh) {
+                db.deleteOneSheetmusic(idSh);
+                sheetmusics.remove(position);
+                sheetmusicAdapter.notifyItemRemoved(position);
+            }
+
+            @Override
+            public void updateSheetmusic(int position) {
+                Intent intent = new Intent(getContext(), EditSheetmusicActivity.class);
+                intent.putExtra("sheetmusic", sheetmusics.get(position));
+                activityResultLaunch.launch(intent);
+            }
+
+            @Override
+            public void toggleFavorite(int position, int idSh) {
+                // create setlist "Favorite" if it doesn't exist
+                if(!db.doesFavoriteExist()){
+                    Setlist f = new Setlist(-1);
+                    f.setName("Favorite");
+                    f.setNotes("Favorite / Oblíbené");
+                    db.addSetlist(f);
+                }
+                // toggle
+                Sheetmusic sh = db.selectOneSheetmusic(idSh);
+                ArrayList<Sheetmusic> newFaveSheets = new ArrayList<>();
+
+                int idFav = db.getIdOfFavorite();
+                if(db.isInSetlist(sh.getId(), idFav)){
+                    db.deleteOneSheetmusicFromSetlist(sh.getId(), idFav);
+                    // change color
+                }
+                else {
+                    newFaveSheets.add(sh);
+                    db.addToSetlist(idFav, newFaveSheets);
+                    // change color
+                }
+                sheetmusicAdapter.notifyItemChanged(position);
+            }
+
+            @Override
+            public void deleteTag(int position, String name) {}
+        };
     }
 }

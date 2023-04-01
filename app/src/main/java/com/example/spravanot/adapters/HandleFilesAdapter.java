@@ -60,7 +60,7 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
         File file = new File(uri.getPath());
         String[] split = file.getPath().split(":");
         String address = split[1];
-        String name = address.substring(address.lastIndexOf(File.separator) + 1); // for now!!
+        String name = address.substring(address.lastIndexOf(File.separator) + 1);
 
         // Set text
         holder.files_name_text.setText(name);

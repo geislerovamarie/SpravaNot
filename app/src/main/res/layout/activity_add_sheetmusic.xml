@@ -333,7 +333,7 @@
         android:id="@+id/add_sheetmusic_tags_answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/text_files"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="@id/add_sheetmusic_tags_guideline"
         app:layout_constraintEnd_toStartOf="@id/add_sheetmusic_right_guideline"
         app:layout_constraintStart_toStartOf="@id/add_sheetmusic_center_guideline"

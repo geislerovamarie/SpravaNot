@@ -14,17 +14,21 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.R;
+import com.example.spravanot.models.Setlist;
 import com.example.spravanot.models.Sheetmusic;
 import com.example.spravanot.activities.EditSheetmusicActivity;
 import com.example.spravanot.activities.HandleFilesActivity;
 import com.google.android.material.chip.Chip;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.ViewHolderSheetmusic> {
@@ -52,6 +56,8 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderSheetmusic holder, int position) {
+
+        // get name and author
         String sh_name = String.valueOf(sheetmusic.get(position).getName());
         String sh_author = String.valueOf(sheetmusic.get(position).getAuthor()).equals("null") ? context.getResources().getString(R.string.text_unknown) : String.valueOf(sheetmusic.get(position).getAuthor());
 
@@ -59,11 +65,9 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         holder.sheetmusic_name_text.setText(sh_name);
         holder.sheetmusic_author_text.setText(sh_author);
 
-        // Edit button - show menu with options "edit" and "delete"
+        // Edit button
         holder.sheetmusic_edit_button.setOnClickListener(view -> {
-            Intent intent = new Intent(context, EditSheetmusicActivity.class);
-            intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
-            activity.startActivityForResult(intent, 1);
+            info.updateSheetmusic(holder.getAdapterPosition());
         });
 
         // Add to favorites button
@@ -123,6 +127,8 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     public int getItemCount() {
         return sheetmusic.size();
     }
+
+
     
     void dialogPdfOrJpg(Sheetmusic s){
         String[] choices = new String[] {context.getResources().getString(R.string.pdf), context.getResources().getString(R.string.image_jpg_png)};
@@ -172,7 +178,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         return result;
     }
 
-    // viewholder --------------------------------
+    // viewholder  and interface --------------------------------
 
     public class ViewHolderSheetmusic extends RecyclerView.ViewHolder {
 
@@ -190,4 +196,5 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
             sheetmusicLayout = itemView.findViewById(R.id.sheetmusicLayout);
         }
     }
+
 }

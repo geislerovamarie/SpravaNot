@@ -49,6 +49,9 @@ public class EditTagsActivity extends AppCompatActivity {
             public void deleteSheetmusic(int position, int idSh) {} // not needed here
 
             @Override
+            public void updateSheetmusic(int position) { }
+
+            @Override
             public void toggleFavorite(int position, int idSh) {}   // not needed here
 
             @Override
