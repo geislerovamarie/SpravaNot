@@ -47,4 +47,5 @@
     <string name="describe_add_tag">Přidejte tag</string>
     <string name="dialog_title_new_tag">Nový tag</string>
     <string name="add">Přidat</string>
+    <string name="tag_already_present">Tento tag už byl přidán</string>
 </resources>

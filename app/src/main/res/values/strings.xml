@@ -48,5 +48,6 @@
     <string name="describe_add_tag">Add a tag</string>
     <string name="dialog_title_new_tag">New tag</string>
     <string name="add">Add</string>
+    <string name="tag_already_present">This tag was already added</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

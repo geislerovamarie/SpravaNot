@@ -95,7 +95,7 @@ public class EditTagsActivity extends AppCompatActivity {
             if(!tags.contains(new_tag)) {
                 tags.add(new_tag);
             }else{
-                Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.tag_already_present, Toast.LENGTH_SHORT).show();
             }
         });
         AlertDialog dialog = builder.create();

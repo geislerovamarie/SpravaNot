@@ -134,7 +134,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ContentValues cvSh_F = new ContentValues();
                 cvSh_F.put(COL_ID_SHEETMUSIC,s.getId());
                 cvSh_F.put(COL_ID_FILE, idFile);
-                db.insert(TABLE_SHEETMUSIC_FILE, null, cvSh_F);
+                try{
+                    db.insertOrThrow(TABLE_SHEETMUSIC_FILE, null, cvSh_F);
+                } catch (Exception ignored) {}
             }
         }
     }
@@ -145,12 +147,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues cvT = new ContentValues();
             String nameTag = s.getTags().get(i);
             cvT.put(COL_NAME, nameTag);
-            db.insert(TABLE_TAG, null, cvT); // check whether it works - no duplicates and no crash if exists
+            try{
+                db.insertOrThrow(TABLE_TAG, null, cvT);
+            } catch (Exception ignored) { }
 
             ContentValues cvSh_T = new ContentValues();
             cvSh_T.put(COL_ID_SHEETMUSIC,s.getId());
             cvSh_T.put(COL_NAME_TAG, nameTag);
-            db.insert(TABLE_SHEETMUSIC_TAG, null, cvSh_T);
+            try{
+                db.insertOrThrow(TABLE_SHEETMUSIC_TAG, null, cvSh_T);
+            } catch (Exception ignored) { }
+
         }
     }
 
@@ -182,12 +189,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues cvT = new ContentValues();
             String nameTag = s.getTags().get(i);
             cvT.put(COL_NAME, nameTag);
-            db.insert(TABLE_TAG, null, cvT);
+            try {
+                db.insertOrThrow(TABLE_TAG, null, cvT);
+            } catch (Exception ignored) { }
 
             ContentValues cvSe_T = new ContentValues();
             cvSe_T.put(COL_ID_SETLIST,s.getId());
             cvSe_T.put(COL_NAME_TAG, nameTag);
-            db.insert(TABLE_SETLIST_TAG, null, cvSe_T);
+            try {
+                db.insertOrThrow(TABLE_SETLIST_TAG, null, cvSe_T);
+            } catch (Exception ignored) { }
         }
     }
 
@@ -197,7 +208,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues cvS = new ContentValues();
             cvS.put(COL_ID_SHEETMUSIC, sheetmusic.get(i).getId());
             cvS.put(COL_ID_SETLIST, idSetlist);
-            db.insert(TABLE_SHEETMUSIC_SETLIST, null, cvS);
+            try {
+                db.insertOrThrow(TABLE_SHEETMUSIC_SETLIST, null, cvS);
+            } catch (Exception ignored) { }
         }
     }
 

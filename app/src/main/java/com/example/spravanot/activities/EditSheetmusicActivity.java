@@ -76,10 +76,9 @@ public class EditSheetmusicActivity extends AppCompatActivity {
                 if(sheetmusic.getGenre() != null) genre_text.setText(sheetmusic.getGenre());
                 if(sheetmusic.getKey() != null) key_text.setText(sheetmusic.getKey());
                 if(sheetmusic.getInstrument() != null) instrument_text.setText(sheetmusic.getInstrument());
-                if(sheetmusic.getNotes() != null) notes_text.setText(sheetmusic.getNotes());
                 if(sheetmusic.getMp3() != null) mp3_text.setText(mp3PathToName(sheetmusic.getMp3()));
-                if(sheetmusic.getTags() != null) name_text.setText(tagsToString());
-                if(sheetmusic.getName() != null) name_text.setText(sheetmusic.getName());
+                if(sheetmusic.getNotes() != null) notes_text.setText(sheetmusic.getNotes());
+                if(sheetmusic.getTags() != null) tags_text.setText(tagsToString());
             }
         }else{
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
