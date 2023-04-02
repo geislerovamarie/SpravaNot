@@ -48,29 +48,6 @@ public class AddSheetmusicActivity extends AppCompatActivity {
         initArrays();
         initGUI();
         setOnClickListeners();
-
-        /*
-         * !!
-         * For Edit
-         * 0) get data (id, name,...), set known text
-         * 1) load files - by existing ID - from database sheetmusic_file selectfilesforsheetmusic
-         * 2) convert ids to addresses via file table in database
-         * 3) store in files
-         * 4) separata pdf or else (images - pdfs/jpgs) by extensions
-         *
-         * ...
-         * x) put together pdfs and jpgs to files and put it to the db
-         *
-         *
-         * -----------------
-         * FOR DATABASE:
-         * - LOAD FROM DB TO "LOCAL OBJECTS"
-         * - EDIT LOCAL OBJECTS
-         * - DELETE EVERYTHING FROM DB (UPDATE!!!!!)
-         * - STORE LOCAL IN DB
-         * */
-
-
     }
 
     // empty string in SQLite database is not null
@@ -157,15 +134,12 @@ public class AddSheetmusicActivity extends AppCompatActivity {
         });
 
         edit_mp3.setOnClickListener(view -> {
-            Toast.makeText(AddSheetmusicActivity.this, "edit mp3", Toast.LENGTH_SHORT).show();
-
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);  // TODO CHANGE
             intent.setType("audio/mpeg");
             activityMp3ResultLaunch.launch(intent);
         });
 
         edit_tag.setOnClickListener(view -> {
-            Toast.makeText(AddSheetmusicActivity.this, "edit tag", Toast.LENGTH_SHORT).show();
             // startactivityonresult -> store result in tags, not in database, it would have to be saved first
             Intent intent = new Intent(AddSheetmusicActivity.this, EditTagsActivity.class);
             intent.putExtra("tags", tags);

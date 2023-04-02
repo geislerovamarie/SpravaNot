@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.spravanot.R;
 import com.example.spravanot.activities.AddSetlistActivity;
 import com.example.spravanot.activities.AddSheetmusicActivity;
+import com.example.spravanot.activities.EditSetlistActivity;
 import com.example.spravanot.activities.EditSheetmusicActivity;
 import com.example.spravanot.adapters.SetlistAdapter;
 import com.example.spravanot.adapters.SheetmusicAdapter;
@@ -110,7 +111,9 @@ public class SetlistsFragment extends Fragment {
 
             @Override
             public void deleteSetlist(int position, int idSe) {
-
+                db.deleteOneSetlist(idSe);
+                setlists.remove(position);
+                setlistAdapter.notifyItemRemoved(position);
             }
 
             @Override
@@ -120,7 +123,9 @@ public class SetlistsFragment extends Fragment {
 
             @Override
             public void updateSetlist(int position) {
-
+                Intent intent = new Intent(getContext(), EditSetlistActivity.class);
+                intent.putExtra("setlist", setlists.get(position));
+                activityResultLaunch.launch(intent);
             }
         };
     }
