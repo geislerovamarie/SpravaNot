@@ -7,17 +7,91 @@
     tools:context=".fragments.SetlistsFragment"
     android:layout_marginBottom="56dp">
 
-    <TextView
-        android:id="@+id/text_setlists"
+    <AutoCompleteTextView
+        android:id="@+id/textViewSetlistSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="text..."
+        app:layout_constraintBottom_toBottomOf="@id/setlist_top_guideline"
+        app:layout_constraintEnd_toStartOf="@id/searchViewSetlist"
+        app:layout_constraintStart_toStartOf="@id/setlist_left_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintHorizontal_bias="0.0"/>
+
+    <SearchView
+        android:id="@+id/searchViewSetlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="@id/setlist_top_guideline"
+        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintEnd_toStartOf="@id/buttonSetlistFilter"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/buttonSetlistFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_input_get"
+        android:contentDescription="@string/describe_sheet_filter"
+        app:layout_constraintBottom_toBottomOf="@id/setlist_top_guideline"
+        app:layout_constraintEnd_toStartOf="@id/buttonSetlistAdd"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7" />
+
+    <ImageButton
+        android:id="@+id/buttonSetlistAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_input_add"
+        android:contentDescription="@string/describe_add_button"
+        app:layout_constraintBottom_toBottomOf="@id/setlist_top_guideline"
+        app:layout_constraintEnd_toEndOf="@id/setlist_right_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSetlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="@+id/setlist_top_guideline"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"  />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/setlist_top_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/setlist_bottom_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/setlist_left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.07" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/setlist_right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -456,10 +456,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void deleteOneSetlist(int id){
-        if(id == getIdOfFavorite()) return; // can't delete favorite setlist
+        boolean addFavoriteBack = false;
+        if(id == getIdOfFavorite()){ addFavoriteBack = true;}
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SETLIST, COL_ID + " = ?", new String[] {String.valueOf(id)});
+
+        if (addFavoriteBack){
+            Setlist s = new Setlist(id);
+            s.setName("Favorite");
+            addSetlist(s);
+        }
     }
 
     public void deleteOneSheetmusicFromSetlist(int id_sh, int id_se){

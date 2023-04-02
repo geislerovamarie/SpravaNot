@@ -49,5 +49,6 @@
     <string name="dialog_title_new_tag">New tag</string>
     <string name="add">Add</string>
     <string name="tag_already_present">This tag was already added</string>
+    <string name="dialog_remove_sheetmusic_from_setlist">Are you sure you want to remove this sheetmusic from the setlist?</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
