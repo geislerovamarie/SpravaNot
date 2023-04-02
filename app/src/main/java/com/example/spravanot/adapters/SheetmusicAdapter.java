@@ -4,31 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.R;
-import com.example.spravanot.models.Setlist;
 import com.example.spravanot.models.Sheetmusic;
-import com.example.spravanot.activities.EditSheetmusicActivity;
 import com.example.spravanot.activities.HandleFilesActivity;
 import com.google.android.material.chip.Chip;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.ViewHolderSheetmusic> {
@@ -37,13 +29,17 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     Activity activity;
 
     private ArrayList<Sheetmusic> sheetmusic;
+    private ArrayList<Boolean> favorite;
     private PassInfoSheetmusic info;
+    private boolean showingSetlistFavorite;
 
-    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusic, PassInfoSheetmusic info) {
+    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusic, PassInfoSheetmusic info, ArrayList favorite, boolean showingSetlistFavorite) {
         this.activity = activity;
         this.context = context;
         this.sheetmusic = sheetmusic;
         this.info = info;
+        this.favorite = favorite;
+        this.showingSetlistFavorite = showingSetlistFavorite;
     }
 
     @NonNull
@@ -57,13 +53,20 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolderSheetmusic holder, int position) {
 
-        // get name and author
+        // get name and author and if favorite
         String sh_name = String.valueOf(sheetmusic.get(position).getName());
         String sh_author = String.valueOf(sheetmusic.get(position).getAuthor()).equals("null") ? context.getResources().getString(R.string.text_unknown) : String.valueOf(sheetmusic.get(position).getAuthor());
+        Boolean isFav = favorite.get(position);
 
-        // Set text
+        // Set text and color
         holder.sheetmusic_name_text.setText(sh_name);
         holder.sheetmusic_author_text.setText(sh_author);
+        if(isFav){
+            holder.sheetmusic_favorite_button.setImageResource(R.drawable.ic_heart_filled);
+        }else{
+            holder.sheetmusic_favorite_button.setImageResource(R.drawable.ic_heart_empty);
+        }
+
 
         // Edit button
         holder.sheetmusic_edit_button.setOnClickListener(view -> {
@@ -71,7 +74,20 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         });
 
         // Add to favorites button
-        holder.sheetmusic_favorite_button.setOnClickListener(view -> info.toggleFavorite(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId()));
+        holder.sheetmusic_favorite_button.setOnClickListener(view -> {
+            if (showingSetlistFavorite) {
+                Toast.makeText(context, R.string.error_toggle_favorite_in_favorite, Toast.LENGTH_SHORT).show();
+            } else {
+                info.toggleFavorite(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId());
+                boolean fav = favorite.get(holder.getAdapterPosition());
+                favorite.set(holder.getAdapterPosition(), !fav);
+                if (!fav) {
+                    holder.sheetmusic_favorite_button.setImageResource(R.drawable.ic_heart_filled);
+                } else {
+                    holder.sheetmusic_favorite_button.setImageResource(R.drawable.ic_heart_empty);
+                }
+            }
+        });
 
         // Click and show sheetmusic
         holder.sheetmusicLayout.setOnClickListener(view -> {
@@ -184,7 +200,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
 
         TextView sheetmusic_name_text, sheetmusic_author_text;
         ImageButton sheetmusic_edit_button;
-        Chip sheetmusic_favorite_button;
+        ImageButton sheetmusic_favorite_button;
         LinearLayout sheetmusicLayout;
 
         public ViewHolderSheetmusic(@NonNull View itemView) {
@@ -192,9 +208,8 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
             sheetmusic_name_text = itemView.findViewById(R.id.sheetmusic_name_txt);
             sheetmusic_author_text = itemView.findViewById(R.id.sheetmusic_author_txt);
             sheetmusic_edit_button = itemView.findViewById(R.id.sheetmusic_edit_button);
-            sheetmusic_favorite_button = itemView.findViewById(R.id.sheetmusic_favorite_chip);
+            sheetmusic_favorite_button = itemView.findViewById(R.id.sheetmusic_favorite_button);
             sheetmusicLayout = itemView.findViewById(R.id.sheetmusicLayout);
         }
     }
-
 }

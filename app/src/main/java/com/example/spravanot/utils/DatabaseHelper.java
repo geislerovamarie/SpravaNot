@@ -410,6 +410,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return files;
     }
 
+    public ArrayList<Sheetmusic> selectSheetmusicForSetlist(int setlistId){
+        ArrayList<Sheetmusic> result = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String q = "SELECT * FROM " + TABLE_SHEETMUSIC_SETLIST + " WHERE " + COL_ID_SETLIST + " = " + setlistId + ";";
+        Cursor cShS = db.rawQuery(q, null);
+
+        while(cShS.moveToNext()){
+            @SuppressLint("Range") int shId = cShS.getInt(cShS.getColumnIndex(COL_ID_SHEETMUSIC));
+            Sheetmusic s = selectOneSheetmusic(shId);
+            result.add(s);
+        }
+        return result;
+    }
+
     @SuppressLint("Range")
     public ArrayList<Setlist> selectAllSetlists(){
         ArrayList<Setlist> setlist = new ArrayList<>();

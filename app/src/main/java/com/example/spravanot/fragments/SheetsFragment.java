@@ -84,7 +84,15 @@ public class SheetsFragment extends Fragment {
         // TODO modify for various sort and filter
         sortSheetsArrayAlphabetically();
 
-        sheetmusicAdapter = new SheetmusicAdapter(getActivity(), getContext(), sheetmusics, info);
+        //get favorite
+        ArrayList<Boolean> isFavorite = new ArrayList<>();
+        int favSetlistID = db.getIdOfFavorite();
+        for (int i = 0; i < sheetmusics.size(); i++) {
+            Boolean f = db.isInSetlist(sheetmusics.get(i).getId(), favSetlistID);
+            isFavorite.add(f);
+        }
+
+        sheetmusicAdapter = new SheetmusicAdapter(getActivity(), getContext(), sheetmusics, info, isFavorite, false);
         return sheetmusicAdapter;
     }
 
@@ -145,12 +153,10 @@ public class SheetsFragment extends Fragment {
                 int idFav = db.getIdOfFavorite();
                 if(db.isInSetlist(sh.getId(), idFav)){
                     db.deleteOneSheetmusicFromSetlist(sh.getId(), idFav);
-                    // change color
                 }
                 else {
                     newFaveSheets.add(sh);
                     db.addToSetlist(idFav, newFaveSheets);
-                    // change color
                 }
                 sheetmusicAdapter.notifyItemChanged(position);
             }

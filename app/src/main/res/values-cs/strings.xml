@@ -49,4 +49,5 @@
     <string name="add">Přidat</string>
     <string name="tag_already_present">Tento tag už byl přidán</string>
     <string name="dialog_remove_sheetmusic_from_setlist">Určitě chcete odebrat tuto položku ze seznamu?</string>
+    <string name="error_toggle_favorite_in_favorite">Není možné změnit v tomto seznamu</string>
 </resources>

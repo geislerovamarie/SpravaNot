@@ -51,10 +51,12 @@
                 app:layout_constraintVertical_bias="0.5"
                 app:srcCompat="@android:drawable/ic_menu_preferences" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/sheetmusic_favorite_chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/sheetmusic_favorite_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/text_home_favorite"
+                app:srcCompat="@android:drawable/ic_media_play"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/sheetmusic_edit_button"
                 app:layout_constraintTop_toTopOf="parent"
