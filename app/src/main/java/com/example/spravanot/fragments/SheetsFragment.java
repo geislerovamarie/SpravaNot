@@ -44,8 +44,8 @@ public class SheetsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         db = new DatabaseHelper(getContext());
-        setUpInfo();
         setUpLauncher();
+        setUpInfo();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -163,6 +163,9 @@ public class SheetsFragment extends Fragment {
 
             @Override
             public void deleteTag(int position, String name) {}
+
+            @Override
+            public void addSheetmusicToSetlist(Sheetmusic s, boolean add) { }
         };
     }
 }

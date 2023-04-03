@@ -77,6 +77,9 @@ public class HandleFilesActivity extends AppCompatActivity {
             public void toggleFavorite(int position, int idSh) {}   // not needed here
             @Override
             public void deleteTag(int position, String name) {} // not needed here
+
+            @Override
+            public void addSheetmusicToSetlist(Sheetmusic s, boolean add) {}
         };
     }
 

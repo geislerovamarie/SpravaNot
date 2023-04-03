@@ -5,4 +5,6 @@ public interface PassInfoSetlist {
     void deleteSetlist(int position, int idSe);
     void deleteTag(int position, String name);
     void updateSetlist(int position);
+
+
 }

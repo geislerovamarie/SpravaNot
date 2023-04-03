@@ -42,12 +42,11 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_sheets);
 
-        initElements();
-        setUpInfo();
         setUpLauncher();
+        setUpInfo();
+        initElements();
 
         setOnClickListeners();
-
     }
 
     void initElements(){
@@ -66,7 +65,8 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
     void setOnClickListeners(){
         add_sheetmusic_button.setOnClickListener(view12 -> {
             Intent intent = new Intent(this, AddSheetsToSetlistActivity.class);
-            activityResultLaunch.launch(intent);    // code 9
+            intent.putExtra("setlist",setlist);
+            activityResultLaunch.launch(intent);    // code 16
         });
         filter_button.setOnClickListener(view1 -> {
             Toast.makeText(this, "Filterrr", Toast.LENGTH_SHORT).show();
@@ -77,6 +77,7 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
     SheetmusicAdapter prepareAdapter(){
         db = new DatabaseHelper(this);
         sheetmusicsOfSetlist = db.selectSheetmusicForSetlist(setlist.getId());
+        setlist.setSheetmusic(sheetmusicsOfSetlist);
 
         // TODO modify for various sort and filter
         //sortSheetsArrayAlphabetically();
@@ -106,6 +107,10 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
                 recView.setAdapter(sheetmusicAdapter);
                 sheetmusicAdapter.notifyDataSetChanged();
             } else if (result.getResultCode() == 2) {   // updated
+                sheetmusicAdapter = prepareAdapter();
+                recView.setAdapter(sheetmusicAdapter);
+                sheetmusicAdapter.notifyDataSetChanged();
+            } else if (result.getResultCode() == 16){   // update sheetmusic in setlist via addsheetstosetlistactivity
                 sheetmusicAdapter = prepareAdapter();
                 recView.setAdapter(sheetmusicAdapter);
                 sheetmusicAdapter.notifyDataSetChanged();
@@ -156,6 +161,10 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
 
             @Override
             public void deleteTag(int position, String name) {}
+
+            @Override
+            public void addSheetmusicToSetlist(Sheetmusic s, boolean add) {}
+
         };
     }
 }

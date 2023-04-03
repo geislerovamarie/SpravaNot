@@ -67,7 +67,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
             holder.sheetmusic_favorite_button.setImageResource(R.drawable.ic_heart_empty);
         }
 
-
         // Edit button
         holder.sheetmusic_edit_button.setOnClickListener(view -> {
             info.updateSheetmusic(holder.getAdapterPosition());

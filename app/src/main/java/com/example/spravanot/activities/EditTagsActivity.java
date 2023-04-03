@@ -60,6 +60,9 @@ public class EditTagsActivity extends AppCompatActivity {
                 tags.remove(position);
                 tagsAdapter.notifyItemRemoved(position);
             }
+
+            @Override
+            public void addSheetmusicToSetlist(Sheetmusic s, boolean add) {}
         };
 
         tags = getIntent().getExtras().getStringArrayList("tags");

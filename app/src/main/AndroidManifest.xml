@@ -33,10 +33,7 @@
         <activity
             android:name=".activities.AddSheetsToSetlistActivity"
             android:exported="false"
-            android:parentActivityName=".activities.SetlistDetailActivity" />
-        <activity
-            android:name=".activities.SetlistDetailActivity"
-            android:exported="false" />
+            android:parentActivityName=".activities.SheetmusicOfSetlistActivity" />
         <activity
             android:name=".activities.EditSheetmusicActivity"
             android:exported="false" />
