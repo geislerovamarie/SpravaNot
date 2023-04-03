@@ -71,7 +71,7 @@ public class AddSheetmusicToSetlistAdapter extends RecyclerView.Adapter<AddSheet
         else holder.sheetmusicLayout.setBackgroundResource(androidx.cardview.R.color.cardview_light_background);
 
 
-        // Click and show sheetmusic
+        // Click and mark sheetmusic
         holder.sheetmusicLayout.setOnClickListener(view -> {
             Sheetmusic clicked = sheetmusic.get(holder.getAdapterPosition());
             if(setlistContains(selected, clicked)){

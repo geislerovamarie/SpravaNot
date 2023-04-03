@@ -19,7 +19,6 @@ import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.R;
 import com.example.spravanot.models.Sheetmusic;
 import com.example.spravanot.activities.HandleFilesActivity;
-import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 
@@ -28,15 +27,15 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     private Context context;
     Activity activity;
 
-    private ArrayList<Sheetmusic> sheetmusic;
+    private ArrayList<Sheetmusic> sheetmusicOfSetlist;
     private ArrayList<Boolean> favorite;
     private PassInfoSheetmusic info;
     private boolean showingSetlistFavorite;
 
-    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusic, PassInfoSheetmusic info, ArrayList favorite, boolean showingSetlistFavorite) {
+    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusicOfSetlist, PassInfoSheetmusic info, ArrayList favorite, boolean showingSetlistFavorite) {
         this.activity = activity;
         this.context = context;
-        this.sheetmusic = sheetmusic;
+        this.sheetmusicOfSetlist = sheetmusicOfSetlist;
         this.info = info;
         this.favorite = favorite;
         this.showingSetlistFavorite = showingSetlistFavorite;
@@ -54,8 +53,8 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolderSheetmusic holder, int position) {
 
         // get name and author and if favorite
-        String sh_name = String.valueOf(sheetmusic.get(position).getName());
-        String sh_author = String.valueOf(sheetmusic.get(position).getAuthor()).equals("null") ? context.getResources().getString(R.string.text_unknown) : String.valueOf(sheetmusic.get(position).getAuthor());
+        String sh_name = String.valueOf(sheetmusicOfSetlist.get(position).getName());
+        String sh_author = String.valueOf(sheetmusicOfSetlist.get(position).getAuthor()).equals("null") ? context.getResources().getString(R.string.text_unknown) : String.valueOf(sheetmusicOfSetlist.get(position).getAuthor());
         Boolean isFav = favorite.get(position);
 
         // Set text and color
@@ -77,7 +76,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
             if (showingSetlistFavorite) {
                 Toast.makeText(context, R.string.error_toggle_favorite_in_favorite, Toast.LENGTH_SHORT).show();
             } else {
-                info.toggleFavorite(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId());
+                info.toggleFavorite(holder.getAdapterPosition(), sheetmusicOfSetlist.get(holder.getAdapterPosition()).getId());
                 boolean fav = favorite.get(holder.getAdapterPosition());
                 favorite.set(holder.getAdapterPosition(), !fav);
                 if (!fav) {
@@ -90,7 +89,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
 
         // Click and show sheetmusic
         holder.sheetmusicLayout.setOnClickListener(view -> {
-            Sheetmusic clicked = sheetmusic.get(holder.getAdapterPosition());
+            Sheetmusic clicked = sheetmusicOfSetlist.get(holder.getAdapterPosition());
             int pdfFiles = 0;
             int jpgFiles = 0;
 
@@ -125,7 +124,9 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
                 dBuilder.setTitle(R.string.dialog_title_delete_item);
 
                 // delete item
-                dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> info.deleteSheetmusic(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId()));
+                dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
+                    info.deleteSheetmusic(holder.getAdapterPosition(), sheetmusicOfSetlist.get(holder.getAdapterPosition()).getId());
+                });
 
                 // cancel
                 dBuilder.setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.cancel());
@@ -140,7 +141,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return sheetmusic.size();
+        return sheetmusicOfSetlist.size();
     }
 
 

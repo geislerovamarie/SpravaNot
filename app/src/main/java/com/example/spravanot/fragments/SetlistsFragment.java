@@ -49,6 +49,14 @@ public class SetlistsFragment extends Fragment {
         db = new DatabaseHelper(getContext());
         setUpInfo();
         setUpLauncher();
+
+        // set up Favorite if doesnt exist
+        if(!db.doesFavoriteExist()){
+            Setlist f = new Setlist(-1);
+            f.setName("Favorite");
+            f.setNotes("Favorite / Oblíbené");
+            db.addSetlist(f);
+        }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

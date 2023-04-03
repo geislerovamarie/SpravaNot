@@ -123,7 +123,7 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
         info = new PassInfoSheetmusic() {
             @Override
             public void deleteSheetmusic(int position, int idSh) {
-                db.deleteOneSheetmusic(idSh);
+                db.deleteOneSheetmusicFromSetlist(idSh, setlist.getId());
                 sheetmusicsOfSetlist.remove(position);
                 sheetmusicAdapter.notifyItemRemoved(position);
             }

@@ -467,7 +467,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Deleting -----------------------------------------------------------------
     public void deleteOneSheetmusic(int id){
         SQLiteDatabase db = this.getWritableDatabase();
+        deleteOneSheetmusicFromEverySetlist(id);
         db.delete(TABLE_SHEETMUSIC, COL_ID + " = ?", new String[] {String.valueOf(id)});
+    }
+
+    public void deleteOneSheetmusicFromEverySetlist(int id_sh){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SHEETMUSIC_SETLIST, COL_ID_SHEETMUSIC + " = ?", new String[] {String.valueOf(id_sh)});
     }
 
     public void deleteOneSetlist(int id){

@@ -37,6 +37,7 @@ public class AddSheetsToSetlistActivity extends AppCompatActivity {
     Setlist setlist;
     ArrayList<Sheetmusic> sheetmusicsOfSetlist;
     ArrayList<Sheetmusic> result;
+    ArrayList<Sheetmusic> allSheetmusic;
 
 
     @Override
@@ -90,8 +91,8 @@ public class AddSheetsToSetlistActivity extends AppCompatActivity {
 
     AddSheetmusicToSetlistAdapter prepareAdapter(){
         db = new DatabaseHelper(this);
-        //sheetmusicsOfSetlist = db.selectSheetmusicForSetlist(setlist.getId());
-        sheetmusicsOfSetlist = db.selectAllSheetmusic();
+        sheetmusicsOfSetlist = db.selectSheetmusicForSetlist(setlist.getId());
+        allSheetmusic = db.selectAllSheetmusic();
 
         // TODO modify for various sort and filter
         //sortSheetsArrayAlphabetically();
@@ -99,12 +100,12 @@ public class AddSheetsToSetlistActivity extends AppCompatActivity {
         //get favorite
         ArrayList<Boolean> isFavorite = new ArrayList<>();
         int favSetlistID = db.getIdOfFavorite();
-        for (int i = 0; i < sheetmusicsOfSetlist.size(); i++) {
-            Boolean f = db.isInSetlist(sheetmusicsOfSetlist.get(i).getId(), favSetlistID);
+        for (int i = 0; i < allSheetmusic.size(); i++) {
+            Boolean f = db.isInSetlist(allSheetmusic.get(i).getId(), favSetlistID);
             isFavorite.add(f);
         }
         boolean isThisSetlistFavorite = (setlist.getId()==favSetlistID);
-        sheetmusicAdapter = new AddSheetmusicToSetlistAdapter(this, this, sheetmusicsOfSetlist, info, isFavorite, isThisSetlistFavorite, setlist.getSheetmusic());
+        sheetmusicAdapter = new AddSheetmusicToSetlistAdapter(this, this, allSheetmusic, info, isFavorite, isThisSetlistFavorite, sheetmusicsOfSetlist);
 
         return sheetmusicAdapter;
     }
@@ -136,7 +137,7 @@ public class AddSheetsToSetlistActivity extends AppCompatActivity {
         info = new PassInfoSheetmusic() {
             @Override
             public void deleteSheetmusic(int position, int idSh) {
-                db.deleteOneSheetmusic(idSh);
+                db.deleteOneSheetmusicFromSetlist(idSh, setlist.getId());
                 sheetmusicsOfSetlist.remove(position);
                 sheetmusicAdapter.notifyItemRemoved(position);
             }
