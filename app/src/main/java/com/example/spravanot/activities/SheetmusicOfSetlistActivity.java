@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.models.Setlist;
 import com.example.spravanot.models.Sheetmusic;
 import com.example.spravanot.utils.DatabaseHelper;
+import com.example.spravanot.utils.FilterOptions;
 
 import java.util.ArrayList;
 
@@ -36,6 +39,7 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
     DatabaseHelper db;
     Setlist setlist;
     ArrayList<Sheetmusic> sheetmusicsOfSetlist;
+    FilterOptions filterOption;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +56,7 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
     void initElements(){
         db = new DatabaseHelper(this);
         setlist = (Setlist) getIntent().getSerializableExtra("setlist");
+        filterOption = FilterOptions.NAME;
 
         recView = findViewById(R.id.recyclerViewSheets);
         add_sheetmusic_button = findViewById(R.id.buttonSheetsAdd);
@@ -69,8 +74,21 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
             activityResultLaunch.launch(intent);    // code 16
         });
         filter_button.setOnClickListener(view1 -> {
-            Toast.makeText(this, "Filterrr", Toast.LENGTH_SHORT).show();
-            // todo filter
+            ArrayList<String> options = new ArrayList<>();
+            options.add(String.valueOf(R.string.text_name));
+            options.add(String.valueOf(R.string.text_tags));
+            options.add(String.valueOf(R.string.text_author));
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.filter)
+                    .setItems(options.toArray(new String[0]), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            filterOption = FilterOptions.values()[i];
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
     }
 
@@ -90,7 +108,7 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
             isFavorite.add(f);
         }
         boolean isThisSetlistFavorite = (setlist.getId()==favSetlistID);
-        sheetmusicAdapter = new SheetmusicAdapter(this, this, sheetmusicsOfSetlist, info, isFavorite, isThisSetlistFavorite);
+        sheetmusicAdapter = new SheetmusicAdapter(this, this, sheetmusicsOfSetlist, info, isFavorite, isThisSetlistFavorite, filterOption);
 
         return sheetmusicAdapter;
     }

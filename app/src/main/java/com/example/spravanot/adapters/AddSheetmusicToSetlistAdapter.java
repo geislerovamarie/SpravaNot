@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spravanot.R;
@@ -75,39 +77,15 @@ public class AddSheetmusicToSetlistAdapter extends RecyclerView.Adapter<AddSheet
         holder.sheetmusicLayout.setOnClickListener(view -> {
             Sheetmusic clicked = sheetmusic.get(holder.getAdapterPosition());
             if(setlistContains(selected, clicked)){
-                selected.remove(clicked);
-                holder.sheetmusicLayout.setBackgroundResource(androidx.cardview.R.color.cardview_light_background);
+                selected = setlistRemove(selected, clicked);
+                holder.sheetmusic_card.setBackgroundResource(androidx.cardview.R.color.cardview_light_background);
                 info.addSheetmusicToSetlist(clicked, false);
             }else{
                 selected.add(clicked);
-                holder.sheetmusicLayout.setBackgroundResource(R.color.teal_200);
+                holder.sheetmusic_card.setBackgroundResource(R.color.teal_200);
                 info.addSheetmusicToSetlist(clicked, true);
             }
         });
-/*
-        // long hold -> delete
-        holder.sheetmusicLayout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                // delete dialog
-                AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
-                dBuilder.setMessage(R.string.dialog_delete_item);
-                dBuilder.setTitle(R.string.dialog_title_delete_item);
-
-                // delete item
-                dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> info.deleteSheetmusic(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId()));
-
-                // cancel
-                dBuilder.setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.cancel());
-
-                // show the dialog
-                AlertDialog dialog = dBuilder.create();
-                dialog.show();
-                return true;
-            }
-        });
-
- */
     }
 
     @Override
@@ -123,6 +101,13 @@ public class AddSheetmusicToSetlistAdapter extends RecyclerView.Adapter<AddSheet
         return ret;
     }
 
+    public ArrayList<Sheetmusic> setlistRemove(ArrayList<Sheetmusic> sArr, Sheetmusic sItem){
+        for (int i = 0; i < sArr.size(); i++) {
+            if(sArr.get(i).getId() == sItem.getId()) sArr.remove(i);
+        }
+        return sArr;
+    }
+
     // viewholder  and interface --------------------------------
 
     public class ViewHolderSheetmusicToSetlist extends RecyclerView.ViewHolder {
@@ -131,6 +116,7 @@ public class AddSheetmusicToSetlistAdapter extends RecyclerView.Adapter<AddSheet
         ImageButton sheetmusic_edit_button;
         ImageButton sheetmusic_favorite_button;
         LinearLayout sheetmusicLayout;
+        CardView sheetmusic_card;
 
         public ViewHolderSheetmusicToSetlist(@NonNull View itemView) {
             super(itemView);
@@ -139,6 +125,7 @@ public class AddSheetmusicToSetlistAdapter extends RecyclerView.Adapter<AddSheet
             sheetmusic_edit_button = itemView.findViewById(R.id.sheetmusic_edit_button);
             sheetmusic_favorite_button = itemView.findViewById(R.id.sheetmusic_favorite_button);
             sheetmusicLayout = itemView.findViewById(R.id.sheetmusicLayout);
+            sheetmusic_card = itemView.findViewById(R.id.sheets_card);
 
             sheetmusic_edit_button.setVisibility(View.GONE);
             sheetmusic_favorite_button.setVisibility(View.GONE);

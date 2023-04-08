@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -59,6 +60,7 @@ public class EditSetlistActivity extends AppCompatActivity {
         tags_text = findViewById(R.id.edit_setlist_tags_answer);
         edit_tag = findViewById(R.id.edit_setlist_edit_tags_button);
         save = findViewById(R.id.edit_setlist_add_button);
+        tags_text.setMovementMethod(new ScrollingMovementMethod());
     }
 
     void getAndSetSetlistData(){

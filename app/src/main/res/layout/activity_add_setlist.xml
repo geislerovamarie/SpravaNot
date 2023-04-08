@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.92" />
+        app:layout_constraintGuide_begin="673dp" />
 
 
     <TextView
@@ -122,13 +122,17 @@
 
     <TextView
         android:id="@+id/add_setlist_tags_answer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:text=""
-        app:layout_constraintBottom_toBottomOf="@id/add_setlist_tags_guideline"
-        app:layout_constraintEnd_toStartOf="@id/add_setlist_right_guideline"
+
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/add_setlist_add_guideline"
+        app:layout_constraintTop_toBottomOf="@id/add_setlist_notes_guideline"
+        app:layout_constraintEnd_toStartOf="@id/add_setlist_edit_tags_button"
         app:layout_constraintStart_toStartOf="@id/add_setlist_center_guideline"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.2"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

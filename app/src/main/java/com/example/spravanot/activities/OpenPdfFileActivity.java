@@ -27,6 +27,7 @@ public class OpenPdfFileActivity extends AppCompatActivity {
             pdfView = findViewById(R.id.open_pdf_View);
             Uri uri = Uri.parse(path);
             openPdf(uri);
+            // todo STORE AS LAST OPENED IN SHARED PREFERENCES
         }else{
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
         }

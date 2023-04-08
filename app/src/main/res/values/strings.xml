@@ -51,5 +51,7 @@
     <string name="tag_already_present">This tag was already added</string>
     <string name="dialog_remove_sheetmusic_from_setlist">Are you sure you want to remove this sheetmusic from the setlist?</string>
     <string name="error_toggle_favorite_in_favorite">Not possible to change in this setlist</string>
+    <string name="filter">Filter</string>
+    <string name="name">Name</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

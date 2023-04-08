@@ -49,6 +49,8 @@ public class JpgImageAdapter extends PagerAdapter {
         imageView.setImageURI(uri);
 
         Objects.requireNonNull(container).addView(itemView);
+
+        // todo STORE AS LAST OPENED IN SHARED PREFERENCES
         return itemView;
     }
 

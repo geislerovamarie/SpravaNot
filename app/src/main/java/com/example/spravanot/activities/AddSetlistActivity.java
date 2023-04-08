@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -62,6 +63,7 @@ public class AddSetlistActivity extends AppCompatActivity {
         tags_text = findViewById(R.id.add_setlist_tags_answer);
         edit_tag = findViewById(R.id.add_setlist_edit_tags_button);
         save = findViewById(R.id.add_setlist_add_button);
+        tags_text.setMovementMethod(new ScrollingMovementMethod());
     }
 
     void setOnClickListeners(){

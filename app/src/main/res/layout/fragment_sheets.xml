@@ -7,29 +7,19 @@
     tools:context=".fragments.SheetsFragment"
     android:layout_marginBottom="56dp">
 
-    <AutoCompleteTextView
-        android:id="@+id/textViewSheetsSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:text="text..."
-        app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
-        app:layout_constraintEnd_toStartOf="@id/searchViewSheets"
-        app:layout_constraintStart_toStartOf="@id/sheets_left_guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.7"
-        app:layout_constraintHorizontal_bias="0.0"/>
-
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/searchViewSheets"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-
+        android:layout_alignParentEnd="true"
+        android:iconifiedByDefault="false"
+        app:queryBackground="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
-        app:layout_constraintVertical_bias="0.7"
-        app:layout_constraintEnd_toStartOf="@id/buttonSheetsFilter"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintEnd_toStartOf="@+id/buttonSheetsFilter"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageButton
         android:id="@+id/buttonSheetsFilter"

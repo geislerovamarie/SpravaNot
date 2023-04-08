@@ -14,9 +14,11 @@
         tools:targetApi="31">
         <activity
             android:name=".activities.EditSetlistActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".activities.SheetmusicOfSetlistActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".activities.EditTagsActivity"
@@ -32,16 +34,20 @@
             android:exported="false" />
         <activity
             android:name=".activities.AddSheetsToSetlistActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false"
             android:parentActivityName=".activities.SheetmusicOfSetlistActivity" />
         <activity
             android:name=".activities.EditSheetmusicActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".activities.AddSetlistActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".activities.AddSheetmusicActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".activities.SplashScreenActivity"
@@ -53,6 +59,7 @@
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.MainActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

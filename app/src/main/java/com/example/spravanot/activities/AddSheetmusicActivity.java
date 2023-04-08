@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -79,6 +80,8 @@ public class AddSheetmusicActivity extends AppCompatActivity {
         edit_mp3 = findViewById(R.id.add_sheetmusic_edit_mp3_button);
         edit_tag = findViewById(R.id.add_sheetmusic_edit_tags_button);
         save = findViewById(R.id.add_sheetmusic_add_button);
+
+        tags_text.setMovementMethod(new ScrollingMovementMethod());
     }
 
     void setUpLauncher(){

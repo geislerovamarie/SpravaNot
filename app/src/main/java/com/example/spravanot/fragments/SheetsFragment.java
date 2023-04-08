@@ -1,17 +1,22 @@
 package com.example.spravanot.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +29,7 @@ import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.models.Setlist;
 import com.example.spravanot.models.Sheetmusic;
 import com.example.spravanot.utils.DatabaseHelper;
+import com.example.spravanot.utils.FilterOptions;
 
 import java.util.ArrayList;
 
@@ -35,6 +41,8 @@ public class SheetsFragment extends Fragment {
     SheetmusicAdapter sheetmusicAdapter;
     RecyclerView recView;
     ImageButton add_sheetmusic_button, filter_button;
+    SearchView search;
+    FilterOptions filterOption;
 
     DatabaseHelper db;
     ArrayList<Sheetmusic> sheetmusics;
@@ -42,6 +50,7 @@ public class SheetsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        filterOption = FilterOptions.NAME;
 
         db = new DatabaseHelper(getContext());
         setUpLauncher();
@@ -54,6 +63,7 @@ public class SheetsFragment extends Fragment {
 
         recView = view.findViewById(R.id.recyclerViewSheets);
         recView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
         sheetmusicAdapter = prepareAdapter();
         recView.setAdapter(sheetmusicAdapter);
         return view;
@@ -68,11 +78,39 @@ public class SheetsFragment extends Fragment {
             Intent intent = new Intent(getActivity(), AddSheetmusicActivity.class);
             activityResultLaunch.launch(intent);
         });
+        search = view.findViewById(R.id.searchViewSheets);
+        search.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) { return false;  }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                sheetmusicAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
 
         filter_button = getView().findViewById(R.id.buttonSheetsFilter);
         filter_button.setOnClickListener(view1 -> {
-            Toast.makeText(getContext(), "Filterrr", Toast.LENGTH_SHORT).show();
-            // todo filter
+            ArrayList<String> options = new ArrayList<>();
+            options.add(getString(R.string.text_name));
+            options.add(getString(R.string.text_tags));
+            options.add(getString(R.string.text_author));
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.filter)
+                    .setItems(options.toArray(new String[0]), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            filterOption = FilterOptions.values()[i];
+                            sheetmusicAdapter = prepareAdapter();
+                            recView.setAdapter(sheetmusicAdapter);
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
     }
 
@@ -92,7 +130,7 @@ public class SheetsFragment extends Fragment {
             isFavorite.add(f);
         }
 
-        sheetmusicAdapter = new SheetmusicAdapter(getActivity(), getContext(), sheetmusics, info, isFavorite, false);
+        sheetmusicAdapter = new SheetmusicAdapter(getActivity(), getContext(), sheetmusics, info, isFavorite, false, filterOption);
         return sheetmusicAdapter;
     }
 
