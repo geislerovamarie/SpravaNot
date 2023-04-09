@@ -52,4 +52,6 @@
     <string name="error_toggle_favorite_in_favorite">Není možné změnit v tomto seznamu</string>
     <string name="filter">Filtr</string>
     <string name="name">Název</string>
+    <string name="text_type">Typ</string>
+    <string name="text_last_sheetmusic">Naposledy otevřeno</string>
 </resources>

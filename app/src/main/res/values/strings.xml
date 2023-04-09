@@ -53,5 +53,7 @@
     <string name="error_toggle_favorite_in_favorite">Not possible to change in this setlist</string>
     <string name="filter">Filter</string>
     <string name="name">Name</string>
+    <string name="text_type">Type</string>
+    <string name="text_last_sheetmusic">Last opened</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
