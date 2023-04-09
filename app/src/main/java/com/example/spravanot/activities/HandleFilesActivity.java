@@ -42,6 +42,7 @@ public class HandleFilesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = new DatabaseHelper(this);
         setContentView(R.layout.activity_handle_files);
+        setTitle(getResources().getString(R.string.text_files));
 
         setUpInfo();
         setUpLauncher();

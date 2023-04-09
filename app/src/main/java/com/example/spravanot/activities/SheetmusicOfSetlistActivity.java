@@ -52,9 +52,12 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
     }
 
     void initElements(){
+
         db = new DatabaseHelper(this);
         setlist = (Setlist) getIntent().getSerializableExtra("setlist");
         filterOption = FilterOptions.NAME;
+
+        setTitle(setlist.getName());
 
         recView = findViewById(R.id.recyclerViewSheets);
         add_sheetmusic_button = findViewById(R.id.buttonSheetsAdd);

@@ -42,6 +42,7 @@ public class EditTagsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
        // db = new DatabaseHelper(this);
         setContentView(R.layout.activity_handle_files);
+        setTitle(getResources().getString(R.string.text_tags));
 
         // PassInfo - child activiry adapter tells this activity, which files should be removed
         info = new PassInfoSheetmusic() {

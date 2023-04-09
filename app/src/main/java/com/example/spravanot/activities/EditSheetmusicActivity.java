@@ -202,6 +202,7 @@ public class EditSheetmusicActivity extends AppCompatActivity {
     }
 
     void initGUI(){
+        setTitle(getResources().getString(R.string.title_edit_sheetmusic));
         name_text = findViewById(R.id.edit_sheetmusic_name_answer);
         author_text = findViewById(R.id.edit_sheetmusic_author_answer);
         genre_text = findViewById(R.id.edit_sheetmusic_genre_answer);

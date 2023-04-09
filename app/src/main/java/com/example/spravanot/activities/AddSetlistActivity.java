@@ -57,6 +57,7 @@ public class AddSetlistActivity extends AppCompatActivity {
     }
 
     void init(){
+        setTitle(getResources().getString(R.string.title_add_setlist));
         tags = new ArrayList<>();
         name_text = findViewById(R.id.add_setlist_name_answer);
         notes_text = findViewById(R.id.add_setlist_notes_answer);

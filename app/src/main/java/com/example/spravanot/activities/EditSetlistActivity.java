@@ -54,6 +54,7 @@ public class EditSetlistActivity extends AppCompatActivity {
     }
 
     void init(){
+        setTitle(getResources().getString(R.string.title_edit_setlist));
         tags = new ArrayList<>();
         name_text = findViewById(R.id.edit_setlist_name_answer);
         notes_text = findViewById(R.id.edit_setlist_notes_answer);

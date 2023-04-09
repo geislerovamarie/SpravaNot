@@ -25,18 +25,19 @@
             android:exported="false" />
         <activity
             android:name=".activities.OpenJpgFileActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".activities.HandleFilesActivity"
             android:exported="false" />
         <activity
             android:name=".activities.OpenPdfFileActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".activities.AddSheetsToSetlistActivity"
             android:windowSoftInputMode="adjustNothing"
-            android:exported="false"
-            android:parentActivityName=".activities.SheetmusicOfSetlistActivity" />
+            android:exported="false" />
         <activity
             android:name=".activities.EditSheetmusicActivity"
             android:windowSoftInputMode="adjustNothing"

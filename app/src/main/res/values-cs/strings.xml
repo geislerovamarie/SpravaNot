@@ -54,4 +54,6 @@
     <string name="name">Název</string>
     <string name="text_type">Typ</string>
     <string name="text_last_sheetmusic">Naposledy otevřeno</string>
+    <string name="title_edit_sheetmusic">Upravit noty</string>
+    <string name="title_edit_setlist">Upravit seznam</string>
 </resources>

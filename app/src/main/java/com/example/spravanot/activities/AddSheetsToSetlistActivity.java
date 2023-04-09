@@ -56,6 +56,8 @@ public class AddSheetsToSetlistActivity extends AppCompatActivity {
     }
 
     void initElements(){
+        setTitle(getResources().getString(R.string.title_add_sheetmusic));
+
         db = new DatabaseHelper(this);
         setlist = (Setlist) getIntent().getSerializableExtra("setlist");
         result = setlist.getSheetmusic();

@@ -65,6 +65,7 @@ public class AddSheetmusicActivity extends AppCompatActivity {
     }
 
     void initGUI(){
+        setTitle(getResources().getString(R.string.title_add_sheetmusic));
         name_text = findViewById(R.id.add_sheetmusic_name_answer);
         author_text = findViewById(R.id.add_sheetmusic_author_answer);
         genre_text = findViewById(R.id.add_sheetmusic_genre_answer);
