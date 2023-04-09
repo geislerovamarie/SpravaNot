@@ -91,7 +91,6 @@ public class SheetsFragment extends Fragment {
             }
         });
 
-
         filter_button = getView().findViewById(R.id.buttonSheetsFilter);
         filter_button.setOnClickListener(view1 -> {
             ArrayList<String> options = new ArrayList<>();
@@ -165,7 +164,9 @@ public class SheetsFragment extends Fragment {
             public void deleteSheetmusic(int position, int idSh) {
                 db.deleteOneSheetmusic(idSh);
                 sheetmusics.remove(position);
-                sheetmusicAdapter.notifyItemRemoved(position);
+                sheetmusicAdapter = prepareAdapter();
+                recView.setAdapter(sheetmusicAdapter);
+                sheetmusicAdapter.notifyDataSetChanged();
             }
 
             @Override

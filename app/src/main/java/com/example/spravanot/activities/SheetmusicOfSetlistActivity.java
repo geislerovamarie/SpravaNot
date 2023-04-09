@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -40,6 +42,7 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
     Setlist setlist;
     ArrayList<Sheetmusic> sheetmusicsOfSetlist;
     FilterOptions filterOption;
+    SearchView search;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +64,8 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
         recView = findViewById(R.id.recyclerViewSheets);
         add_sheetmusic_button = findViewById(R.id.buttonSheetsAdd);
         filter_button = findViewById(R.id.buttonSheetsFilter);
+        search = findViewById(R.id.searchViewSheets);
+        search.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         recView.setLayoutManager(new LinearLayoutManager(this));
         sheetmusicAdapter = prepareAdapter();
@@ -75,9 +80,9 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
         });
         filter_button.setOnClickListener(view1 -> {
             ArrayList<String> options = new ArrayList<>();
-            options.add(String.valueOf(R.string.text_name));
-            options.add(String.valueOf(R.string.text_tags));
-            options.add(String.valueOf(R.string.text_author));
+            options.add(getString(R.string.text_name));
+            options.add(getString(R.string.text_tags));
+            options.add(getString(R.string.text_author));
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.filter)
@@ -85,10 +90,22 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             filterOption = FilterOptions.values()[i];
+                            sheetmusicAdapter = prepareAdapter();
+                            recView.setAdapter(sheetmusicAdapter);
                         }
                     });
             AlertDialog dialog = builder.create();
             dialog.show();
+        });
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {return false;}
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                sheetmusicAdapter.getFilter().filter(newText);
+                return false;
+            }
         });
     }
 
@@ -97,7 +114,7 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
         sheetmusicsOfSetlist = db.selectSheetmusicForSetlist(setlist.getId());
         setlist.setSheetmusic(sheetmusicsOfSetlist);
 
-        // TODO modify for various sort and filter
+        // SORT
         //sortSheetsArrayAlphabetically();
 
         //get favorite
@@ -143,7 +160,9 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
             public void deleteSheetmusic(int position, int idSh) {
                 db.deleteOneSheetmusicFromSetlist(idSh, setlist.getId());
                 sheetmusicsOfSetlist.remove(position);
-                sheetmusicAdapter.notifyItemRemoved(position);
+                sheetmusicAdapter = prepareAdapter();
+                recView.setAdapter(sheetmusicAdapter);
+                sheetmusicAdapter.notifyDataSetChanged();
             }
 
             @Override

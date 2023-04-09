@@ -36,7 +36,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     private boolean showingSetlistFavorite;
 
     ArrayList<Sheetmusic> sheetmusicCopyFull;
-    private ArrayList<Boolean> favoriteCopyFull;
     FilterOptions filterOption;
 
 
@@ -48,7 +47,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         this.favorite = favorite;
         this.showingSetlistFavorite = showingSetlistFavorite;
 
-        this.favoriteCopyFull = new ArrayList<Boolean>(favorite);
         this.sheetmusicCopyFull = new ArrayList<Sheetmusic>(sheetmusicOfSetlist);
         this.filterOption = filterOption;
     }
@@ -67,7 +65,8 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         // get name and author and if favorite
         String sh_name = String.valueOf(sheetmusicOfSetlist.get(position).getName());
         String sh_author = String.valueOf(sheetmusicOfSetlist.get(position).getAuthor()).equals("null") ? context.getResources().getString(R.string.text_unknown) : String.valueOf(sheetmusicOfSetlist.get(position).getAuthor());
-        Boolean isFav = favorite.get(position);
+        int truePos = getTruePositionWhileFiltering(sheetmusicOfSetlist.get(position));
+        Boolean isFav = favorite.get(truePos);
 
         // Set text and color
         holder.sheetmusic_name_text.setText(sh_name);
