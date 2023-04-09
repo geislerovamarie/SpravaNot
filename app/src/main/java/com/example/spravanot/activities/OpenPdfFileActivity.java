@@ -2,6 +2,8 @@ package com.example.spravanot.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -27,7 +29,12 @@ public class OpenPdfFileActivity extends AppCompatActivity {
             pdfView = findViewById(R.id.open_pdf_View);
             Uri uri = Uri.parse(path);
             openPdf(uri);
-            // todo STORE AS LAST OPENED IN SHARED PREFERENCES
+
+            // store as last opened in shared preferences
+            SharedPreferences sharedPref = getSharedPreferences("LastFilePref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("last_opened", path);
+            editor.apply();
         }else{
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
         }

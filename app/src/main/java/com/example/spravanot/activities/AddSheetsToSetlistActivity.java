@@ -2,7 +2,6 @@ package com.example.spravanot.activities;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,11 +14,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.spravanot.R;
 import com.example.spravanot.adapters.AddSheetmusicToSetlistAdapter;
-import com.example.spravanot.adapters.SheetmusicAdapter;
 import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.models.Setlist;
 import com.example.spravanot.models.Sheetmusic;
@@ -66,7 +63,7 @@ public class AddSheetsToSetlistActivity extends AppCompatActivity {
 
         recView = findViewById(R.id.recyclerViewSheets);
         add_sheetmusic_button = findViewById(R.id.buttonSheetsAdd);
-        filter_button = findViewById(R.id.buttonSheetsFilter);
+        filter_button = findViewById(R.id.home_icon);
         sheetmusic_save_button = findViewById(R.id.save_sheets_button);
         search = findViewById(R.id.searchViewSheets);
         search.setImeOptions(EditorInfo.IME_ACTION_DONE);

@@ -1,6 +1,7 @@
 package com.example.spravanot.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,12 @@ public class JpgImageAdapter extends PagerAdapter {
 
         Objects.requireNonNull(container).addView(itemView);
 
-        // todo STORE AS LAST OPENED IN SHARED PREFERENCES
+        // store as last opened in shared preferences
+        SharedPreferences sharedPref = context.getSharedPreferences("LastFilePref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("last_opened", path);
+        editor.apply();
+
         return itemView;
     }
 

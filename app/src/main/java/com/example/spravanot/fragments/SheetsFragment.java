@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -91,7 +89,7 @@ public class SheetsFragment extends Fragment {
             }
         });
 
-        filter_button = getView().findViewById(R.id.buttonSheetsFilter);
+        filter_button = getView().findViewById(R.id.home_icon);
         filter_button.setOnClickListener(view1 -> {
             ArrayList<String> options = new ArrayList<>();
             options.add(getString(R.string.text_name));

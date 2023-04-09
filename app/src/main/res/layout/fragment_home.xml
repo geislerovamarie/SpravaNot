@@ -13,52 +13,57 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_last_sheetmusic"
+        android:textSize="18dp"
 
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
-        app:layout_constraintEnd_toStartOf="@id/sheets_right_guideline"
-        app:layout_constraintStart_toStartOf="@id/sheets_left_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/home_top_guideline"
+        app:layout_constraintEnd_toStartOf="@id/home_right_guideline"
+        app:layout_constraintStart_toStartOf="@id/home_left_guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="0.0"
         />
 
     <ImageButton
-        android:id="@+id/buttonSheetsFilter"
+        android:id="@+id/home_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_input_get"
         android:contentDescription="@string/describe_sheet_filter"
-        app:layout_constraintBottom_toBottomOf="@id/sheets_center_guideline"
-        app:layout_constraintEnd_toStartOf="@id/sheets_middle_guideline"
-        app:layout_constraintStart_toEndOf="@id/sheets_left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/sheets_top_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/home_center_guideline"
+        app:layout_constraintEnd_toStartOf="@id/home_middle_guideline"
+        app:layout_constraintStart_toEndOf="@id/home_left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/home_top_guideline"
         app:layout_constraintVertical_bias="0.3"
         app:layout_constraintHorizontal_bias="0.4"/>
 
     <TextView
         android:id="@+id/home_last_file_details_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/text_name"
+        android:maxLines="1"
+        android:ellipsize="end"
 
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="@id/sheets_name_guideline"
-        app:layout_constraintEnd_toStartOf="@id/sheets_right_guideline"
-        app:layout_constraintStart_toStartOf="@id/sheets_middle_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/home_name_guideline"
+        app:layout_constraintEnd_toStartOf="@id/home_right_guideline"
+        app:layout_constraintStart_toStartOf="@id/home_middle_guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="0.0"
         />
 
     <TextView
         android:id="@+id/home_last_file_details_address"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/text_address"
+        android:maxLines="1"
+        android:ellipsize="end"
 
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="@id/sheets_address_guideline"
-        app:layout_constraintEnd_toStartOf="@id/sheets_right_guideline"
-        app:layout_constraintStart_toStartOf="@id/sheets_middle_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/home_address_guideline"
+        app:layout_constraintEnd_toStartOf="@id/home_right_guideline"
+        app:layout_constraintStart_toStartOf="@id/home_middle_guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="0.0"
         />
@@ -70,9 +75,9 @@
         android:text="@string/text_type"
 
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="@id/sheets_type_guideline"
-        app:layout_constraintEnd_toStartOf="@id/sheets_right_guideline"
-        app:layout_constraintStart_toStartOf="@id/sheets_middle_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/home_type_guideline"
+        app:layout_constraintEnd_toStartOf="@id/home_right_guideline"
+        app:layout_constraintStart_toStartOf="@id/home_middle_guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="0.0"
         />
@@ -81,88 +86,90 @@
         android:id="@+id/home_favorite_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:text="@string/text_home_favorite"
+        android:textSize="18dp"
 
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="@id/sheets_center_guideline"
-        app:layout_constraintEnd_toStartOf="@id/sheets_right_guideline"
-        app:layout_constraintStart_toStartOf="@id/sheets_left_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/home_center_guideline"
+        app:layout_constraintEnd_toStartOf="@id/home_right_guideline"
+        app:layout_constraintStart_toStartOf="@id/home_left_guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="0.0"
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewSheets"
+        android:id="@+id/recyclerViewHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/sheets_center_guideline"
-        app:layout_constraintBottom_toBottomOf="@id/sheets_bottom_guideline"
+        app:layout_constraintTop_toTopOf="@+id/home_center_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/home_bottom_guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="0.0"  />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/sheets_top_guideline"
+        android:id="@+id/home_top_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/sheets_name_guideline"
+        android:id="@+id/home_name_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.18" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/sheets_address_guideline"
+        android:id="@+id/home_address_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.23" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/sheets_type_guideline"
+        android:id="@+id/home_type_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.28" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/sheets_center_guideline"
+        android:id="@+id/home_center_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.43" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/sheets_bottom_guideline"
+        android:id="@+id/home_bottom_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.95" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/sheets_left_guideline"
+        android:id="@+id/home_left_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.07" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/sheets_right_guideline"
+        android:id="@+id/home_right_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/sheets_middle_guideline"
+        android:id="@+id/home_middle_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.32" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
