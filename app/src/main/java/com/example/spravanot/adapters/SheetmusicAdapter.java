@@ -196,6 +196,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         intent.putExtra("modify", false);
         intent.putExtra("type", "jpg");
         intent.putExtra("jpgs", jpgs);
+        intent.putExtra("sheetmusic", s);
         activity.startActivityForResult(intent, 6);
     }
 

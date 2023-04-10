@@ -59,5 +59,12 @@
     <string name="text_last_sheetmusic">Last opened</string>
     <string name="title_edit_sheetmusic">Edit sheetmusic</string>
     <string name="title_edit_setlist">Edit setlist</string>
+    <string name="play_description">Play button</string>
+    <string name="pause_description">Pause button</string>
+    <string name="options">Options</string>
+    <string name="dialog_show_mp3">Show MP3 options</string>
+    <string name="dialog_hide">Hide options</string>
+    <string name="dialog_draw">Show draw options</string>
+    <string name="no_mp3">No available MP3 file</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

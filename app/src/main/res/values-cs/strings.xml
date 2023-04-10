@@ -56,4 +56,11 @@
     <string name="text_last_sheetmusic">Naposledy otevřeno</string>
     <string name="title_edit_sheetmusic">Upravit noty</string>
     <string name="title_edit_setlist">Upravit seznam</string>
+    <string name="play_description">Spustit</string>
+    <string name="pause_description">Zastavit</string>
+    <string name="options">Možnosti</string>
+    <string name="dialog_show_mp3">Zobrazit MP3 možnosti</string>
+    <string name="dialog_hide">Skrýt možnosti</string>
+    <string name="dialog_draw">Zobrazit možnost kreslení</string>
+    <string name="no_mp3">Žádný vhodný MP3 soubor</string>
 </resources>

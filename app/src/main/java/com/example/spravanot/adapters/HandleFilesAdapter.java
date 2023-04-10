@@ -103,17 +103,17 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
     }
 
     public void openPdf(String path){
-        // if sh not null, add mp3
         Intent intent = new Intent(context, OpenPdfFileActivity.class);
         intent.putExtra("path", path);
+        if(sh != null)intent.putExtra("mp3", sh.getMp3());
         activity.startActivity(intent);
     }
 
     public void openJpg(int position){
-        // if sh not null, add mp3
         Intent intent = new Intent(context, OpenJpgFileActivity.class);
         intent.putExtra("addresses", addresses);
         intent.putExtra("position", position);
+        if(sh != null)intent.putExtra("mp3", sh.getMp3());
         activity.startActivity(intent);
     }
 
