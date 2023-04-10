@@ -66,5 +66,8 @@
     <string name="dialog_hide">Hide options</string>
     <string name="dialog_draw">Show draw options</string>
     <string name="no_mp3">No available MP3 file</string>
+    <string name="text_undo">Undo</string>
+    <string name="text_width">Width</string>
+    <string name="text_save">Save</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

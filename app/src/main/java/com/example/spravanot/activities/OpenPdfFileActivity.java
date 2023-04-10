@@ -6,18 +6,22 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.spravanot.R;
+import com.example.spravanot.utils.DrawView;
 import com.example.spravanot.utils.Mp3Player;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +40,10 @@ public class OpenPdfFileActivity extends AppCompatActivity {
     MediaPlayer mediaPlayer = Mp3Player.getInstance();
     Uri mp3Uri;
 
+    // draw
+    DrawView paint;
+    ImageButton undo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +55,16 @@ public class OpenPdfFileActivity extends AppCompatActivity {
     void init(){
         setContentView(R.layout.activity_open_pdf);
         context = this;
-        //init
+
+        //init mp3
         pause_play_button = findViewById(R.id.open_pdf_pause_button);
         seekBar = findViewById(R.id.open_pdf_bar);
         optionsButton = findViewById(R.id.open_pdf_options);
+
+        //init draw
+        paint = findViewById(R.id.open_pdf_draw_view);
+        undo = findViewById(R.id.open_pdf_undo_button);
+        drawInit();
 
         setOnClickListeners();
     }
@@ -137,6 +151,28 @@ public class OpenPdfFileActivity extends AppCompatActivity {
                 pausePlay();
             }
         });
+
+        // draw
+        undo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                paint.undo();
+            }
+        });
+    }
+
+    // Draw -----------------------------------------------------
+    void drawInit(){
+        ViewTreeObserver vto = paint.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                paint.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                int w = paint.getMeasuredWidth();
+                int h = paint.getMeasuredHeight();
+                paint.init(h, w);
+            }
+        });
     }
 
    // Visibility -------------------------------------------------
@@ -147,7 +183,8 @@ public class OpenPdfFileActivity extends AppCompatActivity {
         seekBar.setVisibility(View.GONE);
 
         // hide draw
-        //TODO
+        undo.setVisibility(View.GONE);
+        paint.setVisibility(View.GONE);
     }
 
     void showMP3(){
@@ -156,7 +193,8 @@ public class OpenPdfFileActivity extends AppCompatActivity {
     }
 
     void showDraw(){
-        //TODO
+        undo.setVisibility(View.VISIBLE);
+        paint.setVisibility(View.VISIBLE);
     }
 
 // MP3 help -----------------------------------------------------

@@ -63,4 +63,7 @@
     <string name="dialog_hide">Skrýt možnosti</string>
     <string name="dialog_draw">Zobrazit možnost kreslení</string>
     <string name="no_mp3">Žádný vhodný MP3 soubor</string>
+    <string name="text_undo">Zpět</string>
+    <string name="text_width">Šířka</string>
+    <string name="text_save">Uložit</string>
 </resources>

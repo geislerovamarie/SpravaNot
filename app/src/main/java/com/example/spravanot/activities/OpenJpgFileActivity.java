@@ -4,24 +4,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.spravanot.adapters.JpgImageAdapter;
 import com.example.spravanot.R;
+import com.example.spravanot.utils.DrawView;
 import com.example.spravanot.utils.FilterOptions;
 import com.example.spravanot.utils.Mp3Player;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +35,8 @@ public class OpenJpgFileActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     Context context;
+    int position;
+    ArrayList<String> addresses;
 
     // mp3
     ImageButton optionsButton;
@@ -37,21 +45,17 @@ public class OpenJpgFileActivity extends AppCompatActivity {
     MediaPlayer mediaPlayer = Mp3Player.getInstance();
     Uri mp3Uri;
 
+    // draw
+    DrawView paint;
+    ImageButton undo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_jpg_file);
         context = this;
-        //init
-        pause_play_button = findViewById(R.id.open_jpg_pause_button);
-        seekBar = findViewById(R.id.open_jpg_bar);
 
-        viewPager = findViewById(R.id.open_jpg_viewpager);
-        ArrayList<String> addresses = getIntent().getExtras().getStringArrayList("addresses"); // uris
-        int position = getIntent().getExtras().getInt("position");
-
-        optionsButton = findViewById(R.id.open_jpg_options);
-
+        init();
         setOnClickListeners();
 
         // get mp3 file
@@ -64,6 +68,23 @@ public class OpenJpgFileActivity extends AppCompatActivity {
         JpgImageAdapter adapter = new JpgImageAdapter(this, addresses);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(position);
+    }
+
+    void init(){
+        //init mp3
+        pause_play_button = findViewById(R.id.open_jpg_pause_button);
+        seekBar = findViewById(R.id.open_jpg_bar);
+
+        //init draw
+        paint = findViewById(R.id.open_jpg_draw_view);
+        undo = findViewById(R.id.open_jpg_undo_button);
+
+        viewPager = findViewById(R.id.open_jpg_viewpager);
+        optionsButton = findViewById(R.id.open_jpg_options);
+        addresses = getIntent().getExtras().getStringArrayList("addresses"); // uris
+        position = getIntent().getExtras().getInt("position");
+
+        drawInit();
     }
 
     void setOnClickListeners(){
@@ -104,11 +125,19 @@ public class OpenJpgFileActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
-
+        // mp3
         pause_play_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 pausePlay();
+            }
+        });
+
+        // draw
+        undo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                paint.undo();
             }
         });
     }
@@ -121,7 +150,8 @@ public class OpenJpgFileActivity extends AppCompatActivity {
         seekBar.setVisibility(View.GONE);
 
         // hide draw
-        //TODO
+        undo.setVisibility(View.GONE);
+        paint.setVisibility(View.GONE);
     }
 
     void showMP3(){
@@ -130,7 +160,8 @@ public class OpenJpgFileActivity extends AppCompatActivity {
     }
 
     void showDraw(){
-        //TODO
+        undo.setVisibility(View.VISIBLE);
+        paint.setVisibility(View.VISIBLE);
     }
 
 // MP3 help -----------------------------------------------------
@@ -186,5 +217,19 @@ public class OpenJpgFileActivity extends AppCompatActivity {
             mediaPlayer.start();
             pause_play_button.setImageResource(R.drawable.ic_pause);
         }
+    }
+
+    // Draw -----------------------------------------------------
+    void drawInit(){
+        ViewTreeObserver vto = paint.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                paint.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                int w = paint.getMeasuredWidth();
+                int h = paint.getMeasuredHeight();
+                paint.init(h, w);
+            }
+        });
     }
 }

@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
          />
 
+    <!-- mp3 -->
     <ImageButton
         android:id="@+id/open_pdf_pause_button"
         android:layout_width="wrap_content"
@@ -28,15 +29,7 @@
         app:srcCompat="@drawable/ic_pause"
         android:visibility="gone"/>
 
-    <ImageButton
-        android:id="@+id/open_pdf_options"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/describe_edit_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
 
-        app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <SeekBar
         android:layout_width="0dp"
@@ -53,6 +46,40 @@
         />
 
 
+    <!-- draw  -->
+    
+    <com.example.spravanot.utils.DrawView
+        android:id="@+id/open_pdf_draw_view"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        />
+
+    <ImageButton
+        android:id="@+id/open_pdf_undo_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ic_undo"
+        android:contentDescription="@string/text_undo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        />
+    
+    <!-- options  -->
+    <ImageButton
+        android:id="@+id/open_pdf_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/describe_edit_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+
+    <!-- Guidelines -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/open_pdf_left_guideline"
         android:layout_width="wrap_content"
