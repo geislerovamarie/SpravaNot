@@ -43,21 +43,23 @@
 
             <ImageButton
                 android:id="@+id/sheetmusic_edit_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:selectableItemBackground"
                 android:contentDescription="@string/text_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/sheets_row_right_guideline"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
-                app:srcCompat="@android:drawable/ic_menu_preferences" />
+                app:srcCompat="@drawable/ic_edit" />
 
             <ImageButton
                 android:id="@+id/sheetmusic_favorite_button"
+                android:contentDescription="@string/text_home_favorite"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:contentDescription="@string/text_home_favorite"
-                app:srcCompat="@android:drawable/ic_media_play"
+                app:srcCompat="@drawable/ic_heart_empty"
+                android:background="?android:selectableItemBackground"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/sheetmusic_edit_button"
                 app:layout_constraintTop_toTopOf="parent"

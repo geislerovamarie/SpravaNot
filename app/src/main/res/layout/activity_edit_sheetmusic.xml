@@ -357,40 +357,44 @@
 
     <ImageButton
         android:id="@+id/edit_sheetmusic_edit_pdf_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
         android:contentDescription="@string/describe_edit_button"
-        app:srcCompat="@android:drawable/ic_menu_edit"
+        app:srcCompat="@drawable/ic_edit"
         app:layout_constraintBottom_toBottomOf="@id/edit_sheetmusic_files1_guideline"
         app:layout_constraintEnd_toStartOf="@id/edit_sheetmusic_right_guideline"
         app:layout_constraintHorizontal_bias="0.0" />
 
     <ImageButton
         android:id="@+id/edit_sheetmusic_edit_jpg_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
         android:contentDescription="@string/describe_edit_button"
-        app:srcCompat="@android:drawable/ic_menu_edit"
+        app:srcCompat="@drawable/ic_edit"
         app:layout_constraintBottom_toBottomOf="@id/edit_sheetmusic_files2_guideline"
         app:layout_constraintEnd_toStartOf="@id/edit_sheetmusic_right_guideline"
         app:layout_constraintHorizontal_bias="0.0" />
 
     <ImageButton
         android:id="@+id/edit_sheetmusic_edit_mp3_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
         android:contentDescription="@string/describe_edit_button"
-        app:srcCompat="@android:drawable/ic_menu_edit"
+        app:srcCompat="@drawable/ic_edit"
         app:layout_constraintBottom_toBottomOf="@id/edit_sheetmusic_mp3_guideline"
         app:layout_constraintEnd_toStartOf="@id/edit_sheetmusic_right_guideline"
         app:layout_constraintHorizontal_bias="0.0" />
 
     <ImageButton
         android:id="@+id/edit_sheetmusic_edit_tags_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
         android:contentDescription="@string/describe_edit_button"
-        app:srcCompat="@android:drawable/ic_menu_edit"
+        app:srcCompat="@drawable/ic_edit"
         app:layout_constraintBottom_toBottomOf="@id/edit_sheetmusic_tags_guideline"
         app:layout_constraintEnd_toStartOf="@id/edit_sheetmusic_right_guideline"
         app:layout_constraintHorizontal_bias="0.0" />

@@ -23,9 +23,10 @@
 
     <ImageButton
         android:id="@+id/home_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_input_get"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_filter"
         android:contentDescription="@string/describe_sheet_filter"
         app:layout_constraintBottom_toBottomOf="@id/home_top_guideline"
         app:layout_constraintEnd_toStartOf="@id/buttonSheetsAdd"
@@ -34,9 +35,10 @@
 
     <ImageButton
         android:id="@+id/buttonSheetsAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_input_add"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_add"
         android:contentDescription="@string/describe_add_button"
         app:layout_constraintBottom_toBottomOf="@id/home_top_guideline"
         app:layout_constraintEnd_toEndOf="@id/sheets_right_guideline"

@@ -121,22 +121,23 @@ public class OpenPdfFileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 switch (i){
-                                    case 0:
-                                        hideEverything();
-                                        break;
                                     case 1:
                                         if(mp3Uri != null){
                                             hideEverything();
                                             showMP3();
                                             playMusic();
-                                            break;
                                         }else{
                                             Toast.makeText(context, R.string.no_mp3, Toast.LENGTH_SHORT).show();
                                         }
+                                        break;
 
                                     case 2:
                                         hideEverything();
                                         showDraw();
+                                        break;
+                                    default:
+                                        hideEverything();
+                                        break;
                                 }
                             }
                         });

@@ -26,9 +26,10 @@
 
     <ImageButton
         android:id="@+id/buttonSetlistFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_input_get"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_filter"
         android:contentDescription="@string/describe_sheet_filter"
         app:layout_constraintBottom_toBottomOf="@id/setlist_top_guideline"
         app:layout_constraintEnd_toStartOf="@id/buttonSetlistAdd"
@@ -37,9 +38,10 @@
 
     <ImageButton
         android:id="@+id/buttonSetlistAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_input_add"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_add"
         android:contentDescription="@string/describe_add_button"
         app:layout_constraintBottom_toBottomOf="@id/setlist_top_guideline"
         app:layout_constraintEnd_toEndOf="@id/setlist_right_guideline"

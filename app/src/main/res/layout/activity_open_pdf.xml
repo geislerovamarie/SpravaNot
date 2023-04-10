@@ -20,8 +20,9 @@
     <!-- mp3 -->
     <ImageButton
         android:id="@+id/open_pdf_pause_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
         android:contentDescription="@string/pause_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -57,8 +58,9 @@
 
     <ImageButton
         android:id="@+id/open_pdf_undo_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
         android:layout_weight="1"
         android:src="@drawable/ic_undo"
         android:contentDescription="@string/text_undo"
@@ -70,13 +72,13 @@
     <!-- options  -->
     <ImageButton
         android:id="@+id/open_pdf_options"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
         android:contentDescription="@string/describe_edit_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:srcCompat="@drawable/ic_more" />
 
 
     <!-- Guidelines -->
