@@ -14,8 +14,6 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.example.spravanot.R;
-
 import java.util.ArrayList;
 
 // from https://www.geeksforgeeks.org/how-to-create-a-paint-application-in-android/

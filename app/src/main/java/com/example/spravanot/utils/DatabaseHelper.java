@@ -452,17 +452,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         c.close();
         return -1;
     }
-/*
-    // Cursor get data---------------------------------------------------------
-    public Cursor readData(String table_name) {
-        String query = "SELECT * FROM " + table_name;
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = null;
-        if (db != null) cursor = db.rawQuery(query, null);
-        return cursor;
-    }
-*/
 
     // Deleting -----------------------------------------------------------------
     public void deleteOneSheetmusic(int id){

@@ -18,7 +18,6 @@ public class Sheetmusic implements Serializable {
         tags = new ArrayList<>();
     }
 
-
     // Getters and setters ------------------------------------------------------------
     public int getId() {
         return id;

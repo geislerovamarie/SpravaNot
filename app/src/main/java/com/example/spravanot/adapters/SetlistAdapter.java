@@ -20,7 +20,6 @@ import com.example.spravanot.R;
 import com.example.spravanot.activities.SheetmusicOfSetlistActivity;
 import com.example.spravanot.interfaces.PassInfoSetlist;
 import com.example.spravanot.models.Setlist;
-import com.example.spravanot.models.Sheetmusic;
 import com.example.spravanot.utils.FilterOptions;
 
 import java.util.ArrayList;
@@ -98,12 +97,10 @@ public class SetlistAdapter extends RecyclerView.Adapter<SetlistAdapter.ViewHold
         });
     }
 
-
     @Override
     public int getItemCount() {
         return setlists.size();
     }
-
 
     // Filter ---------------------------------------------------------------------------
     @Override
@@ -115,7 +112,6 @@ public class SetlistAdapter extends RecyclerView.Adapter<SetlistAdapter.ViewHold
                 return nameFilter;
         }
     }
-
 
     private Filter tagFilter = new Filter() {
         @Override
@@ -188,7 +184,6 @@ public class SetlistAdapter extends RecyclerView.Adapter<SetlistAdapter.ViewHold
         }
         return -1;
     }
-
 
     // viewholder -----------------------------------------------------
 

@@ -1,21 +1,19 @@
 package com.example.spravanot.activities;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spravanot.R;
 import com.example.spravanot.adapters.SheetmusicAdapter;
@@ -56,10 +54,7 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
         params.setMargins(0,0,0,0);
     }
 
-
-
     void initElements(){
-
         db = new DatabaseHelper(this);
         setlist = (Setlist) getIntent().getSerializableExtra("setlist");
         filterOption = FilterOptions.NAME;
@@ -91,13 +86,10 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.filter)
-                    .setItems(options.toArray(new String[0]), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            filterOption = FilterOptions.values()[i];
-                            sheetmusicAdapter = prepareAdapter();
-                            recView.setAdapter(sheetmusicAdapter);
-                        }
+                    .setItems(options.toArray(new String[0]), (dialogInterface, i) -> {
+                        filterOption = FilterOptions.values()[i];
+                        sheetmusicAdapter = prepareAdapter();
+                        recView.setAdapter(sheetmusicAdapter);
                     });
             AlertDialog dialog = builder.create();
             dialog.show();

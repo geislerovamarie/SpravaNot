@@ -23,7 +23,6 @@ public class EditTagsAdapter extends RecyclerView.Adapter<EditTagsAdapter.ViewHo
     Context context;
     Activity activity;
     private PassInfoSheetmusic info;
-
     private ArrayList<String> tags;
 
     public EditTagsAdapter(Context context, Activity activity, ArrayList<String> tags, PassInfoSheetmusic info) {

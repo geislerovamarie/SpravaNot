@@ -87,7 +87,7 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
         holder.filesLayout.setOnLongClickListener(view -> {
             if(!modify) return false;
             AtomicBoolean ret = new AtomicBoolean(false);
-            // ask wheter really delete
+            // ask whether really delete
             AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
             dBuilder.setMessage(R.string.dialog_delete_item);
             dBuilder.setTitle(R.string.dialog_title_delete_item);

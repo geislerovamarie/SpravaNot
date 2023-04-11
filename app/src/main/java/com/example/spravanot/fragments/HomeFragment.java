@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -16,18 +15,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spravanot.R;
-import com.example.spravanot.activities.AddSheetmusicActivity;
 import com.example.spravanot.activities.EditSheetmusicActivity;
 import com.example.spravanot.adapters.SheetmusicAdapter;
-import com.example.spravanot.databinding.FragmentHomeBinding;
 import com.example.spravanot.interfaces.PassInfoSheetmusic;
-import com.example.spravanot.models.Setlist;
 import com.example.spravanot.models.Sheetmusic;
 import com.example.spravanot.utils.DatabaseHelper;
 import com.example.spravanot.utils.FilterOptions;
@@ -60,7 +55,6 @@ public class HomeFragment extends Fragment {
         setUpInfo();
     }
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -70,7 +64,6 @@ public class HomeFragment extends Fragment {
 
         sheetmusicAdapter = prepareAdapter();
         recView.setAdapter(sheetmusicAdapter);
-
         return view;
     }
 
@@ -148,7 +141,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
     void setUpInfo(){
         // PassInfo - connection between this fragment and the adapter
         info = new PassInfoSheetmusic() {
@@ -176,7 +168,6 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void addSheetmusicToSetlist(Sheetmusic s, boolean add) {}
-
         };
     }
 }

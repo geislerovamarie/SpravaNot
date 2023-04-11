@@ -2,9 +2,6 @@ package com.example.spravanot.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.opengl.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +10,15 @@ import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spravanot.R;
-import com.example.spravanot.activities.HandleFilesActivity;
 import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.models.Sheetmusic;
 import com.example.spravanot.utils.FilterOptions;
-import com.google.android.material.color.MaterialColors;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -82,7 +73,6 @@ public class AddSheetmusicToSetlistAdapter extends RecyclerView.Adapter<AddSheet
         Sheetmusic click = sheetmusic.get(position);
         if(setlistContains(selected, click)) holder.sheetmusic_card.setBackgroundResource(R.color.teal_700);
         else holder.sheetmusic_card.setBackgroundResource(com.google.android.material.R.color.cardview_light_background);
-
 
         // Click and mark sheetmusic
         holder.sheetmusicLayout.setOnClickListener(view -> {
@@ -233,7 +223,6 @@ public class AddSheetmusicToSetlistAdapter extends RecyclerView.Adapter<AddSheet
         }
         return -1;
     }
-
 
     // viewholder  and interface --------------------------------
 

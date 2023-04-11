@@ -1,35 +1,28 @@
 package com.example.spravanot.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import com.example.spravanot.adapters.JpgImageAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.spravanot.R;
+import com.example.spravanot.adapters.JpgImageAdapter;
 import com.example.spravanot.utils.DrawView;
-import com.example.spravanot.utils.FilterOptions;
 import com.example.spravanot.utils.Mp3Player;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class OpenJpgFileActivity extends AppCompatActivity {
 

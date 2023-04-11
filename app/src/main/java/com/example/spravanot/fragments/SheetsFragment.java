@@ -116,7 +116,6 @@ public class SheetsFragment extends Fragment {
         db = new DatabaseHelper(getContext());
         sheetmusics = db.selectAllSheetmusic();
 
-        // TODO modify for various sort and filter
         sortSheetsArrayAlphabetically();
 
         //get favorite

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -22,15 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spravanot.R;
 import com.example.spravanot.activities.AddSetlistActivity;
-import com.example.spravanot.activities.AddSheetmusicActivity;
 import com.example.spravanot.activities.EditSetlistActivity;
-import com.example.spravanot.activities.EditSheetmusicActivity;
 import com.example.spravanot.adapters.SetlistAdapter;
-import com.example.spravanot.adapters.SheetmusicAdapter;
 import com.example.spravanot.interfaces.PassInfoSetlist;
-import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.models.Setlist;
-import com.example.spravanot.models.Sheetmusic;
 import com.example.spravanot.utils.DatabaseHelper;
 import com.example.spravanot.utils.FilterOptions;
 
@@ -149,9 +143,7 @@ public class SetlistsFragment extends Fragment {
         info = new PassInfoSetlist() {
 
             @Override
-            public void deleteFromSetlist(int position, int idSh, int idSe) {
-
-            }
+            public void deleteFromSetlist(int position, int idSh, int idSe) { }
 
             @Override
             public void deleteSetlist(int position, int idSe) {
@@ -163,9 +155,7 @@ public class SetlistsFragment extends Fragment {
             }
 
             @Override
-            public void deleteTag(int position, String name) {
-
-            }
+            public void deleteTag(int position, String name) { }
 
             @Override
             public void updateSetlist(int position) {

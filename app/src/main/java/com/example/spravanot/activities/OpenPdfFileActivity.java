@@ -1,12 +1,8 @@
 package com.example.spravanot.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,11 +13,12 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.spravanot.R;
 import com.example.spravanot.utils.DrawView;
 import com.example.spravanot.utils.Mp3Player;
 import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -107,59 +104,43 @@ public class OpenPdfFileActivity extends AppCompatActivity {
     }
 
     void setOnClickListeners(){
-        optionsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ArrayList<String> options = new ArrayList<>();
-                options.add(getString(R.string.dialog_hide));
-                options.add(getString(R.string.dialog_show_mp3));
-                options.add(getString(R.string.dialog_draw));
+        optionsButton.setOnClickListener(view -> {
+            ArrayList<String> options = new ArrayList<>();
+            options.add(getString(R.string.dialog_hide));
+            options.add(getString(R.string.dialog_show_mp3));
+            options.add(getString(R.string.dialog_draw));
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(R.string.options)
-                        .setItems(options.toArray(new String[0]), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                switch (i){
-                                    case 1:
-                                        if(mp3Uri != null){
-                                            hideEverything();
-                                            showMP3();
-                                            playMusic();
-                                        }else{
-                                            Toast.makeText(context, R.string.no_mp3, Toast.LENGTH_SHORT).show();
-                                        }
-                                        break;
-
-                                    case 2:
-                                        hideEverything();
-                                        showDraw();
-                                        break;
-                                    default:
-                                        hideEverything();
-                                        break;
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(R.string.options)
+                    .setItems(options.toArray(new String[0]), (dialogInterface, i) -> {
+                        switch (i){
+                            case 1:
+                                if(mp3Uri != null){
+                                    hideEverything();
+                                    showMP3();
+                                    playMusic();
+                                }else{
+                                    Toast.makeText(context, R.string.no_mp3, Toast.LENGTH_SHORT).show();
                                 }
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+                                break;
+
+                            case 2:
+                                hideEverything();
+                                showDraw();
+                                break;
+                            default:
+                                hideEverything();
+                                break;
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
-        pause_play_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pausePlay();
-            }
-        });
+        pause_play_button.setOnClickListener(view -> pausePlay());
 
         // draw
-        undo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                paint.undo();
-            }
-        });
+        undo.setOnClickListener(view -> paint.undo());
     }
 
     // Draw -----------------------------------------------------

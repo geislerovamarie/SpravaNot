@@ -38,7 +38,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     ArrayList<Sheetmusic> sheetmusicCopyFull;
     FilterOptions filterOption;
 
-
     public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusicOfSetlist, PassInfoSheetmusic info, ArrayList favorite, boolean showingSetlistFavorite, FilterOptions filterOption) {
         this.activity = activity;
         this.context = context;
@@ -46,7 +45,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         this.info = info;
         this.favorite = favorite;
         this.showingSetlistFavorite = showingSetlistFavorite;
-
         this.sheetmusicCopyFull = new ArrayList<Sheetmusic>(sheetmusicOfSetlist);
         this.filterOption = filterOption;
     }
@@ -145,7 +143,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
                 dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
                     info.deleteSheetmusic(pos, sh.getId());
                 });
-
                 // cancel
                 dBuilder.setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.cancel());
 
@@ -161,8 +158,6 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
     public int getItemCount() {
         return sheetmusicOfSetlist.size();
     }
-
-
     
     void dialogPdfOrJpg(Sheetmusic s){
         String[] choices = new String[] {context.getResources().getString(R.string.pdf), context.getResources().getString(R.string.image_jpg_png)};
