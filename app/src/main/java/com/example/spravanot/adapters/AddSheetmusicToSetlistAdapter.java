@@ -26,6 +26,7 @@ import com.example.spravanot.activities.HandleFilesActivity;
 import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.models.Sheetmusic;
 import com.example.spravanot.utils.FilterOptions;
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -79,8 +80,8 @@ public class AddSheetmusicToSetlistAdapter extends RecyclerView.Adapter<AddSheet
         holder.sheetmusic_author_text.setText(sh_author);
 
         Sheetmusic click = sheetmusic.get(position);
-        if(setlistContains(selected, click)) holder.sheetmusic_card.setBackgroundResource(R.color.teal_200);
-        else holder.sheetmusic_card.setBackgroundResource(androidx.cardview.R.color.cardview_light_background);
+        if(setlistContains(selected, click)) holder.sheetmusic_card.setBackgroundResource(R.color.teal_700);
+        else holder.sheetmusic_card.setBackgroundResource(com.google.android.material.R.color.cardview_light_background);
 
 
         // Click and mark sheetmusic
@@ -93,7 +94,7 @@ public class AddSheetmusicToSetlistAdapter extends RecyclerView.Adapter<AddSheet
                 //notifyDataSetChanged();
             }else{
                 selected.add(clicked);
-                holder.sheetmusic_card.setBackgroundResource(R.color.teal_200);
+                holder.sheetmusic_card.setBackgroundResource(R.color.teal_700);
                 info.addSheetmusicToSetlist(clicked, true);
                 //notifyDataSetChanged();
             }

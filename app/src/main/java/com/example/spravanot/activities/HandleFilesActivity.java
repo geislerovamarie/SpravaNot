@@ -1,22 +1,22 @@
 package com.example.spravanot.activities;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.spravanot.utils.DatabaseHelper;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.spravanot.R;
 import com.example.spravanot.adapters.HandleFilesAdapter;
 import com.example.spravanot.interfaces.PassInfoSheetmusic;
-import com.example.spravanot.R;
 import com.example.spravanot.models.Sheetmusic;
+import com.example.spravanot.utils.DatabaseHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -90,6 +90,7 @@ public class HandleFilesActivity extends AppCompatActivity {
             if (result.getResultCode() == Activity.RESULT_OK) {
                 Intent data = result.getData();
                 Uri uri = data.getData();
+                getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 String address = uri.toString();
 
                 if(!addresses.contains(address))addresses.add(address);

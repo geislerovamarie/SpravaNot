@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.SheetsFragment"
-    android:layout_marginBottom="56dp">
+    android:id="@+id/fragment_sheets_layout"
+    >
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchViewSheets"
@@ -13,6 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:iconifiedByDefault="false"
+        android:layout_marginStart="7dp"
+
         app:queryBackground="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@id/home_top_guideline"
         app:layout_constraintEnd_toStartOf="@+id/home_icon"
@@ -48,7 +51,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSheets"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="@+id/home_top_guideline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +72,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.95" />
+        app:layout_constraintGuide_percent="0.85" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/sheets_actionbar_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="?attr/actionBarSize" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/sheets_left_guideline"

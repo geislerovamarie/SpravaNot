@@ -1,9 +1,5 @@
 package com.example.spravanot.activities;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,8 +12,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.spravanot.R;
-import com.example.spravanot.adapters.SheetmusicAdapter;
 import com.example.spravanot.models.Sheetmusic;
 import com.example.spravanot.utils.DatabaseHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -123,6 +122,7 @@ public class EditSheetmusicActivity extends AppCompatActivity {
             if (result.getResultCode() == Activity.RESULT_OK) {      //pdf
                 Intent data = result.getData();
                 Uri uri = data.getData();
+                getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 mp3_address = uri.toString();
 
                 String mp3Name = mp3PathToName(mp3_address);
@@ -225,7 +225,9 @@ public class EditSheetmusicActivity extends AppCompatActivity {
         Cursor cursor = getContentResolver().query(Uri.parse(path), null, null, null, null);
         int nameidx = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
         cursor.moveToNext();
-        return cursor.getString(nameidx);
+        String name = cursor.getString(nameidx);
+        cursor.close();
+        return name;
     }
 
     String tagsToString(){

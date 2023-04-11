@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.AddSheetsToSetlistActivity"
-    android:layout_marginBottom="56dp">
+    >
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchViewSheets"
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:iconifiedByDefault="false"
+        android:layout_marginStart="7dp"
         app:queryBackground="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@id/home_top_guideline"
         app:layout_constraintEnd_toStartOf="@+id/home_icon"
@@ -52,6 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/home_top_guideline"
+        android:layout_marginBottom="?attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

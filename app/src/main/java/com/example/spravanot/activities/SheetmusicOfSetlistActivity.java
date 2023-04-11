@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
 
@@ -49,7 +51,12 @@ public class SheetmusicOfSetlistActivity extends AppCompatActivity {
         initElements();
 
         setOnClickListeners();
+
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) recView.getLayoutParams();
+        params.setMargins(0,0,0,0);
     }
+
+
 
     void initElements(){
 

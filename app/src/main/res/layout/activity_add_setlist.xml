@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.11" />
+        app:layout_constraintGuide_percent="0.17" />
 
 
 
@@ -43,14 +43,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
+        app:layout_constraintGuide_percent="0.27" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/add_setlist_tags_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
+        app:layout_constraintGuide_percent="0.37" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/add_setlist_add_guideline"
@@ -65,6 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_name"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="@id/add_setlist_name_guideline"
         app:layout_constraintEnd_toStartOf="@id/add_setlist_center_guideline"
         app:layout_constraintStart_toStartOf="@id/add_setlist_left_guideline"
@@ -77,6 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_notes"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="@id/add_setlist_notes_guideline"
         app:layout_constraintEnd_toStartOf="@id/add_setlist_center_guideline"
         app:layout_constraintStart_toStartOf="@id/add_setlist_left_guideline"
@@ -88,6 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_tags"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="@id/add_setlist_tags_guideline"
         app:layout_constraintEnd_toStartOf="@id/add_setlist_center_guideline"
         app:layout_constraintStart_toStartOf="@id/add_setlist_left_guideline"
@@ -125,6 +128,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text=""
+        android:layout_marginTop="20dp"
 
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="@id/add_setlist_add_guideline"

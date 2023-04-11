@@ -1,33 +1,26 @@
 package com.example.spravanot.activities;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.spravanot.R;
 import com.example.spravanot.adapters.EditTagsAdapter;
-import com.example.spravanot.adapters.HandleFilesAdapter;
 import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.models.Sheetmusic;
-import com.example.spravanot.utils.DatabaseHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 public class EditTagsActivity extends AppCompatActivity {
 
-    ActivityResultLauncher<Intent> activityResultLaunch;
     PassInfoSheetmusic info;
     RecyclerView recView;
     EditTagsAdapter tagsAdapter;
@@ -35,12 +28,10 @@ public class EditTagsActivity extends AppCompatActivity {
     FloatingActionButton saveButton;
 
     ArrayList<String> tags;
-   // DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // db = new DatabaseHelper(this);
         setContentView(R.layout.activity_handle_files);
         setTitle(getResources().getString(R.string.text_tags));
 

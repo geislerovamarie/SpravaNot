@@ -103,11 +103,11 @@ public class HomeFragment extends Fragment {
             type_text.setText(type);
 
             if(type.equals("pdf")){
-                icon.setImageResource(R.drawable.ic_notifications_black_24dp);
+                icon.setImageResource(R.drawable.ic_pdf);
             }else if (type.equals("jpg") || type.equals("jpeg") || type.equals("png")){
-                icon.setImageResource(R.drawable.ic_dashboard_black_24dp);
+                icon.setImageResource(R.drawable.ic_jpg);
             }else{
-                icon.setImageResource(R.drawable.ic_launcher_foreground);
+                icon.setImageResource(R.drawable.ic_file);
             }
         }
     }

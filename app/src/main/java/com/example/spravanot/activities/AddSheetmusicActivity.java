@@ -107,9 +107,10 @@ public class AddSheetmusicActivity extends AppCompatActivity {
 
         // Launcher for mp3
         activityMp3ResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == Activity.RESULT_OK) {      //pdf
+            if (result.getResultCode() == Activity.RESULT_OK) {      //mp3
                 Intent data = result.getData();
                 Uri uri = data.getData();
+                getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 mp3_address = uri.toString();
 
                 String mp3Name = mp3PathToName(mp3_address);

@@ -61,10 +61,16 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
         String[] split = file.getPath().split(":");
         String address = split[1];
         String name = address.substring(address.lastIndexOf(File.separator) + 1);
+        String ext = address.substring(address.lastIndexOf(".") +1);
 
         // Set text
         holder.files_name_text.setText(name);
         holder.files_address_text.setText(address);
+        if(ext.equals("pdf")) {
+            holder.files_icon.setImageResource(R.drawable.ic_pdf);
+        }else{
+            holder.files_icon.setImageResource(R.drawable.ic_jpg);
+        }
 
         // Click file and show
         holder.filesLayout.setOnClickListener(view -> {
