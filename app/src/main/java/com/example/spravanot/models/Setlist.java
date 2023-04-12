@@ -1,8 +1,9 @@
 package com.example.spravanot.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Setlist {
+public class Setlist implements Serializable {
 
     private int id;
     private String name, notes;

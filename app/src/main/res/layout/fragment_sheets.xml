@@ -5,50 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.SheetsFragment"
-    android:layout_marginBottom="56dp">
+    android:id="@+id/fragment_sheets_layout"
+    >
 
-    <AutoCompleteTextView
-        android:id="@+id/textViewSheetsSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:text="text..."
-        app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
-        app:layout_constraintEnd_toStartOf="@id/searchViewSheets"
-        app:layout_constraintStart_toStartOf="@id/sheets_left_guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.7"
-        app:layout_constraintHorizontal_bias="0.0"/>
-
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/searchViewSheets"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:iconifiedByDefault="false"
+        android:layout_marginStart="7dp"
 
-        app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
-        app:layout_constraintVertical_bias="0.7"
-        app:layout_constraintEnd_toStartOf="@id/buttonSheetsFilter"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:queryBackground="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/home_top_guideline"
+        app:layout_constraintEnd_toStartOf="@+id/home_icon"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageButton
-        android:id="@+id/buttonSheetsFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_input_get"
+        android:id="@+id/home_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_filter"
         android:contentDescription="@string/describe_sheet_filter"
-        app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/home_top_guideline"
         app:layout_constraintEnd_toStartOf="@id/buttonSheetsAdd"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.7" />
 
     <ImageButton
         android:id="@+id/buttonSheetsAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_input_add"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_add"
         android:contentDescription="@string/describe_add_button"
-        app:layout_constraintBottom_toBottomOf="@id/sheets_top_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/home_top_guideline"
         app:layout_constraintEnd_toEndOf="@id/sheets_right_guideline"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.7" />
@@ -56,8 +51,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSheets"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/sheets_top_guideline"
+        android:layout_height="0dp"
+        android:layout_marginBottom="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="@+id/home_top_guideline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +61,7 @@
         app:layout_constraintVertical_bias="0.0"  />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/sheets_top_guideline"
+        android:id="@+id/home_top_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -76,7 +72,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.95" />
+        app:layout_constraintGuide_percent="0.85" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/sheets_actionbar_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="?attr/actionBarSize" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/sheets_left_guideline"

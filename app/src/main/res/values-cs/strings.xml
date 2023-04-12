@@ -44,4 +44,26 @@
     <string name="cancel">Zrušit</string>
     <string name="dialog_name_cannot_be_null">Název nesmí být prázdný</string>
     <string name="describe_image">Obrázek</string>
+    <string name="describe_add_tag">Přidejte tag</string>
+    <string name="dialog_title_new_tag">Nový tag</string>
+    <string name="add">Přidat</string>
+    <string name="tag_already_present">Tento tag už byl přidán</string>
+    <string name="dialog_remove_sheetmusic_from_setlist">Určitě chcete odebrat tuto položku ze seznamu?</string>
+    <string name="error_toggle_favorite_in_favorite">Není možné změnit v tomto seznamu</string>
+    <string name="filter">Filtr</string>
+    <string name="name">Název</string>
+    <string name="text_type">Typ</string>
+    <string name="text_last_sheetmusic">Naposledy otevřeno</string>
+    <string name="title_edit_sheetmusic">Upravit noty</string>
+    <string name="title_edit_setlist">Upravit seznam</string>
+    <string name="play_description">Spustit</string>
+    <string name="pause_description">Zastavit</string>
+    <string name="options">Možnosti</string>
+    <string name="dialog_show_mp3">Zobrazit MP3 možnosti</string>
+    <string name="dialog_hide">Skrýt možnosti</string>
+    <string name="dialog_draw">Zobrazit možnost kreslení</string>
+    <string name="no_mp3">Žádný vhodný MP3 soubor</string>
+    <string name="text_undo">Zpět</string>
+    <string name="text_width">Šířka</string>
+    <string name="text_save">Uložit</string>
 </resources>

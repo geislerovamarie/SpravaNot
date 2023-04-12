@@ -13,33 +13,43 @@
         android:theme="@style/Theme.SpravaNot"
         tools:targetApi="31">
         <activity
+            android:name=".activities.EditSetlistActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="false" />
+        <activity
+            android:name=".activities.SheetmusicOfSetlistActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="false" />
+        <activity
+            android:name=".activities.EditTagsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.OpenJpgFileActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".activities.HandleFilesActivity"
             android:exported="false" />
         <activity
             android:name=".activities.OpenPdfFileActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".activities.AddSheetsToSetlistActivity"
-            android:exported="false"
-            android:parentActivityName=".activities.SetlistDetailActivity" />
-        <activity
-            android:name=".activities.SetlistDetailActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".activities.EditSheetmusicActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".activities.AddSetlistActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".activities.AddSheetmusicActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
-        <activity
-            android:name=".activities.SplashScreenActivity"
-            android:exported="true"></activity>
         <activity
             android:name=".activities.SettingsActivity"
             android:exported="false"
@@ -47,6 +57,7 @@
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.MainActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

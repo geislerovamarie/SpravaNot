@@ -60,11 +60,17 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
         File file = new File(uri.getPath());
         String[] split = file.getPath().split(":");
         String address = split[1];
-        String name = address.substring(address.lastIndexOf(File.separator) + 1); // for now!!
+        String name = address.substring(address.lastIndexOf(File.separator) + 1);
+        String ext = address.substring(address.lastIndexOf(".") +1);
 
         // Set text
         holder.files_name_text.setText(name);
         holder.files_address_text.setText(address);
+        if(ext.equals("pdf")) {
+            holder.files_icon.setImageResource(R.drawable.ic_pdf);
+        }else{
+            holder.files_icon.setImageResource(R.drawable.ic_jpg);
+        }
 
         // Click file and show
         holder.filesLayout.setOnClickListener(view -> {
@@ -81,7 +87,7 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
         holder.filesLayout.setOnLongClickListener(view -> {
             if(!modify) return false;
             AtomicBoolean ret = new AtomicBoolean(false);
-            // ask wheter really delete
+            // ask whether really delete
             AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
             dBuilder.setMessage(R.string.dialog_delete_item);
             dBuilder.setTitle(R.string.dialog_title_delete_item);
@@ -103,17 +109,17 @@ public class HandleFilesAdapter extends RecyclerView.Adapter<HandleFilesAdapter.
     }
 
     public void openPdf(String path){
-        // if sh not null, add mp3
         Intent intent = new Intent(context, OpenPdfFileActivity.class);
         intent.putExtra("path", path);
+        if(sh != null)intent.putExtra("mp3", sh.getMp3());
         activity.startActivity(intent);
     }
 
     public void openJpg(int position){
-        // if sh not null, add mp3
         Intent intent = new Intent(context, OpenJpgFileActivity.class);
         intent.putExtra("addresses", addresses);
         intent.putExtra("position", position);
+        if(sh != null)intent.putExtra("mp3", sh.getMp3());
         activity.startActivity(intent);
     }
 

@@ -100,7 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cvSh.put(COL_AUTHOR, s.getAuthor());
         cvSh.put(COL_GENRE, s.getGenre());
         cvSh.put(COL_TONE, s.getKey());
-        cvSh.put(COL_INSTRUMENT, s.getInstument());
+        cvSh.put(COL_INSTRUMENT, s.getInstrument());
         cvSh.put(COL_MP3, s.getMp3());
         cvSh.put(COL_NOTES, s.getNotes());
         int idSheetmusic = (int) db.insert(TABLE_SHEETMUSIC, null, cvSh);
@@ -134,7 +134,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ContentValues cvSh_F = new ContentValues();
                 cvSh_F.put(COL_ID_SHEETMUSIC,s.getId());
                 cvSh_F.put(COL_ID_FILE, idFile);
-                db.insert(TABLE_SHEETMUSIC_FILE, null, cvSh_F);
+                try{
+                    db.insertOrThrow(TABLE_SHEETMUSIC_FILE, null, cvSh_F);
+                } catch (Exception ignored) {}
             }
         }
     }
@@ -145,12 +147,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues cvT = new ContentValues();
             String nameTag = s.getTags().get(i);
             cvT.put(COL_NAME, nameTag);
-            db.insert(TABLE_TAG, null, cvT); // check whether it works - no duplicates and no crash if exists
+            try{
+                db.insertOrThrow(TABLE_TAG, null, cvT);
+            } catch (Exception ignored) { }
 
             ContentValues cvSh_T = new ContentValues();
             cvSh_T.put(COL_ID_SHEETMUSIC,s.getId());
             cvSh_T.put(COL_NAME_TAG, nameTag);
-            db.insert(TABLE_SHEETMUSIC_TAG, null, cvSh_T);
+            try{
+                db.insertOrThrow(TABLE_SHEETMUSIC_TAG, null, cvSh_T);
+            } catch (Exception ignored) { }
+
         }
     }
 
@@ -182,12 +189,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues cvT = new ContentValues();
             String nameTag = s.getTags().get(i);
             cvT.put(COL_NAME, nameTag);
-            db.insert(TABLE_TAG, null, cvT);
+            try {
+                db.insertOrThrow(TABLE_TAG, null, cvT);
+            } catch (Exception ignored) { }
 
             ContentValues cvSe_T = new ContentValues();
             cvSe_T.put(COL_ID_SETLIST,s.getId());
             cvSe_T.put(COL_NAME_TAG, nameTag);
-            db.insert(TABLE_SETLIST_TAG, null, cvSe_T);
+            try {
+                db.insertOrThrow(TABLE_SETLIST_TAG, null, cvSe_T);
+            } catch (Exception ignored) { }
         }
     }
 
@@ -197,7 +208,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues cvS = new ContentValues();
             cvS.put(COL_ID_SHEETMUSIC, sheetmusic.get(i).getId());
             cvS.put(COL_ID_SETLIST, idSetlist);
-            db.insert(TABLE_SHEETMUSIC_SETLIST, null, cvS);
+            try {
+                db.insertOrThrow(TABLE_SHEETMUSIC_SETLIST, null, cvS);
+            } catch (Exception ignored) { }
         }
     }
 
@@ -211,7 +224,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cvSh.put(COL_AUTHOR, s.getAuthor());
         cvSh.put(COL_GENRE, s.getGenre());
         cvSh.put(COL_TONE, s.getKey());
-        cvSh.put(COL_INSTRUMENT, s.getInstument());
+        cvSh.put(COL_INSTRUMENT, s.getInstrument());
         cvSh.put(COL_MP3, s.getMp3());
         cvSh.put(COL_NOTES, s.getNotes());
         db.update(TABLE_SHEETMUSIC, cvSh, COL_ID + " = ?", new String[]{String.valueOf(s.getId())});
@@ -299,7 +312,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             s.setAuthor(cSh.getString(cSh.getColumnIndex(COL_AUTHOR)));
             s.setGenre(cSh.getString(cSh.getColumnIndex(COL_GENRE)));
             s.setKey(cSh.getString(cSh.getColumnIndex(COL_TONE)));
-            s.setInstument(cSh.getString(cSh.getColumnIndex(COL_INSTRUMENT)));
+            s.setInstrument(cSh.getString(cSh.getColumnIndex(COL_INSTRUMENT)));
             s.setNotes(cSh.getString(cSh.getColumnIndex(COL_NOTES)));
             s.setMp3(cSh.getString(cSh.getColumnIndex(COL_MP3)));
 
@@ -397,6 +410,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return files;
     }
 
+    public ArrayList<Sheetmusic> selectSheetmusicForSetlist(int setlistId){
+        ArrayList<Sheetmusic> result = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String q = "SELECT * FROM " + TABLE_SHEETMUSIC_SETLIST + " WHERE " + COL_ID_SETLIST + " = " + setlistId + ";";
+        Cursor cShS = db.rawQuery(q, null);
+
+        while(cShS.moveToNext()){
+            @SuppressLint("Range") int shId = cShS.getInt(cShS.getColumnIndex(COL_ID_SHEETMUSIC));
+            Sheetmusic s = selectOneSheetmusic(shId);
+            result.add(s);
+        }
+        return result;
+    }
+
     @SuppressLint("Range")
     public ArrayList<Setlist> selectAllSetlists(){
         ArrayList<Setlist> setlist = new ArrayList<>();
@@ -424,29 +452,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         c.close();
         return -1;
     }
-/*
-    // Cursor get data---------------------------------------------------------
-    public Cursor readData(String table_name) {
-        String query = "SELECT * FROM " + table_name;
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = null;
-        if (db != null) cursor = db.rawQuery(query, null);
-        return cursor;
-    }
-*/
 
     // Deleting -----------------------------------------------------------------
     public void deleteOneSheetmusic(int id){
         SQLiteDatabase db = this.getWritableDatabase();
+        deleteOneSheetmusicFromEverySetlist(id);
         db.delete(TABLE_SHEETMUSIC, COL_ID + " = ?", new String[] {String.valueOf(id)});
     }
 
+    public void deleteOneSheetmusicFromEverySetlist(int id_sh){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SHEETMUSIC_SETLIST, COL_ID_SHEETMUSIC + " = ?", new String[] {String.valueOf(id_sh)});
+    }
+
     public void deleteOneSetlist(int id){
-        if(id == getIdOfFavorite()) return; // can't delete favorite setlist
+        boolean addFavoriteBack = false;
+        if(id == getIdOfFavorite()){ addFavoriteBack = true;}
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SETLIST, COL_ID + " = ?", new String[] {String.valueOf(id)});
+
+        if (addFavoriteBack){
+            Setlist s = new Setlist(id);
+            s.setName("Favorite");
+            addSetlist(s);
+        }
     }
 
     public void deleteOneSheetmusicFromSetlist(int id_sh, int id_se){

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:orientation="vertical"
     android:id="@+id/filesLayout">
 
@@ -17,40 +16,51 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp">
+            android:padding="7dp">
 
             <TextView
                 android:id="@+id/files_row_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/text_name"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                app:layout_constraintHorizontal_bias="0"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/files_row_text_guideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tags_row_text_guideline"
                 app:layout_constraintBottom_toTopOf="@id/files_row_center_guideline" />
 
             <TextView
                 android:id="@+id/files_row_address"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="@string/text_address"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@id/files_row_text_guideline"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tags_row_text_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/files_row_center_guideline" />
 
             <ImageButton
                 android:id="@+id/files_row_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:selectableItemBackground"
                 android:contentDescription="@string/text_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/files_row_icon_guideline"
-                app:layout_constraintEnd_toEndOf="@id/files_row_text_guideline"
+                app:layout_constraintEnd_toEndOf="@id/tags_row_text_guideline"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
-                app:srcCompat="@android:drawable/ic_menu_preferences" />
+                app:layout_constraintHorizontal_bias="0.1"
+                android:clickable="false"
+                app:srcCompat="@drawable/ic_jpg" />
 
 
             <androidx.constraintlayout.widget.Guideline
@@ -62,18 +72,18 @@
 
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/files_row_text_guideline"
+                android:id="@+id/tags_row_text_guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.25" />
+                app:layout_constraintGuide_percent="0.15" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/files_row_icon_guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.05" />
+                app:layout_constraintGuide_percent="0" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

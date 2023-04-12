@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,25 +20,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.spravanot.interfaces.PassInfoSheetmusic;
 import com.example.spravanot.R;
 import com.example.spravanot.models.Sheetmusic;
-import com.example.spravanot.activities.EditSheetmusicActivity;
 import com.example.spravanot.activities.HandleFilesActivity;
-import com.google.android.material.chip.Chip;
+import com.example.spravanot.utils.FilterOptions;
 
 import java.util.ArrayList;
 
-public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.ViewHolderSheetmusic> {
+public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.ViewHolderSheetmusic> implements Filterable {
 
     private Context context;
     Activity activity;
 
-    private ArrayList<Sheetmusic> sheetmusic;
+    private ArrayList<Sheetmusic> sheetmusicOfSetlist;
+    private ArrayList<Boolean> favorite;
     private PassInfoSheetmusic info;
+    private boolean showingSetlistFavorite;
 
-    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusic, PassInfoSheetmusic info) {
+    ArrayList<Sheetmusic> sheetmusicCopyFull;
+    FilterOptions filterOption;
+
+    public SheetmusicAdapter(Activity activity, Context context, ArrayList sheetmusicOfSetlist, PassInfoSheetmusic info, ArrayList favorite, boolean showingSetlistFavorite, FilterOptions filterOption) {
         this.activity = activity;
         this.context = context;
-        this.sheetmusic = sheetmusic;
+        this.sheetmusicOfSetlist = new ArrayList<Sheetmusic>(sheetmusicOfSetlist);
         this.info = info;
+        this.favorite = favorite;
+        this.showingSetlistFavorite = showingSetlistFavorite;
+        this.sheetmusicCopyFull = new ArrayList<Sheetmusic>(sheetmusicOfSetlist);
+        this.filterOption = filterOption;
     }
 
     @NonNull
@@ -52,22 +59,50 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderSheetmusic holder, int position) {
-        String sh_name = String.valueOf(sheetmusic.get(position).getName());
-        String sh_author = String.valueOf(sheetmusic.get(position).getAuthor()).equals("null") ? context.getResources().getString(R.string.text_unknown) : String.valueOf(sheetmusic.get(position).getAuthor());
 
-        // Set text
+        // get name and author and if favorite
+        String sh_name = String.valueOf(sheetmusicOfSetlist.get(position).getName());
+        String sh_author = String.valueOf(sheetmusicOfSetlist.get(position).getAuthor()).equals("null") ? context.getResources().getString(R.string.text_unknown) : String.valueOf(sheetmusicOfSetlist.get(position).getAuthor());
+        int truePos = getTruePositionWhileFiltering(sheetmusicOfSetlist.get(position));
+        Boolean isFav = favorite.get(truePos);
+
+        // Set text and color
         holder.sheetmusic_name_text.setText(sh_name);
         holder.sheetmusic_author_text.setText(sh_author);
+        if(isFav){
+            holder.sheetmusic_favorite_button.setImageResource(R.drawable.ic_heart_filled);
+        }else{
+            holder.sheetmusic_favorite_button.setImageResource(R.drawable.ic_heart_empty);
+        }
 
-        // Edit button - show menu with options "edit" and "delete"
-        holder.sheetmusic_edit_button.setOnClickListener(view -> openMenu(view, holder));
+        // Edit button
+        holder.sheetmusic_edit_button.setOnClickListener(view -> {
+            Sheetmusic sh = sheetmusicOfSetlist.get(holder.getAdapterPosition());
+            info.updateSheetmusic(getTruePositionWhileFiltering(sh));
+        });
 
         // Add to favorites button
-        holder.sheetmusic_favorite_button.setOnClickListener(view -> info.toggleFavorite(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId()));
+        holder.sheetmusic_favorite_button.setOnClickListener(view -> {
+            if (showingSetlistFavorite) {
+                Toast.makeText(context, R.string.error_toggle_favorite_in_favorite, Toast.LENGTH_SHORT).show();
+            } else {
+                Sheetmusic sh = sheetmusicOfSetlist.get(holder.getAdapterPosition());
+                int pos = getTruePositionWhileFiltering(sh);
+
+                info.toggleFavorite(pos, sh.getId());
+                boolean fav = favorite.get(pos);
+                favorite.set(pos, !fav);
+                if (!fav) {
+                    holder.sheetmusic_favorite_button.setImageResource(R.drawable.ic_heart_filled);
+                } else {
+                    holder.sheetmusic_favorite_button.setImageResource(R.drawable.ic_heart_empty);
+                }
+            }
+        });
 
         // Click and show sheetmusic
         holder.sheetmusicLayout.setOnClickListener(view -> {
-            Sheetmusic clicked = sheetmusic.get(holder.getAdapterPosition());
+            Sheetmusic clicked = sheetmusicOfSetlist.get(holder.getAdapterPosition());
             int pdfFiles = 0;
             int jpgFiles = 0;
 
@@ -91,11 +126,37 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
                 dialogPdfOrJpg(clicked);
             }
         });
+
+        // long hold -> delete
+        holder.sheetmusicLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Sheetmusic sh = sheetmusicOfSetlist.get(holder.getAdapterPosition());
+                int pos = getTruePositionWhileFiltering(sh);
+
+                // delete dialog
+                AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
+                dBuilder.setMessage(R.string.dialog_delete_item);
+                dBuilder.setTitle(R.string.dialog_title_delete_item);
+
+                // delete item
+                dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
+                    info.deleteSheetmusic(pos, sh.getId());
+                });
+                // cancel
+                dBuilder.setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.cancel());
+
+                // show the dialog
+                AlertDialog dialog = dBuilder.create();
+                dialog.show();
+                return true;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return sheetmusic.size();
+        return sheetmusicOfSetlist.size();
     }
     
     void dialogPdfOrJpg(Sheetmusic s){
@@ -130,6 +191,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         intent.putExtra("modify", false);
         intent.putExtra("type", "jpg");
         intent.putExtra("jpgs", jpgs);
+        intent.putExtra("sheetmusic", s);
         activity.startActivityForResult(intent, 6);
     }
 
@@ -146,51 +208,126 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
         return result;
     }
 
-    // pop up menu ----------------------------
-    public void openMenu(View view, ViewHolderSheetmusic holder){
-        PopupMenu popupMenu = new PopupMenu(context, view);
-        // set up the listener
-        PopupMenu.OnMenuItemClickListener listener = menuItem -> {
-            switch (menuItem.getItemId()){
-                case R.id.sheetmusic_edit_option:
-                    Intent intent = new Intent(context, EditSheetmusicActivity.class);
-                    intent.putExtra("sheetmusic", sheetmusic.get(holder.getAdapterPosition()));
-                    activity.startActivityForResult(intent, 1);
-                    return true;
-                case R.id.sheetmusic_delete_option:
-                    // delete dialog
-                    AlertDialog.Builder dBuilder = new AlertDialog.Builder(context);
-                    dBuilder.setMessage(R.string.dialog_delete_item);
-                    dBuilder.setTitle(R.string.dialog_title_delete_item);
-
-                    // delete item
-                    dBuilder.setPositiveButton(R.string.yes, (dialogInterface, i) -> info.deleteSheetmusic(holder.getAdapterPosition(), sheetmusic.get(holder.getAdapterPosition()).getId()));
-
-                    // cancel
-                    dBuilder.setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.cancel());
-
-                    // show the dialog
-                    AlertDialog dialog = dBuilder.create();
-                    dialog.show();
-                    return true;
-                default:
-                    return false;
-            }
-        };
-        // prepare and show the menu
-        popupMenu.setOnMenuItemClickListener(listener);
-        MenuInflater inflater = popupMenu.getMenuInflater();
-        inflater.inflate(R.menu.sheetmusic_edit_menu, popupMenu.getMenu());
-        popupMenu.show();
+    // Filter ---------------------------------------------------------------------------
+    @Override
+    public Filter getFilter() {
+        switch (filterOption){
+            case TAG:
+                return tagFilter;
+            case AUTHOR:
+                return authorFilter;
+            default:
+                return nameFilter;
+        }
     }
 
-    // viewholder --------------------------------
+    private Filter authorFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<Sheetmusic> filtered = new ArrayList<>();
+
+            if(charSequence == null || charSequence.length() == 0){
+                filtered.addAll(sheetmusicCopyFull);
+            }else{
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+
+                for (Sheetmusic s : sheetmusicCopyFull){
+                    if(s.getAuthor() == null) continue;
+                    else if (s.getAuthor().toLowerCase().contains(filterPattern)) filtered.add(s);
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filtered;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            sheetmusicOfSetlist.clear();
+            sheetmusicOfSetlist.addAll((ArrayList)filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    private Filter tagFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<Sheetmusic> filtered = new ArrayList<>();
+
+            if(charSequence == null || charSequence.length() == 0){
+                filtered.addAll(sheetmusicCopyFull);
+            }else{
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+
+                for (Sheetmusic s : sheetmusicCopyFull){
+                    ArrayList<String> tags = s.getTags();
+                    if(tags == null) continue;
+
+                    for (int i = 0; i < tags.size(); i++) {
+                        String str = tags.get(i).toLowerCase();
+                        if(str.contains(filterPattern)) {
+                            filtered.add(s);
+                            break;
+                        }
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filtered;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            sheetmusicOfSetlist.clear();
+            sheetmusicOfSetlist.addAll((ArrayList)filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
+    private Filter nameFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<Sheetmusic> filtered = new ArrayList<>();
+
+            if(charSequence == null || charSequence.length() == 0){
+                filtered.addAll(sheetmusicCopyFull);
+            }else{
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+
+                for (Sheetmusic s : sheetmusicCopyFull){
+                    if(s.getName() == null) continue;
+                    else if (s.getName().toLowerCase().contains(filterPattern)) filtered.add(s);
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filtered;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            sheetmusicOfSetlist.clear();
+            sheetmusicOfSetlist.addAll((ArrayList)filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    int getTruePositionWhileFiltering(Sheetmusic s) {
+        for (int i = 0; i < sheetmusicCopyFull.size(); i++) {
+            if(sheetmusicCopyFull.get(i).getId() == s.getId()) return i;
+        }
+        return -1;
+    }
+
+    // viewholder  and interface --------------------------------
 
     public class ViewHolderSheetmusic extends RecyclerView.ViewHolder {
 
         TextView sheetmusic_name_text, sheetmusic_author_text;
         ImageButton sheetmusic_edit_button;
-        Chip sheetmusic_favorite_button;
+        ImageButton sheetmusic_favorite_button;
         LinearLayout sheetmusicLayout;
 
         public ViewHolderSheetmusic(@NonNull View itemView) {
@@ -198,7 +335,7 @@ public class SheetmusicAdapter extends RecyclerView.Adapter<SheetmusicAdapter.Vi
             sheetmusic_name_text = itemView.findViewById(R.id.sheetmusic_name_txt);
             sheetmusic_author_text = itemView.findViewById(R.id.sheetmusic_author_txt);
             sheetmusic_edit_button = itemView.findViewById(R.id.sheetmusic_edit_button);
-            sheetmusic_favorite_button = itemView.findViewById(R.id.sheetmusic_favorite_chip);
+            sheetmusic_favorite_button = itemView.findViewById(R.id.sheetmusic_favorite_button);
             sheetmusicLayout = itemView.findViewById(R.id.sheetmusicLayout);
         }
     }

@@ -4,9 +4,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+import android.provider.OpenableColumns;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -22,10 +26,11 @@ import java.util.ArrayList;
 public class AddSheetmusicActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> activityResultLaunch;
+    ActivityResultLauncher<Intent> activityMp3ResultLaunch;
     EditText name_text, author_text, genre_text, key_text, instrument_text, notes_text;
     TextView jpg_text, pdf_text, mp3_text, tags_text;
     ImageButton edit_pdf, edit_jpg, edit_mp3;
-    ImageButton add_tag, remove_tag;
+    ImageButton edit_tag;
     FloatingActionButton save;
 
     ArrayList<String> files;
@@ -33,55 +38,34 @@ public class AddSheetmusicActivity extends AppCompatActivity {
 
     ArrayList<String> pdfs;
     ArrayList<String> jpgs; // and actually also pngs
-    String mp3;
+    String mp3_address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sheetmusic);
 
-        // Launcher - when child activity returns either with pdfs or jpgs
-        activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == 5) {      //pdf
-                if(result.getData() != null){
-                    pdfs = result.getData().getStringArrayListExtra("pdfs");
-                }
-            } else if (result.getResultCode() == 6) {   //jpg
-                if(result.getData() != null){
-                    jpgs = result.getData().getStringArrayListExtra("jpgs");
-                }
-            }
+        setUpLauncher();
+        initArrays();
+        initGUI();
+        setOnClickListeners();
+    }
 
-            // TODO else tags or mp3
-        });
+    // empty string in SQLite database is not null
+    String setToNullIfEmpty(String s){
+        if(s.length() > 0) return s;
+        return null;
+    }
 
-        // init - for AddSheetmusic files and tags are empty, for EditSheetmusic it have load from db
+    void initArrays(){
         files = new ArrayList<>();
         tags = new ArrayList<>();
         pdfs = new ArrayList<>();
         jpgs = new ArrayList<>();
+    }
 
-        /*
-        * !!
-        * For Edit
-        * 0) get data (id, name,...), set known text
-        * 1) load files - by existing ID - from database sheetmusic_file selectfilesforsheetmusic
-        * 2) convert ids to addresses via file table in database
-        * 3) store in files
-        * 4) separata pdf or else (images - pdfs/jpgs) by extensions
-        *
-        * ...
-        * x) put together pdfs and jpgs to files and put it to the db
-        *
-        *
-        * -----------------
-        * FOR DATABASE:
-        * - LOAD FROM DB TO "LOCAL OBJECTS"
-        * - EDIT LOCAL OBJECTS
-        * - DELETE EVERYTHING FROM DB (UPDATE!!!!!)
-        * - STORE LOCAL IN DB
-        * */
-
+    void initGUI(){
+        setTitle(getResources().getString(R.string.title_add_sheetmusic));
         name_text = findViewById(R.id.add_sheetmusic_name_answer);
         author_text = findViewById(R.id.add_sheetmusic_author_answer);
         genre_text = findViewById(R.id.add_sheetmusic_genre_answer);
@@ -92,8 +76,50 @@ public class AddSheetmusicActivity extends AppCompatActivity {
         pdf_text = findViewById(R.id.add_sheetmusic_pdf_files);
         mp3_text = findViewById(R.id.add_sheetmusic_mp3_answer);
         tags_text = findViewById(R.id.add_sheetmusic_tags_answer);
-
         edit_pdf = findViewById(R.id.add_sheetmusic_edit_pdf_button);
+        edit_jpg = findViewById(R.id.add_sheetmusic_edit_jpg_button);
+        edit_mp3 = findViewById(R.id.add_sheetmusic_edit_mp3_button);
+        edit_tag = findViewById(R.id.add_sheetmusic_edit_tags_button);
+        save = findViewById(R.id.add_sheetmusic_add_button);
+
+        tags_text.setMovementMethod(new ScrollingMovementMethod());
+    }
+
+    void setUpLauncher(){
+        // Launcher - when child activity returns either with pdfs or jpgs
+        activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == 5) {      //pdf
+                if(result.getData() != null){
+                    pdfs = result.getData().getStringArrayListExtra("pdfs");
+                }
+            } else if (result.getResultCode() == 6) {   //jpg
+                if(result.getData() != null){
+                    jpgs = result.getData().getStringArrayListExtra("jpgs");
+                }
+            } else if (result.getResultCode() == 8) {   //tags
+                if(result.getData() != null){
+                    tags = result.getData().getStringArrayListExtra("tags");
+                    String tagString = tagsToString();
+                    tags_text.setText(tagString);
+                }
+            }
+        });
+
+        // Launcher for mp3
+        activityMp3ResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {      //mp3
+                Intent data = result.getData();
+                Uri uri = data.getData();
+                getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                mp3_address = uri.toString();
+
+                String mp3Name = mp3PathToName(mp3_address);
+                mp3_text.setText(mp3Name);
+            }
+        });
+    }
+
+    void setOnClickListeners(){
         edit_pdf.setOnClickListener(view -> {
             Intent intent = new Intent(AddSheetmusicActivity.this, HandleFilesActivity.class);
             intent.putExtra("modify", true);
@@ -103,7 +129,6 @@ public class AddSheetmusicActivity extends AppCompatActivity {
             activityResultLaunch.launch(intent);
         });
 
-        edit_jpg = findViewById(R.id.add_sheetmusic_edit_jpg_button);
         edit_jpg.setOnClickListener(view -> {
             Intent intent = new Intent(AddSheetmusicActivity.this, HandleFilesActivity.class);
             intent.putExtra("modify", true);
@@ -113,25 +138,19 @@ public class AddSheetmusicActivity extends AppCompatActivity {
             activityResultLaunch.launch(intent);
         });
 
-        edit_mp3 = findViewById(R.id.add_sheetmusic_edit_mp3_button);
         edit_mp3.setOnClickListener(view -> {
-            Toast.makeText(AddSheetmusicActivity.this, "edit mp3", Toast.LENGTH_SHORT).show();
-            // startactivityonresult -> store result in mp3
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);  // TODO CHANGE
+            intent.setType("audio/mpeg");
+            activityMp3ResultLaunch.launch(intent);
         });
 
-        add_tag = findViewById(R.id.add_sheetmusic_add_tags_button);
-        add_tag.setOnClickListener(view -> {
-            Toast.makeText(AddSheetmusicActivity.this, "add tag", Toast.LENGTH_SHORT).show();
+        edit_tag.setOnClickListener(view -> {
             // startactivityonresult -> store result in tags, not in database, it would have to be saved first
+            Intent intent = new Intent(AddSheetmusicActivity.this, EditTagsActivity.class);
+            intent.putExtra("tags", tags);
+            activityResultLaunch.launch(intent);
         });
 
-        remove_tag = findViewById(R.id.add_sheetmusic_remove_tags_button);
-        remove_tag.setOnClickListener(view -> {
-            Toast.makeText(AddSheetmusicActivity.this, "remove tag", Toast.LENGTH_SHORT).show();
-            // startactivityonresult -> store result in tags, not in database, it would have to be saved first
-        });
-
-        save = findViewById(R.id.add_sheetmusic_add_button);
         save.setOnClickListener(view -> {
             // ALSO WILL BE DIFFERENT IN EDIT - for example id will be known
             // combine jpgs and pdfs into files
@@ -153,8 +172,9 @@ public class AddSheetmusicActivity extends AppCompatActivity {
             s.setAuthor(setToNullIfEmpty(author_text.getText().toString().trim()));
             s.setGenre(setToNullIfEmpty(genre_text.getText().toString().trim()));
             s.setKey(setToNullIfEmpty(key_text.getText().toString().trim()));
-            s.setInstument(setToNullIfEmpty(instrument_text.getText().toString().trim()));
+            s.setInstrument(setToNullIfEmpty(instrument_text.getText().toString().trim()));
             s.setNotes(setToNullIfEmpty(notes_text.getText().toString().trim()));
+            s.setMp3(mp3_address);
             s.setFiles(files);
             s.setTags(tags);
 
@@ -168,9 +188,18 @@ public class AddSheetmusicActivity extends AppCompatActivity {
         });
     }
 
-    // empty string in SQLite database is not null
-    String setToNullIfEmpty(String s){
-        if(s.length() > 0) return s;
-        return null;
+    String mp3PathToName(String path){
+        Cursor cursor = getContentResolver().query(Uri.parse(path), null, null, null, null);
+        int nameidx = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        cursor.moveToNext();
+        return cursor.getString(nameidx);
+    }
+
+    String tagsToString(){
+        String stringOfTags = "";
+        for (int i = 0; i < tags.size(); i++) {
+            stringOfTags = stringOfTags.concat(tags.get(i) + "\n");
+        }
+        return stringOfTags;
     }
 }
