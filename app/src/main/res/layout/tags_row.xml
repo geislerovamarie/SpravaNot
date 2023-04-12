@@ -4,29 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:orientation="vertical"
     android:id="@+id/tags_layout">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp">
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/tags_row_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minWidth="25dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="@string/text_name"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:layout_margin="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tags_row_text_guideline"
                 app:layout_constraintTop_toTopOf="parent"

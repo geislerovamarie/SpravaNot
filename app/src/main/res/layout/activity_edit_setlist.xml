@@ -130,7 +130,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text=""
-
+        android:ellipsize="end"
         android:layout_marginTop="20dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="@id/edit_setlist_add_guideline"

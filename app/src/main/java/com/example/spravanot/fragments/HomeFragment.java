@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
             name_text.setText(name);
             address_text.setText(address);
             type_text.setText(type);
-
+/*
             if(type.equals("pdf")){
                 icon.setImageResource(R.drawable.ic_pdf);
             }else if (type.equals("jpg") || type.equals("jpeg") || type.equals("png")){
@@ -102,6 +102,7 @@ public class HomeFragment extends Fragment {
             }else{
                 icon.setImageResource(R.drawable.ic_file);
             }
+ */
         }
     }
 

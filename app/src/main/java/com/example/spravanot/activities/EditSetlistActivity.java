@@ -77,7 +77,7 @@ public class EditSetlistActivity extends AppCompatActivity {
                 if(setlist.getTags() != null) tags_text.setText(tagsToString());
             }
         }else{
-            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show(); // should never happen
         }
     }
 

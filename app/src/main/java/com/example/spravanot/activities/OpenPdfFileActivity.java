@@ -87,7 +87,7 @@ public class OpenPdfFileActivity extends AppCompatActivity {
             editor.putString("last_opened", path);
             editor.apply();
         }else{
-            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show(); // should not happen
         }
     }
 

@@ -44,7 +44,6 @@
         android:text="@string/text_name"
         android:maxLines="1"
         android:ellipsize="end"
-
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="@id/home_name_guideline"
         app:layout_constraintEnd_toStartOf="@id/home_right_guideline"
@@ -115,14 +114,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.09" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/home_name_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.18" />
+        app:layout_constraintGuide_percent="0.19" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/home_actionbar_guideline"
@@ -143,7 +142,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.28" />
+        app:layout_constraintGuide_percent="0.27" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/home_center_guideline"

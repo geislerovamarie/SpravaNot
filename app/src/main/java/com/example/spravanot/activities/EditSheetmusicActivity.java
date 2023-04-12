@@ -81,7 +81,7 @@ public class EditSheetmusicActivity extends AppCompatActivity {
                 if(sheetmusic.getTags() != null) tags_text.setText(tagsToString());
             }
         }else{
-            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show(); // should not happen
         }
     }
 
@@ -151,16 +151,12 @@ public class EditSheetmusicActivity extends AppCompatActivity {
         });
 
         edit_mp3.setOnClickListener(view -> {
-            Toast.makeText(EditSheetmusicActivity.this, "edit mp3", Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);    // TODO CHANGE!!
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.setType("audio/mpeg");
             activityMp3ResultLaunch.launch(intent);
         });
 
-
         edit_tag.setOnClickListener(view -> {
-            Toast.makeText(EditSheetmusicActivity.this, "edit tag", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(EditSheetmusicActivity.this, EditTagsActivity.class);
             intent.putExtra("tags", tags);
             activityResultLaunch.launch(intent);

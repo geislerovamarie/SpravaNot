@@ -20,13 +20,16 @@
 
             <TextView
                 android:id="@+id/setlist_name_txt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/text_name"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/setlist_edit_button"
                 app:layout_constraintStart_toStartOf="@id/setlist_row_left_guideline"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5" />

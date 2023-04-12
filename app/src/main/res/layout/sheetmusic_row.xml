@@ -22,22 +22,28 @@
 
             <TextView
                 android:id="@+id/sheetmusic_name_txt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/text_name"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/sheets_row_left_guideline"
+                app:layout_constraintEnd_toStartOf="@id/sheetmusic_favorite_button"
                 app:layout_constraintBottom_toTopOf="@id/sheets_row_center_guideline" />
 
             <TextView
                 android:id="@+id/sheetmusic_author_txt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="@string/text_author"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/sheetmusic_favorite_button"
                 app:layout_constraintStart_toStartOf="@id/sheets_row_left_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/sheets_row_center_guideline" />
 

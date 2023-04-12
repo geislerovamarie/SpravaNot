@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:orientation="vertical"
     android:id="@+id/filesLayout">
 
@@ -17,26 +16,34 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp">
+            android:padding="7dp">
 
             <TextView
                 android:id="@+id/files_row_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/text_name"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                app:layout_constraintHorizontal_bias="0"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tags_row_text_guideline"
                 app:layout_constraintBottom_toTopOf="@id/files_row_center_guideline" />
 
             <TextView
                 android:id="@+id/files_row_address"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="@string/text_address"
                 android:textColor="@color/black"
                 android:textSize="12sp"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tags_row_text_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/files_row_center_guideline" />
 
@@ -53,7 +60,7 @@
                 app:layout_constraintVertical_bias="0.5"
                 app:layout_constraintHorizontal_bias="0.1"
                 android:clickable="false"
-                app:srcCompat="@drawable/ic_file" />
+                app:srcCompat="@drawable/ic_jpg" />
 
 
             <androidx.constraintlayout.widget.Guideline
