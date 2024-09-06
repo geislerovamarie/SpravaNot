@@ -3,7 +3,7 @@
 ## CZ
 
 ### Přehled
-**Správa Not** je aplikace pro správu hudebních not, která umožňuje uživatelům vytvořit si vlastní digitální knihovnu nebo portfolio. Aplikace je navržena tak, aby pomáhala hudebníkům efektivně organizovat a spravovat jejich noty. Uživatelé mohou do aplikace ukládat noty, seskupovat je a přidávat k nim doplňující informace, poznámky, nebo i zvukové záznamy.
+**Správa Not** je aplikace pro správu hudebních not, která umožňuje uživatelům vytvořit si vlastní digitální knihovnu nebo portfolio. Aplikace je navržena tak, aby pomáhala hudebníkům efektivně organizovat a spravovat jejich noty. Uživatelé mohou do aplikace ukládat noty, seskupovat je a přidávat k nim doplňující informace, poznámky, nebo i zvukové záznamy. Tato aplikace je součástí bakalářské práce odevzdané 13.4.2023.
 
 ### Funkce
 - Vytvoření a správa osobní knihovny hudebních not
@@ -17,7 +17,7 @@
 
 ### Overview
 **Správa Not** is a sheet music management application that allows users to create their own digital library or portfolio. The app is designed to help musicians organize and manage their sheet music efficiently.
-Users can store, group, and add additional information, notes, or even audio recordings to their sheet music files.
+Users can store, group, and add additional information, notes, or even audio recordings to their sheet music files. This application is part of a bachelor's thesis submitted on April 13, 2023.
 
 ### Features
 - Create and manage a personal sheet music library
